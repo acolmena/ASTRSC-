@@ -1,0 +1,210 @@
+/*body{
+	font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+}
+
+hgroup {
+  width:60%;
+  margin-right:auto;
+  margin-left:auto;
+  overflow:hidden;
+}
+
+h1 {
+  font-size:2em;
+  margin-right:auto;
+  margin-left:auto;
+  padding:0;	
+  padding-top:10px;
+  color: #3555d6;
+}
+
+h2 {
+  font-size:1.6;
+  color: #92d634;
+}
+
+h2 strong{
+	color: #50edc3;
+}*/
+
+form{
+	margin-right:auto;
+	margin-left:auto;
+	width: 100%;
+}
+
+#inputText {
+	height:400px;
+	width: 60%;
+	margin-right:auto;
+	margin-left:auto;
+	display: block;
+}
+
+#scanArticle {
+	
+	display: block;
+	margin-right:auto;
+	margin-left:auto;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+#scanArticle {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #34D293;
+    border-radius: 10px;
+}
+
+#scanArticle:hover {
+    background-color: #34D293;
+    color: white;
+}
+
+/*
+
+#outputText{
+	width: 50%;
+    min-width: 400px;
+	display: block;
+	float: left;
+	height: auto;
+	padding: 1%;
+	border-radius: 10px;
+	margin-left: 5%;
+	background-color: #F4F5F5;
+  	margin-bottom: 200px;
+}
+
+#tropeMessage{
+	background-color: white;
+    float: right;
+	position: absolute;
+	width: 30%px;
+    min-width: 320px;
+	margin-top: -100px;
+	padding: 1%;
+    right:5%;
+    border-radius: 10px;
+    margin-bottom: 100px;
+}*/
+
+#resultSummary{
+	font-size: 1.2em;
+	margin-top: 30px;
+	width: 80%;
+	display: block;
+	margin-right:auto;
+	margin-left:auto;
+	text-align: center;
+	padding: 1%;
+	border-radius: 10px;
+}
+
+#outputText{
+	width: 50%;
+	display: block;
+	float: left;
+	height: auto;
+	padding: 1%;
+	border-radius: 10px;
+	margin-left: 5%;
+	background-color: #F4F5F5;
+ 	margin-bottom: 250px;
+}
+
+#tropeMessage{
+	background-color: white;
+	position: absolute;
+	width: 40%;
+	float: right;
+	margin-top: -150px;
+	padding: 1%;
+    right:3%;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #tropeMessage{
+        width: 90%;
+     	margin-top: -100px;
+    }
+   #outputText{
+        width: 90%;
+    }
+}
+
+
+.arc {
+	background-color: #ffc682;
+}
+.arc:hover {
+	font-weight: bold;
+}
+
+
+.gen {
+	background-color: #F4B0A4;
+}
+
+.gen:hover {
+	font-weight: bold;
+}
+
+.trib {
+	background-color: #C1BDEF;
+}
+
+.trib:hover {
+	font-weight: bold;
+}
+
+.cor {
+	background-color: #a8edea;
+}
+
+.cor:hover {
+	font-weight: bold;
+}
+
+.lig {
+	background-color: #fff587;
+}
+
+.lig:hover {
+	font-weight: bold;
+}
+
+.nat {
+	background-color: #a7ffa3;
+}
+
+.nat:hover {
+	font-weight: bold;
+}
+
+.dar{
+	background-color: #c4bfbc;
+}
+
+.dar:hover {
+	font-weight: bold;
+}
+
+.wl{
+  background-color: transparent;
+}
+
+

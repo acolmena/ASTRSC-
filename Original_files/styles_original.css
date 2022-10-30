@@ -1,0 +1,162 @@
+body{
+	font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+}
+
+hgroup {
+  width:60%;
+  margin-right:auto;
+  margin-left:auto;
+  overflow:hidden;
+}
+
+h1 {
+  font-size:2em;
+  margin-right:auto;
+  margin-left:auto;
+  padding:0;	
+  padding-top:10px;
+  color: #3555d6;
+}
+
+h2 {
+  font-size:1.6;
+  color: #92d634;
+}
+
+h2 strong{
+	color: #50edc3;
+}
+
+form{
+	margin-right:auto;
+	margin-left:auto;
+	width: 100%;
+}
+
+#inputText {
+	height:400px;
+	width: 60%;
+	margin-right:auto;
+	margin-left:auto;
+	display: block;
+}
+
+#scanArticle {
+	width: 20%;
+	display: block;
+	margin-right:auto;
+	margin-left:auto;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+#scanArticle {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #94c400;
+    border-radius: 10px;
+}
+
+#scanArticle:hover {
+    background-color: #94c400;
+    color: white;
+}
+
+
+#resultSummary{
+	font-size: 1.2em;
+	margin-top: 30px;
+	width: 80%;
+	display: block;
+	margin-right:auto;
+	margin-left:auto;
+	text-align: center;
+	padding: 1%;
+	border-radius: 10px;
+}
+
+#outputText{
+	width: 50%;
+	display: block;
+	float: left;
+	height: auto;
+	padding: 1%;
+	border-radius: 10px;
+	margin-left: 5%;
+	background-color: #F4F5F5;
+}
+
+#tropeMessage{
+	background-color: white;
+	position: absolute;
+	width: 30%;
+	float: right;
+	margin-top: 15px;
+	padding: 1%;
+    right:5%;
+    border-radius: 10px;
+}
+
+
+.arc {
+	background-color: #ffc682;
+}
+.arc:hover {
+	font-weight: bold;
+}
+
+
+.gen {
+	background-color: #fc846f;
+}
+
+.gen:hover {
+	font-weight: bold;
+}
+
+.trib {
+	background-color: #eaa8d2;
+}
+
+.trib:hover {
+	font-weight: bold;
+}
+
+.cor {
+	background-color: #a8edea;
+}
+
+.cor:hover {
+	font-weight: bold;
+}
+
+.lig {
+	background-color: #fff587;
+}
+
+.lig:hover {
+	font-weight: bold;
+}
+
+.nat {
+	background-color: #a7ffa3;
+}
+
+.nat:hover {
+	font-weight: bold;
+}
+
+.dar{
+	background-color: #c4bfbc;
+}
+
+.dar:hover {
+	font-weight: bold;
+}

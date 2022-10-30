@@ -1,0 +1,174 @@
+---
+title: "most_repeated_violence_words_analysis"
+author: "T Tesfaye"
+date: "10/20/2020"
+output: 
+    html_document:
+      theme: journal
+      toc: true
+      toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+# Libraries
+library(tidyverse)
+library(here)
+
+
+
+# Parameters
+
+input_car_conflict <- here::here("ASTRSC/Raw Data/conflict-and-car-and-violence-sampled-1000-ngrams-1-20201019183803.csv")
+
+input_congo_conflict <- here::here("ASTRSC/Raw Data/conflict-and-congo-and-violenc-sampled-1000-ngrams-1-20201019183458.csv")
+input_darfur_conflict <- here::here("ASTRSC/Raw Data/conflict-and-darfur-and-vio-sampled-1000-ngrams-1-20201019182856.csv")
+input_kenya_conflict <- here::here("ASTRSC/Raw Data/conflict-and-kenya-and-viol-sampled-1000-ngrams-1-20201019183144.csv")
+input_third_countries_partial_time1 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-a-sampled-1000-ngrams-1-20210104192642.csv")
+input_third_countries_partial_time2 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-a-sampled-1000-ngrams-1-20210104192709.csv")
+input_third_countries_partial_time3 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-a-sampled-1000-ngrams-1-20210104192746.csv")
+input_third_countries_partial_time4 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-a-sampled-1000-ngrams-1-20210104192807.csv")
+input_third_countries_partial_time5 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-d-sampled-1000-ngrams-1-20210104193014.csv")
+input_third_countries_partial_time6 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-d-sampled-1000-ngrams-1-20210104193049.csv")
+input_third_countries_partial_time7 <- here::here("ASTRSC/Raw Data/violence-and-conflict-and-m-sampled-1000-ngrams-1-20210104193125.csv")
+
+
+# ==============================================================================
+# Code
+
+```
+
+
+## Pre-Processing
+
+Read in the csvs.
+
+```{r }
+car_conflict <- read_csv(input_car_conflict)
+congo_conflict <- read_csv(input_congo_conflict)
+darfur_conflict <- read_csv(input_darfur_conflict)
+kenya_conflict <- read_csv(input_kenya_conflict)
+third_countries1 <- read_csv(input_third_countries_partial_time1)
+third_countries2 <- read_csv(input_third_countries_partial_time2)
+third_countries3 <- read_csv(input_third_countries_partial_time3)
+third_countries4 <- read_csv(input_third_countries_partial_time4)
+third_countries5 <- read_csv(input_third_countries_partial_time5)
+third_countries6 <- read_csv(input_third_countries_partial_time6)
+third_countries7 <- read_csv(input_third_countries_partial_time7)
+
+
+```
+
+Merge all csvs into one since they all have the same columns.
+
+```{r}
+all_words <- 
+  bind_rows(congo_conflict, car_conflict, darfur_conflict, kenya_conflict, third_countries1, third_countries2, third_countries3, third_countries4, third_countries5, third_countries6, third_countries7)
+```
+
+Some of the top repeated 'words' are just numbers such as `00:00.` Since they don't contribute to our target of key words, we will first extract then remove them. Manually sifting through the entires shows that the first 105 rows are such numbers. The first five of such entires are printed below for reference.
+
+```{r}
+non_words_to_remove <- 
+  all_words %>% 
+  group_by(stem) %>% 
+  summarize(occurances = sum(count)) %>% 
+  slice_head(n = 105) %>% 
+  pull(stem)
+
+head(non_words_to_remove)
+```
+
+Let's remove these 105 numbers.
+
+```{r}
+unique_stems_counted <- 
+  all_words %>% 
+  group_by(stem) %>% 
+  summarize(occurances = sum(count)) %>% 
+  filter(!stem %in% non_words_to_remove) %>% 
+  arrange(desc(occurances))
+```
+
+## Analyze the unique stems
+
+On average, these words seem to be repeated `r median(unique_stems_counted$occurances, na.rm = TRUE)` times in the documents.
+
+```{r}
+median(unique_stems_counted$occurances, na.rm = TRUE)
+```
+
+
+Let's see the distribution of how often certain words occur.
+
+
+```{r message=FALSE}
+unique_stems_counted %>% 
+  ggplot(aes(occurances)) +
+  geom_freqpoly() +
+  geom_vline(xintercept = median(unique_stems_counted$occurances, na.rm = TRUE), color = "red") +
+  labs(
+    title = "The distribution of word frequency",
+    subtitle = "The median frequency is 3 times",
+    x = "Frequency",
+    y = "Count \n (i.e. number of words with this frequency)"
+  )
+```
+
+Because most words occur very few times, let's focus on the most repeated words instead. We define frequent words as words used at least 45 times amongst the `4,506` words above (i.e. used in `r 30/4506 * 100` % of the articles.)
+
+
+```{r fig.height=14}
+unique_stems_counted %>% 
+  filter(occurances > 45) %>% 
+  ggplot(aes(fct_reorder(stem, occurances), occurances)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "Words",
+    x = "Frequency",
+    title = "Words Used More Than 45 Times"
+  )
+```
+
+
+Here are these frequent words as list
+
+```{r}
+unique_stems_counted %>% 
+  filter(occurances > 45)
+```
+
+```{r}
+just_most_repeated_words <- 
+  unique_stems_counted %>% 
+  filter(occurances > 45) %>% 
+  pull(stem)
+
+print(just_most_repeated_words)
+```
+
+
+As expected, some words are context specific and should be removed such as "trump", "eritrea" and "nairobi" since they don't generally predict conflict. But, the rest are actually on point. Let's manually sift through these words to create a list of conflict specific words.
+
+## Conflict Specific Words
+
+```{r}
+directly_confilct_specific_words <- 
+  c("violence", "conflict", "war", "atrocious", "atrocity", "crime", "violent", "weapon", "insurgency", "insurgent", "insurgence", "chaos", "chaotic", "arm", "terror", "flee", "militia", "outbreak", "crisis", "brutal", "collapse", "tension", "rebel", "genocid", "tension", "clash", "dead", "eruption", "criminal", "terrorism", "extremist", "abuse", "escalation", "escalate")
+
+marginally_conflict_related_words <- 
+  c("rape", "sanction", "corruption", "corrupt", "radical", "ban")
+
+conflict_words_repeated_20_to_45_times <- 
+  c("bomb", "blood", "cease-fire", "coup", "assault", "kidnap", "battle")
+```
+
+Given these three inputs, our final list of conflict related words to be used on ASTRSC are:
+
+```{r}
+astrsc_conflict_words = c(directly_confilct_specific_words, marginally_conflict_related_words, conflict_words_repeated_20_to_45_times)
+```
