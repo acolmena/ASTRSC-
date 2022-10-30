@@ -305,33 +305,48 @@ jQuery(document).ready(function ($) {
     "continent",
     "sub-saharan africa",
   ];
-  // const exceptions = [conflicting, conflicted];
 
-  // const ambiguousWords = [arm, arms, conflicts];
+  const exceptions = ["conflicting", "conflicted"];
+
+  const acceptableBanWords = ["ban", "bans", "banned", "banning"];
+
+  // const ambiguousWords = ["arm", "arms", "conflicts"];
 
   function hiliter(word, element, tropeClass) {
-    var rgxp = new RegExp("\\b" + word + "\\b", "gi"); // g modifier for global and i for case insensitive
-    // var repl = `<mark class="${tropeClass}>${word}</mark>`;
-    var repl = '<mark class="' + tropeClass + '">' + word + "</mark>";
-    element.innerHTML = element.innerHTML.replace(rgxp, repl);
+    // var rgxp = new RegExp("\\b" + word + "\\b", "gi"); // g modifier for global and i for case insensitive
+    // // var repl = `<mark class="${tropeClass}>${word}</mark>`;
+    // var repl = '<mark class="' + tropeClass + '">' + word + "</mark>";
+    // element.innerHTML = element.innerHTML.replace(rgxp, repl);
 
-    // rgx for inflections of words
+    // rgx for words in dict + their inflections
     var rgxpPlural = new RegExp("\\b" + word + "[a-z]*\\b", "gi");
 
     var rgxMatches = element.innerHTML.match(rgxpPlural);
-    // console.log(rgxMatches, typeof rgxMatches);
     // var replPlural = `<mark class="${tropeClass}>${rgxpPlural.match}</mark>`; //check for plural of words
     // for (var match of rgxMatches) {
 
     // do highlighting if there is/are rgx matches
     if (rgxMatches) {
       for (var i = 0; i < rgxMatches.length; i++) {
-        var replPlural =
+        console.log(rgxMatches);
+        // need to convert to lower case bc .includes is case-sensitive
+        if (exceptions.includes(rgxMatches[i].toLowerCase())) continue; // don't highlight exceptions
+        if (
+          rgxMatches[i].toLowerCase().includes("ban") &&
+          !acceptableBanWords.includes(rgxMatches[i])
+        ) {
+          console.log("enter", rgxMatches[i]);
+          continue; // ignore all words that contain ban except the ones listed
+        }
+
+        var replHighlight =
           '<mark class="' + tropeClass + '">' + rgxMatches[i] + "</mark>"; // highlight words
         element.innerHTML = element.innerHTML.replace(
-          rgxMatches[i],
-          replPlural
+          new RegEx(rgxMatches[i], gi),
+          replHighlight
         );
+
+        console.log("replacement made", rgxMatches[i]);
       }
     }
   }
