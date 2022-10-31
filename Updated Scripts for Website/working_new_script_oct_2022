@@ -342,7 +342,7 @@ jQuery(document).ready(function ($) {
         var replHighlight =
           '<mark class="' + tropeClass + '">' + rgxMatches[i] + "</mark>"; // highlight words
         element.innerHTML = element.innerHTML.replace(
-          new RegEx(rgxMatches[i], gi),
+          new RegExp("\\b" + rgxMatches[i] + "\\b", "gi"),
           replHighlight
         );
 
