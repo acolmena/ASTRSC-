@@ -18,6 +18,22 @@ jQuery(document).ready(function ($) {
 
   // New Trope Structure
 
+  const whitelistArray = [
+    "pan-african",
+    "pan african",
+    "african studies",
+    "african union",
+    "south africa",
+    "west africa",
+    "north africa",
+    "east africa",
+    "southern africa",
+    "northern africa",
+    "eastern africa",
+    "western africa",
+    "african american",
+  ];
+
   const conflictAndViolenceArray = [
     "violence",
     "conflict",
@@ -1014,6 +1030,10 @@ jQuery(document).ready(function ($) {
     rawInput = rawInput.replace(/\n\r?/g, "<br>");
     $("#outputText").html(rawInput);
 
+    for (let whitelistWord of whitelistArray) {
+      hiliter(whitelistWord, document.getElementById("outputText"), "wl");
+    }
+
     for (let tribWord of tribalismArray) {
       hiliter(tribWord, document.getElementById("outputText"), "trib");
     }
@@ -1028,6 +1048,15 @@ jQuery(document).ready(function ($) {
     }
     for (let natWord of natureArray) {
       hiliter(natWord, document.getElementById("outputText"), "nat");
+    }
+
+    let whitelistedWords = document.getElementsByClassName("wl"); // Find the elements
+    let rgxpTropeTag = /gen|arc|cor|trib|nat|lig|dar/i;
+    for (let i = 0; i < whitelistedWords.length; i++) {
+      whitelistedWords[i].innerHTML = whitelistedWords[i].innerHTML.replace(
+        rgxpTropeTag,
+        "wl"
+      ); // Change the content
     }
 
     $("#outputText").show();
