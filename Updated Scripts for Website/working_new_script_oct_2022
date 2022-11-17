@@ -1,7 +1,7 @@
 /* Author: Zineb Oulmakki, Contributers: Tsion Tesfaye, Anabelle Colmenares*/
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { VictoryBar } from 'victory';
+// import React from "react";
+// import ReactDOM from "react-dom";
+// import { VictoryBar } from "victory";
 
 jQuery(document).ready(function ($) {
   // Previous Trope Structure
@@ -36,56 +36,128 @@ jQuery(document).ready(function ($) {
     "eastern africa",
     "western africa",
     "african american",
+    "natural gas",
+    "central african republic",
+    "central african",
   ];
 
   const conflictAndViolenceArray = [
-    "violence",
+    "violenc",
     "conflict",
     "war",
-    "atrocious",
-    "atrocity",
+    "atroc",
     "crime",
     "violent",
     "weapon",
-    "insurgency",
-    "insurgent",
-    "insurgence",
-    "chaos",
-    "chaotic",
+    "insurg",
+    "chao",
     "arm",
     "terror",
     "flee",
     "militia",
     "outbreak",
     "crisis",
+    "crises",
     "brutal",
-    "collapse",
+    "collaps",
     "tension",
     "rebel",
-    "genocide",
-    "tension",
+    "genocid",
     "clash",
     "dead",
-    "eruption",
-    "criminal",
-    "terrorism",
+    "erupt",
+    "crimin",
     "extremist",
-    "abuse",
-    "escalation",
-    "escalate",
+    "abus",
+    "escal",
     "rape",
     "sanction",
-    "corruption",
     "corrupt",
-    "radical",
+    "radic",
     "ban",
     "bomb",
     "blood",
-    "cease-fire",
+    "cease-fir",
     "coup",
     "assault",
     "kidnap",
-    "battle",
+    "battl",
+    "abduct",
+    "aggressor",
+    "ambush",
+    "anarch",
+    "assassin",
+    "attack",
+    "authoritarian",
+    "brigad",
+    "carnag",
+    "casualt",
+    "counterterror",
+    "decimat",
+    "destabil",
+    "destroy",
+    "destruct",
+    "dictator",
+    "die",
+    "death",
+    "disast",
+    "emerg",
+    "enemy",
+    "enemies",
+    "exil",
+    "explod",
+    "explos",
+    "extremis",
+    "famin",
+    "fascist",
+    "fatal",
+    "foment",
+    "fighter",
+    "gang",
+    "gbv",
+    "gender-based viol",
+    "gender based viol",
+    "grenad",
+    "grim",
+    "gun",
+    "harass",
+    "harrow",
+    "horrif",
+    "horror",
+    "hostag",
+    "hostil",
+    "imprison",
+    "instabl",
+    "jail",
+    "kill",
+    "loot",
+    "lynch",
+    "massacr",
+    "milit",
+    "missil",
+    "murder",
+    "overthr",
+    "paramilitari",
+    "paratroop",
+    "persecut",
+    "pillag",
+    "prison",
+    "raid",
+    "ravag",
+    "rebelli",
+    "retali",
+    "riot",
+    "shoot",
+    "slaughter",
+    "smuggl",
+    "soldier",
+    "suffer",
+    "terrorist",
+    "traffick",
+    "tortur",
+    "troop",
+    "unrest",
+    "fled",
   ];
 
   const natureArray = [
@@ -95,7 +167,6 @@ jQuery(document).ready(function ($) {
     "conserv",
     "animal",
     "bird",
-    "flora",
     "livestock",
     "hunt",
     "park",
@@ -209,7 +280,6 @@ jQuery(document).ready(function ($) {
     "endemic",
     "ocean",
     "underwat",
-    "wing",
     "predator",
     "fish",
     "plant",
@@ -419,7 +489,6 @@ jQuery(document).ready(function ($) {
     "crested cran",
     "blue whal",
     "stork",
-    "rat",
     "forest eleph",
     "puku",
     "civet",
@@ -466,7 +535,6 @@ jQuery(document).ready(function ($) {
     "pangolin",
     "peregrine falcon",
     "crane",
-    "vulner",
     "crow",
     "song thrush",
     "fire ball python",
@@ -822,9 +890,30 @@ jQuery(document).ready(function ($) {
     "tribal",
   ];
 
-  const exceptions = ["conflicting", "conflicted"];
+  const exceptions = [
+    "conflicting",
+    "conflicted",
+    "been",
+    "feedback",
+    "aiding",
+    "boat",
+    "boating",
+    "boats",
+    "warm",
+    "warms",
+    "warming",
+    "warmed",
+    "lionel",
+  ];
 
+  // this is for the dict words that have too many irrelevant words that start with it
   const acceptableBanWords = ["ban", "bans", "banned", "banning"];
+  const acceptableAntWords = ["ant", "ants"];
+  const acceptableCrowWords = ["crow", "crows"];
+  const acceptableCatWords = ["cat", "cats"];
+  const acceptableBatWords = ["bat", "bats"];
+  const acceptableMothWords = ["moth", "moths"];
+  const acceptableTopiWords = ["topi", "topis"];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -832,7 +921,9 @@ jQuery(document).ready(function ($) {
   function getTotHighlightedWords(obj) {
     // get all counts, add them up, and return them
     sum = 0;
-    return Object.values(obj).forEach((el) => el + sum);
+    delete obj["wl"];
+    Object.values(obj).forEach((el) => (sum += el));
+    return sum;
   }
 
   // This function will return the total number of words in the inputted text
@@ -857,7 +948,43 @@ jQuery(document).ready(function ($) {
           match.toLowerCase().includes("ban") &&
           !acceptableBanWords.includes(match)
         ) {
-          continue; // ignore all words that contain ban except the ones listed
+          continue; // ignore all words that start w/ ban except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("ant") &&
+          !acceptableAntWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ ant except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("crow") &&
+          !acceptableCrowWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ ant except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("cat") &&
+          !acceptableCatWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ cat except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("bat") &&
+          !acceptableBatWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ bat except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("moth") &&
+          !acceptableMothWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ moth except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("topi") &&
+          !acceptableTopiWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ moth except the ones listed
         }
 
         let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
@@ -867,9 +994,7 @@ jQuery(document).ready(function ($) {
         );
 
         // add to count of trope class or add property if not in obj yet
-        obj.hasOwnProperty(tropeClass)
-          ? (obj[tropeClass] += 1)
-          : (obj[tropeClass] = 1);
+        obj[tropeClass] += 1;
       }
     }
     return obj;
@@ -893,7 +1018,7 @@ jQuery(document).ready(function ($) {
     $("#outputText").html(rawInput);
 
     // initialize graph object (graphObj)
-    let graphObj = {};
+    let graphObj = { wl: 0, gen: 0, con: 0, trib: 0, nat: 0 };
     for (let whitelistWord of whitelistArray) {
       graphObj = hiliter(
         whitelistWord,
@@ -935,10 +1060,12 @@ jQuery(document).ready(function ($) {
       );
     }
 
+    console.log(graphObj);
+
     let whitelistedWords = document.getElementsByClassName("wl"); // Find the elements
-    let rgxpTropeTag = /gen|con|trib|nat|/i;
-    for (let i = 0; i < whitelistedWords.length; i++) {
-      whitelistedWords[i].innerHTML = whitelistedWords[i].innerHTML.replace(
+    let rgxpTropeTag = /gen|con|trib|nat/i;
+    for (let whitelistWord of whitelistedWords) {
+      whitelistWord.innerHTML = whitelistWord.innerHTML.replace(
         rgxpTropeTag,
         "wl"
       ); // Change the content
@@ -947,12 +1074,21 @@ jQuery(document).ready(function ($) {
     // add up all highlighted words
     let totHighlightedWords = getTotHighlightedWords(graphObj);
     let totWords = getTotWordCount(document.getElementById("outputText"));
+    // <VictoryPie
+    //   data={[
+    //     { x: "Generalization", y: graphObj["gen"] },
+    //     { x: "Tribalism", y: graphObj["trib"] },
+    //     { x: "Conflict and Violence", y: graphObj["con"] },
+    //     { x: "Nature and Wildlife", y: graphObj["nat"] },
+    //   ]}
+    // />;
     let percentageWrdsHighlighted = totHighlightedWords / totWords;
     let percentageGenWrdsHL = graphObj["gen"] / totHighlightedWords;
     let percentageConWrdsHL = graphObj["con"] / totHighlightedWords;
     let percentageTribWrdsHL = graphObj["trib"] / totHighlightedWords;
     let percentageNatWrdsHL = graphObj["nat"] / totHighlightedWords;
     console.log(
+      totHighlightedWords,
       percentageWrdsHighlighted,
       percentageConWrdsHL,
       percentageGenWrdsHL,
