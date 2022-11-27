@@ -1,7 +1,4 @@
 /* Author: Zineb Oulmakki, Contributers: Tsion Tesfaye, Anabelle Colmenares*/
-// import React from "react";
-// import ReactDOM from "react-dom";
-// import { VictoryBar } from "victory";
 
 jQuery(document).ready(function ($) {
   // Previous Trope Structure
@@ -980,6 +977,7 @@ jQuery(document).ready(function ($) {
   $("#resultSummary").hide();
   $("#outputText").hide();
   $("#tropeMessage").hide();
+  if ($("#chartScript")) $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
     let rawInput;
@@ -1044,51 +1042,84 @@ jQuery(document).ready(function ($) {
     // add up all highlighted words
     let totHighlightedWords = getTotHighlightedWords(graphObj);
     let totWords = getTotWordCount(document.getElementById("outputText"));
-    // <VictoryPie
-    //   data={[
-    //     { x: "Generalization", y: graphObj["gen"] },
-    //     { x: "Tribalism", y: graphObj["trib"] },
-    //     { x: "Conflict and Violence", y: graphObj["con"] },
-    //     { x: "Nature and Wildlife", y: graphObj["nat"] },
-    //   ]}
-    // />;
-    let percentageWrdsHighlighted = totHighlightedWords / totWords;
+    let percentageWrdsHighlighted = (
+      (totHighlightedWords / totWords) *
+      100
+    ).toFixed(0);
     let genWrdsHLCount = graphObj["gen"];
     let conWrdsHLCount = graphObj["con"];
     let tribWrdsHLCount = graphObj["trib"];
     let natWrdsHLCount = graphObj["nat"];
 
+    // let conflictVioCount = document.querySelectorAll("mark.con").length;
+    // let genCount = document.querySelectorAll("mark.gen").length;
+    // let tribCount = document.querySelectorAll("mark.trib").length;
+    // let natureCount = document.querySelectorAll("mark.nat").length;
+    // console.log(
+    //   // document.querySelectorAll("mark.con"),
+    //   // conflictVioCount,
+    //   genCount,
+    //   tribCount,
+    //   natureCount
+    // );
+
     // update the doughnut chart
-    let data;
-    data = document.getElementById("chartScript");
-    // data = `<script id="chartScript">
-    // var ctx = document.getElementById('myChart').getContext('2d');
-    // var chart = new Chart(ctx, {
-    //     // The type of chart we want to create
-    //     type: 'doughnut',
+    // let chartTitleTag;
+    // chartTitleTag = document.getElementById("tropeBreakdown");
+    pieChartHtml = `<script id="chartScript">
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+    
+        // The data for our dataset
+        data: {
+            labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
+            datasets: [{
+                label: 'Breakdown of Tropes Detected',
+                backgroundColor: ['rgb(252, 132, 111)', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
+                borderColor: 'rgb(255, 255, 255)',
+                borderWidth: '6',
+                data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}]
+            }]
+        },
+    
+        // Configuration options go here
+        options: {}
+    });
+    </script>`;
+    h2Tag = `<h2 id="tropeBreakdown">Breakdown of tropes detected</h2>`;
+    // add ternary statement to avoid reproducing h2 tags
+    !document.querySelector("#tropeBreakdown") &&
+      $("#tropeMessage").after(h2Tag);
 
-    //     // The data for our dataset
-    //     data: {
-    //         labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
-    //         datasets: [{
-    //             label: 'Breakdown of Tropes Detected',
-    //             backgroundColor: ['rgb(168, 237, 234)', 'rgb(252, 132, 111)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
-    //             borderColor: 'rgb(255, 255, 255)',
-    //             borderWidth: '6',
-    //             data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}]
-    //         }]
-    //     },
-
-    //     // Configuration options go here
-    //     options: {}
-    // });
-    // console.log(document.getElementById("chartScript"))
-    // </script>`;
-    data = data.innerHTML.replace(
-      /data: \[.*\]/g,
-      `data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}]`
+    // add text saying what percentage of words were highlighted
+    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found ${totHighlightedWords} words--about ${percentageWrdsHighlighted}% of this article--associated with tropes about Africa.</p>`;
+    let tropeBreakdownMessageHtml = document.querySelector(
+      "#tropeBreakdownMessage"
     );
-    console.log(data);
+    $("#tropeBreakdown").after(tropeBreakdownMessage);
+    // account for updating values
+    // if (!tropeBreakdownMessageHtml) {
+    //   $("#tropeBreakdown").after(tropeBreakdownMessage);
+    // } else {
+    //   let tropeBreakdownMessageMatches =
+    //     tropeBreakdownMessageHtml.match(/\d+/g);
+    //   tropeBreakdownMessageHtml.innerHTML =
+    //     tropeBreakdownMessageHtml.innerHTML.replace(
+    //       /`${tropeBreakdownMessageMatches[0]}`/g,
+    //       totHighlightedWords
+    //     );
+    //   tropeBreakdownMessageHtml.innerHTML =
+    //     tropeBreakdownMessageHtml.innerHTML.replace(
+    //       /`${tropeBreakdownMessageMatches[1]}`/g,
+    //       percentageWrdsHighlighted
+    //     );
+    // }
+    // add ternary statement to avoid reproducing chart script tags
+    document.querySelector("#chartScript") && $("#chartScript").remove();
+    $("#chartCDNScript").after(pieChartHtml);
+
     console.log(
       totHighlightedWords,
       percentageWrdsHighlighted,

@@ -142,21 +142,12 @@ form{
      	margin-top: -100px;
     }
    #outputText{
-        width: 90%;
+        width: 95%;
     }
 }
 
-
-.arc {
-	background-color: #ffc682;
-}
-.arc:hover {
-	font-weight: bold;
-}
-
-
 .gen {
-	background-color: #fc846f;
+	background-color: #a8edea;
 }
 
 .gen:hover {
@@ -172,18 +163,10 @@ form{
 }
 
 .con {
-	background-color: #a8edea;
+	background-color: #ff9980;
 }
 
 .con:hover {
-	font-weight: bold;
-}
-
-.lig {
-	background-color: #fff587;
-}
-
-.lig:hover {
 	font-weight: bold;
 }
 
@@ -192,14 +175,6 @@ form{
 }
 
 .nat:hover {
-	font-weight: bold;
-}
-
-.dar{
-	background-color: #c4bfbc;
-}
-
-.dar:hover {
 	font-weight: bold;
 }
 
