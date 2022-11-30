@@ -33,9 +33,9 @@ jQuery(document).ready(function ($) {
     "eastern africa",
     "western africa",
     "african american",
-    "natural gas",
     "central african republic",
     "central african",
+    "african national congress",
   ];
 
   const conflictAndViolenceArray = [
@@ -64,7 +64,6 @@ jQuery(document).ready(function ($) {
     "dead",
     "erupt",
     "crimin",
-    "extremist",
     "abus",
     "escal",
     "rape",
@@ -124,7 +123,7 @@ jQuery(document).ready(function ($) {
     "hostag",
     "hostil",
     "imprison",
-    "instabl",
+    "instab",
     "jail",
     "kill",
     "loot",
@@ -141,7 +140,6 @@ jQuery(document).ready(function ($) {
     "prison",
     "raid",
     "ravag",
-    "rebelli",
     "retali",
     "riot",
     "shoot",
@@ -572,7 +570,6 @@ jQuery(document).ready(function ($) {
     "gnu",
     "lichtenstein's hartebeest",
     "fruit bat",
-    "burkina faso",
     "orange baboon tarantula",
     "patas monkey",
     "weasel",
@@ -863,9 +860,6 @@ jQuery(document).ready(function ($) {
     "been",
     "feedback",
     "aiding",
-    "boat",
-    "boating",
-    "boats",
     "warm",
     "warms",
     "warming",
@@ -881,6 +875,8 @@ jQuery(document).ready(function ($) {
   const acceptableBatWords = ["bat", "bats"];
   const acceptableMothWords = ["moth", "moths"];
   const acceptableTopiWords = ["topi", "topis"];
+  const acceptableBoaWords = ["boa", "boas"];
+  const acceptableCodWords = ["cod", "cods"];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -952,6 +948,18 @@ jQuery(document).ready(function ($) {
           !acceptableTopiWords.includes(match)
         ) {
           continue; // ignore all words that start w/ moth except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("boa") &&
+          !acceptableBoaWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ boa except the ones listed
+        }
+        if (
+          match.toLowerCase().includes("cod") &&
+          !acceptableCodWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ cod except the ones listed
         }
 
         let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
@@ -1076,11 +1084,11 @@ jQuery(document).ready(function ($) {
         data: {
             labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
             datasets: [{
-                label: 'Breakdown of Tropes Detected',
+                label: ' # Words',
                 backgroundColor: ['rgb(252, 132, 111)', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
                 borderColor: 'rgb(255, 255, 255)',
                 borderWidth: '6',
-                data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}]
+                data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
             }]
         },
     
@@ -1088,18 +1096,21 @@ jQuery(document).ready(function ($) {
         options: {}
     });
     </script>`;
+    document.querySelector("#chartScript") && $("#chartScript").remove();
+    $("#chartCDNScript").after(pieChartHtml);
+
     h2Tag = `<h2 id="tropeBreakdown">Breakdown of tropes detected</h2>`;
     // add ternary statement to avoid reproducing h2 tags
     !document.querySelector("#tropeBreakdown") &&
       $("#tropeMessage").after(h2Tag);
 
     // add text saying what percentage of words were highlighted
-    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found ${totHighlightedWords} words--about ${percentageWrdsHighlighted}% of this article--associated with tropes about Africa.</p>`;
-    let tropeBreakdownMessageHtml = document.querySelector(
-      "#tropeBreakdownMessage"
-    );
+    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found ${totHighlightedWords} words (~ ${percentageWrdsHighlighted}% of this article) associated with tropes about Africa.</p>`;
+    document.querySelector("#tropeBreakdownMessage") &&
+      $("#tropeBreakdownMessage").remove();
     $("#tropeBreakdown").after(tropeBreakdownMessage);
     // account for updating values
+
     // if (!tropeBreakdownMessageHtml) {
     //   $("#tropeBreakdown").after(tropeBreakdownMessage);
     // } else {
@@ -1117,8 +1128,6 @@ jQuery(document).ready(function ($) {
     //     );
     // }
     // add ternary statement to avoid reproducing chart script tags
-    document.querySelector("#chartScript") && $("#chartScript").remove();
-    $("#chartCDNScript").after(pieChartHtml);
 
     console.log(
       totHighlightedWords,
