@@ -36,6 +36,14 @@ jQuery(document).ready(function ($) {
     "central african republic",
     "central african",
     "african national congress",
+    "africanize",
+    "african development bank group",
+    "economic freedom fighters",
+    "great star of africa",
+    "world resources institute africa",
+    "power shift africa",
+    "sub-saharan africa",
+    "scramble for africa",
   ];
 
   const conflictAndViolenceArray = [
@@ -159,7 +167,7 @@ jQuery(document).ready(function ($) {
     "wildlif",
     "fauna",
     "habitat",
-    "conserv",
+    "conservatio",
     "animal",
     "bird",
     "livestock",
@@ -184,7 +192,6 @@ jQuery(document).ready(function ($) {
     "forest",
     "wildfowl",
     "endangered speci",
-    "conservationist",
     "raptor",
     "wetland",
     "otter",
@@ -214,8 +221,8 @@ jQuery(document).ready(function ($) {
     "fox",
     "sacred ibi",
     "african sacred ibi",
-    "monarch butterfli",
-    "african monarch butterfli",
+    "monarch butterfl",
+    "african monarch butterfl",
     "plain tig",
     "african monarch",
     "goshawk",
@@ -330,7 +337,7 @@ jQuery(document).ready(function ($) {
     "dove",
     "jumping spid",
     "carpet vip",
-    "horsefli",
+    "horsefl",
     "jackson's chameleon",
     "gorilla",
     "donkey",
@@ -339,7 +346,7 @@ jQuery(document).ready(function ($) {
     "sparrow",
     "macaqu",
     "short-eared owl",
-    "dragonfli",
+    "dragonfl",
     "chimp",
     "birds of prey",
     "suni",
@@ -555,7 +562,6 @@ jQuery(document).ready(function ($) {
     "galapagos shark",
     "grant's gazell",
     "axanthic ball python",
-    "fli",
     "african lion",
     "grey heron",
     "rooster",
@@ -598,7 +604,8 @@ jQuery(document).ready(function ($) {
     "jacana",
     "banana cinnamon ball python",
     "bush eleph",
-    "mous",
+    "mouse",
+    "mice",
     "western lowland gorilla",
     "eland",
     "giant ground pangolin",
@@ -877,6 +884,16 @@ jQuery(document).ready(function ($) {
   const acceptableTopiWords = ["topi", "topis"];
   const acceptableBoaWords = ["boa", "boas"];
   const acceptableCodWords = ["cod", "cods"];
+  const acceptableWarWords = [
+    "war",
+    "wars",
+    "warring",
+    "warfare",
+    "warship",
+    "wartime",
+    "warzone",
+    "warzones",
+  ];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -884,9 +901,10 @@ jQuery(document).ready(function ($) {
   function getTotHighlightedWords(obj) {
     // get all counts, add them up, and return them
     sum = 0;
+    wlCount = obj["wl"];
     delete obj["wl"];
     Object.values(obj).forEach((el) => (sum += el));
-    return sum;
+    return [sum, wlCount];
   }
 
   // This function will return the total number of words in the inputted text
@@ -961,6 +979,12 @@ jQuery(document).ready(function ($) {
         ) {
           continue; // ignore all words that start w/ cod except the ones listed
         }
+        if (
+          match.toLowerCase().includes("war") &&
+          !acceptableWarWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ war except the ones listed
+        }
 
         let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
         element.innerHTML = element.innerHTML.replace(
@@ -985,7 +1009,6 @@ jQuery(document).ready(function ($) {
   $("#resultSummary").hide();
   $("#outputText").hide();
   $("#tropeMessage").hide();
-  if ($("#chartScript")) $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
     let rawInput;
@@ -1036,8 +1059,6 @@ jQuery(document).ready(function ($) {
       );
     }
 
-    console.log(graphObj);
-
     let whitelistedWords = document.getElementsByClassName("wl"); // Find the elements
     let rgxpTropeTag = /gen|con|trib|nat/i;
     for (let whitelistWord of whitelistedWords) {
@@ -1048,16 +1069,25 @@ jQuery(document).ready(function ($) {
     }
 
     // add up all highlighted words
-    let totHighlightedWords = getTotHighlightedWords(graphObj);
+    let [totHighlightedWords, wlCount] = getTotHighlightedWords(graphObj);
     let totWords = getTotWordCount(document.getElementById("outputText"));
     let percentageWrdsHighlighted = (
       (totHighlightedWords / totWords) *
       100
     ).toFixed(0);
-    let genWrdsHLCount = graphObj["gen"];
+    graphObj["gen"] -= wlCount;
+    let genWrdsHLCount = graphObj["gen"]; // subtract whitelist words from gen count
     let conWrdsHLCount = graphObj["con"];
     let tribWrdsHLCount = graphObj["trib"];
     let natWrdsHLCount = graphObj["nat"];
+
+    console.log(graphObj);
+    console.log(
+      conWrdsHLCount,
+      genWrdsHLCount,
+      natWrdsHLCount,
+      tribWrdsHLCount
+    );
 
     // let conflictVioCount = document.querySelectorAll("mark.con").length;
     // let genCount = document.querySelectorAll("mark.gen").length;
@@ -1096,6 +1126,9 @@ jQuery(document).ready(function ($) {
         options: {}
     });
     </script>`;
+    // remove previous graph
+    document.querySelector("#chartjs-size-monitor") &&
+      $("#chartjs-size-monitor").remove();
     document.querySelector("#chartScript") && $("#chartScript").remove();
     $("#chartCDNScript").after(pieChartHtml);
 
@@ -1129,15 +1162,6 @@ jQuery(document).ready(function ($) {
     // }
     // add ternary statement to avoid reproducing chart script tags
 
-    console.log(
-      totHighlightedWords,
-      percentageWrdsHighlighted,
-      conWrdsHLCount,
-      genWrdsHLCount,
-      natWrdsHLCount,
-      tribWrdsHLCount
-    );
-
     $("#outputText").show();
     $("mark").bind("mousemove", function (e) {
       $("#tropeMessage").css({
@@ -1152,12 +1176,6 @@ jQuery(document).ready(function ($) {
         }
       }
     });
-
-    /* $("#tropeMessage").click(function(){
-         if($('#tropeMessage').is(":visible")){
-           $("#tropeMessage").hide();
-         }
-        });*/
 
     $(".gen").hover(function () {
       $("#tropeMessage").show();
@@ -1190,7 +1208,7 @@ jQuery(document).ready(function ($) {
     location.href = "#scannedResults";
     $("#resultSummary").html(
       "We've found language in your text that might be reinforcing these harmful tropes about Africa:<br>"
-    ); //
+    );
     if (hasTrope("con")) {
       $("#resultSummary").append(
         '<span style="font-weight:bold; border-bottom: 3px solid #a8edea">Conflict<br></span>'
