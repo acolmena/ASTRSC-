@@ -53,6 +53,13 @@ jQuery(document).ready(function ($) {
     "violenc",
     "conflict",
     "war",
+    "wars",
+    "warring",
+    "warfare",
+    "warship",
+    "wartime",
+    "warzone",
+    "warzones",
     "atroc",
     "crime",
     "violent",
@@ -82,10 +89,14 @@ jQuery(document).ready(function ($) {
     "corrupt",
     "radic",
     "ban",
+    "bans",
+    "banned",
+    "banning",
     "bomb",
     "blood",
     "cease-fir",
     "coup",
+    "coups",
     "assault",
     "kidnap",
     "battl",
@@ -450,6 +461,7 @@ jQuery(document).ready(function ($) {
     "peregrine falcon",
     "crane",
     "crow",
+    "crows",
     "song thrush",
     "fire ball python",
     "dinopithecus",
@@ -630,6 +642,7 @@ jQuery(document).ready(function ($) {
     "cape bushbuck",
     "basenji dog",
     "ant",
+    "ants",
     "kudus",
     "mealybug",
     "deathwatch beetl",
@@ -710,6 +723,7 @@ jQuery(document).ready(function ($) {
     "ortolan bunt",
     "gypsy moth",
     "topi",
+    "topis",
     "desert locust",
     "killer clown ball python",
     "blue monkey",
@@ -802,6 +816,7 @@ jQuery(document).ready(function ($) {
     "insect",
     "lizard",
     "bat",
+    "bats",
     "fox",
     "stork",
     "frog",
@@ -816,15 +831,18 @@ jQuery(document).ready(function ($) {
     "lion",
     "heron",
     "cat",
+    "cats",
     "black widow",
     "snail",
     "moth",
+    "moths",
     "python",
     "pangolin",
     "cockroach",
     "jacana",
     "tuna",
     "boa",
+    "boas",
     "wood",
     "eleph",
     "shrew",
@@ -846,6 +864,8 @@ jQuery(document).ready(function ($) {
     "tick",
     "squirrel",
     "mole",
+    "cod",
+    "cods",
   ];
 
   const generalizationArray = [
@@ -878,26 +898,26 @@ jQuery(document).ready(function ($) {
   ];
 
   // this is for the dict words that have too many irrelevant words that start with it
-  const acceptableBanWords = ["ban", "bans", "banned", "banning"];
-  const acceptableAntWords = ["ant", "ants"];
-  const acceptableCrowWords = ["crow", "crows"];
-  const acceptableCatWords = ["cat", "cats"];
-  const acceptableBatWords = ["bat", "bats"];
-  const acceptableMothWords = ["moth", "moths"];
-  const acceptableTopiWords = ["topi", "topis"];
-  const acceptableBoaWords = ["boa", "boas"];
-  const acceptableCodWords = ["cod", "cods"];
-  const acceptableWarWords = [
-    "war",
-    "wars",
-    "warring",
-    "warfare",
-    "warship",
-    "wartime",
-    "warzone",
-    "warzones",
-  ];
-  const acceptableCoupWords = ["coup", "coups"];
+  // const acceptableBanWords = ["ban", "bans", "banned", "banning"];
+  // const acceptableAntWords = ["ant", "ants"];
+  // const acceptableCrowWords = ["crow", "crows"];
+  // const acceptableCatWords = ["cat", "cats"];
+  // const acceptableBatWords = ["bat", "bats"];
+  // const acceptableMothWords = ["moth", "moths"];
+  // const acceptableTopiWords = ["topi", "topis"];
+  // const acceptableBoaWords = ["boa", "boas"];
+  // const acceptableCodWords = ["cod", "cods"];
+  // const acceptableWarWords = [
+  //   "war",
+  //   "wars",
+  //   "warring",
+  //   "warfare",
+  //   "warship",
+  //   "wartime",
+  //   "warzone",
+  //   "warzones",
+  // ];
+  // const acceptableCoupWords = ["coup", "coups"];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -917,9 +937,14 @@ jQuery(document).ready(function ($) {
   }
 
   // This function highlights the words that match the rgx expression below
-  function hiliter(word, element, tropeClass, obj) {
-    // rgx for words in dict + their inflections
-    let rgxpPlural = new RegExp(`\\b${word}[a-z]*\\b`, "gi");
+  function hiliter(word, element, tropeClass, obj, probWords) {
+    let rgxpPlural;
+    // for words that have too many words that start with it
+    if (probWords.includes(word)) {
+      rgxpPlural = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
+    } else {
+      rgxpPlural = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
+    }
 
     // find words that match rgx
     let rgxMatches = element.innerHTML.match(rgxpPlural);
@@ -929,72 +954,72 @@ jQuery(document).ready(function ($) {
         // need to convert to lower case bc .includes is case-sensitive
         if (exceptions.includes(match.toLowerCase())) continue; // don't highlight exceptions
         // handling words that start with "ban"
-        if (
-          match.toLowerCase().substring(0, 3) == "ban" &&
-          !acceptableBanWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ ban except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 3) == "ant" &&
-          !acceptableAntWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ ant except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 4) == "crow" &&
-          !acceptableCrowWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ ant except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 3) == "cat" &&
-          !acceptableCatWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ cat except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 3) == "bat" &&
-          !acceptableBatWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ bat except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 4) == "moth" &&
-          !acceptableMothWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ moth except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 4) == "topi" &&
-          !acceptableTopiWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ moth except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 3) == "boa" &&
-          !acceptableBoaWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ boa except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 3) == "cod" &&
-          !acceptableCodWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ cod except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 3) == "war" &&
-          !acceptableWarWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ war except the ones listed
-        }
-        if (
-          match.toLowerCase().substring(0, 4) == "coup" &&
-          !acceptableCoupWords.includes(match)
-        ) {
-          continue; // ignore all words that start w/ coup except the ones listed
-        }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "ban" &&
+        //   !acceptableBanWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ ban except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "ant" &&
+        //   !acceptableAntWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ ant except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 4) == "crow" &&
+        //   !acceptableCrowWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ ant except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "cat" &&
+        //   !acceptableCatWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ cat except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "bat" &&
+        //   !acceptableBatWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ bat except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 4) == "moth" &&
+        //   !acceptableMothWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ moth except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 4) == "topi" &&
+        //   !acceptableTopiWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ moth except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "boa" &&
+        //   !acceptableBoaWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ boa except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "cod" &&
+        //   !acceptableCodWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ cod except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 3) == "war" &&
+        //   !acceptableWarWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ war except the ones listed
+        // }
+        // if (
+        //   match.toLowerCase().substring(0, 4) == "coup" &&
+        //   !acceptableCoupWords.includes(match)
+        // ) {
+        //   continue; // ignore all words that start w/ coup except the ones listed
+        // }
 
         let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
         element.innerHTML = element.innerHTML.replace(
@@ -1029,12 +1054,45 @@ jQuery(document).ready(function ($) {
 
     // initialize graph object (graphObj)
     let graphObj = { wl: 0, gen: 0, con: 0, trib: 0, nat: 0 };
+    let probWords = [
+      "ban",
+      "bans",
+      "banned",
+      "banning",
+      "ant",
+      "ants",
+      "crow",
+      "crows",
+      "cat",
+      "cats",
+      "bat",
+      "bats",
+      "moth",
+      "moths",
+      "topi",
+      "topis",
+      "boa",
+      "boas",
+      "cod",
+      "cods",
+      "war",
+      "wars",
+      "warring",
+      "warfare",
+      "warship",
+      "wartime",
+      "warzone",
+      "warzones",
+      "coup",
+      "coups",
+    ];
     for (let whitelistWord of whitelistArray) {
       graphObj = hiliter(
         whitelistWord,
         document.getElementById("outputText"),
         "wl",
-        graphObj
+        graphObj,
+        probWords
       );
     }
     for (let natWord of natureArray) {
@@ -1042,7 +1100,8 @@ jQuery(document).ready(function ($) {
         natWord,
         document.getElementById("outputText"),
         "nat",
-        graphObj
+        graphObj,
+        probWords
       );
     }
     for (let tribWord of tribalismArray) {
@@ -1050,7 +1109,8 @@ jQuery(document).ready(function ($) {
         tribWord,
         document.getElementById("outputText"),
         "trib",
-        graphObj
+        graphObj,
+        probWords
       );
     }
     for (let conWord of conflictAndViolenceArray) {
@@ -1058,7 +1118,8 @@ jQuery(document).ready(function ($) {
         conWord,
         document.getElementById("outputText"),
         "con",
-        graphObj
+        graphObj,
+        probWords
       );
     }
     for (let genWord of generalizationArray) {
@@ -1066,7 +1127,8 @@ jQuery(document).ready(function ($) {
         genWord,
         document.getElementById("outputText"),
         "gen",
-        graphObj
+        graphObj,
+        probWords
       );
     }
 
