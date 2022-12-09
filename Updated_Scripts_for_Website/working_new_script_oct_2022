@@ -38,15 +38,18 @@ jQuery(document).ready(function ($) {
     "african national congress",
     "africanize",
     "african development bank group",
-    "economic freedom fighters",
     "great star of africa",
     "world resources institute africa",
     "power shift africa",
-    "sub-saharan africa",
     "scramble for africa",
+    "black african",
+    "african-american",
   ];
 
   const conflictAndViolenceArray = [
+    "gbv",
+    "gender-based violence",
+    "gender based violence",
     "violenc",
     "conflict",
     "war",
@@ -118,9 +121,6 @@ jQuery(document).ready(function ($) {
     "foment",
     "fighter",
     "gang",
-    "gbv",
-    "gender-based viol",
-    "gender based viol",
     "grenad",
     "grim",
     "gun",
@@ -164,37 +164,31 @@ jQuery(document).ready(function ($) {
   ];
 
   const natureArray = [
+    "jungle",
+    "big game",
     "wildlif",
     "fauna",
     "habitat",
     "conservatio",
     "animal",
-    "bird",
     "livestock",
-    "hunt",
     "park",
     "biota",
-    "gees",
     "egyptian gees",
     "egyptian goos",
-    "goos",
-    "wild",
     "nature",
     "camping",
     "wildcat",
     "savag",
     "wild-typ",
     "waterfowl",
-    "deer",
     "barbary stag",
     "ecolog",
     "biodivers",
-    "forest",
     "wildfowl",
     "endangered speci",
     "raptor",
     "wetland",
-    "otter",
     "spotted necked ott",
     "african clawless ott",
     "congo clawless ott",
@@ -206,19 +200,15 @@ jQuery(document).ready(function ($) {
     "ecosystem",
     "reptil",
     "naturalist",
-    "marin",
     "waterway",
     "antelop",
     "wildflow",
     "ecotour",
     "seabird",
-    "turtl",
-    "tortois",
     "african spurred tortois",
     "amphibian",
     "wolves",
     "stone curlew",
-    "fox",
     "sacred ibi",
     "african sacred ibi",
     "monarch butterfl",
@@ -228,8 +218,6 @@ jQuery(document).ready(function ($) {
     "goshawk",
     "african goshawk",
     "cirl bunt",
-    "leopard",
-    "panther",
     "safari park",
     "seafowl",
     "bird of passag",
@@ -268,16 +256,11 @@ jQuery(document).ready(function ($) {
     "ocean",
     "underwat",
     "predator",
-    "fish",
     "plant",
     "soil",
     "cattl",
-    "insect",
     "wildland",
     "extinct",
-    "wood",
-    "eleph",
-    "duck",
     "poach",
     "watersh",
     "waterfal",
@@ -285,12 +268,8 @@ jQuery(document).ready(function ($) {
     "extermin",
     "shellfish",
     "whale",
-    "buffalo",
     "african buffalo",
     "songbird",
-    "eagl",
-    "seal",
-    "squirrel",
     "forest rang",
     "game warden",
     "gamekeep",
@@ -304,34 +283,27 @@ jQuery(document).ready(function ($) {
     "ladybug",
     "golden eagl",
     "oranda goldfish",
-    "oryx",
     "cheetah",
     "rabbit",
     "scorpion",
-    "crocodil",
     "critically endang",
     "patas monki",
-    "mamba",
     "comet moth",
     "bongo",
     "white rhinoceros",
     "madagascar cockroach",
     "dolphin",
     "eastern green mamba",
-    "lizard",
     "night heron",
     "twig snak",
     "ostrich",
     "flycatch",
     "vervet monkey",
     "northern white rhinocero",
-    "parrot",
-    "shark",
     "angelshark",
     "olive baboon",
     "green bee eat",
     "flamingo",
-    "bat",
     "shrimp",
     "fiddler crab",
     "dove",
@@ -339,9 +311,7 @@ jQuery(document).ready(function ($) {
     "carpet vip",
     "horsefl",
     "jackson's chameleon",
-    "gorilla",
     "donkey",
-    "hyena",
     "mosquito",
     "sparrow",
     "macaqu",
@@ -351,7 +321,6 @@ jQuery(document).ready(function ($) {
     "birds of prey",
     "suni",
     "cape buffalo",
-    "mountain",
     "striped hyena",
     "mountain gorilla",
     "madagascar hissing cockroach",
@@ -361,16 +330,11 @@ jQuery(document).ready(function ($) {
     "horned add",
     "butterfl",
     "cape elephant shrew",
-    "hippo",
-    "moth",
     "guinea fowl",
-    "gecko",
     "brown hyena",
-    "shrew",
     "yellow cobra",
     "pig",
     "warbler",
-    "carpenter ",
     "woodpeck",
     "wild boar",
     "chimpanze",
@@ -384,27 +348,20 @@ jQuery(document).ready(function ($) {
     "catfish",
     "peacock",
     "radiated tortois",
-    "lion",
-    "cockroach",
     "eurasian jay",
     "sardin",
     "wild cat",
     "cod",
     "springbok",
-    "horse",
     "jackal",
     "sea eagl",
-    "frog",
-    "hyrax",
     "cross river gorilla",
-    "heron",
     "hoopo",
     "water buffalo",
     "common furniture beetl",
     "black rhino",
     "zebu",
     "scimitar-horned oryx",
-    "eel",
     "warthog",
     "kingfish",
     "african tree toad",
@@ -412,11 +369,9 @@ jQuery(document).ready(function ($) {
     "gerbil",
     "vinegaroon",
     "biscuit beetl",
-    "wolf",
     "devil's coach horse beetl",
     "lesser kudu",
     "gnat",
-    "bush",
     "bird snak",
     "ring-tailed lemur",
     "leaf-tailed gecko",
@@ -426,9 +381,6 @@ jQuery(document).ready(function ($) {
     "egyptian cobra",
     "egyptian asp",
     "linnet",
-    "rhinoceros",
-    "zebra",
-    "gazell",
     "griffon vultur",
     "porcupin",
     "forest cobra",
@@ -448,8 +400,6 @@ jQuery(document).ready(function ($) {
     "red deer",
     "wryneck",
     "lionfish",
-    "kudu",
-    "tuna",
     "golden oriol",
     "stick insect",
     "aardvark",
@@ -461,15 +411,11 @@ jQuery(document).ready(function ($) {
     "lechwe antelop",
     "crested cran",
     "blue whal",
-    "stork",
     "forest eleph",
     "puku",
-    "civet",
     "bald eagl",
     "orb weav",
-    "mongoos",
     "vine snak",
-    "baboon",
     "skink lizard",
     "king cobra",
     "sheep",
@@ -481,7 +427,6 @@ jQuery(document).ready(function ($) {
     "fossa",
     "tiger",
     "tiger beetl",
-    "goat",
     "manta ray",
     "xerus",
     "camel",
@@ -492,10 +437,8 @@ jQuery(document).ready(function ($) {
     "achrioptera manga",
     "brown bear",
     "desert rain frog",
-    "monkey",
     "river turtl",
     "african palm civet",
-    "rhinocero",
     "african gray parrot",
     "stiletto snak",
     "bush vip",
@@ -504,7 +447,6 @@ jQuery(document).ready(function ($) {
     "rhino",
     "nigerian goat",
     "rock hyrax",
-    "pangolin",
     "peregrine falcon",
     "crane",
     "crow",
@@ -518,13 +460,11 @@ jQuery(document).ready(function ($) {
     "marlin",
     "hamadryas baboon",
     "nyala",
-    "cat",
     "bushbabi",
     "galago",
     "woodlouse spid",
     "spotted hyena",
     "kestrel",
-    "black widow",
     "satanic leaf-tailed gecko",
     "goldcrest",
     "pata",
@@ -538,11 +478,10 @@ jQuery(document).ready(function ($) {
     "hedgehog",
     "duiker",
     "bonobo",
-    "housefli",
+    "housefl",
     "sand vip",
     "mozambique spitting cobra",
     "common hippo",
-    "vultur",
     "goliath beetl",
     "porpois",
     "oribi",
@@ -567,7 +506,6 @@ jQuery(document).ready(function ($) {
     "rooster",
     "parakeet",
     "african golden cat",
-    "worm",
     "lappet-faced vultur",
     "strawberry hermit crab",
     "redstart",
@@ -579,7 +517,6 @@ jQuery(document).ready(function ($) {
     "orange baboon tarantula",
     "patas monkey",
     "weasel",
-    "cobra",
     "uromastyx",
     "sea turtl",
     "agama lizard",
@@ -598,10 +535,8 @@ jQuery(document).ready(function ($) {
     "sable bul",
     "sable antelop",
     "european goldfinch",
-    "tick",
     "cichlid",
     "whinchat",
-    "jacana",
     "banana cinnamon ball python",
     "bush eleph",
     "mouse",
@@ -625,7 +560,6 @@ jQuery(document).ready(function ($) {
     "african forest eleph",
     "orange dream ball python",
     "viper",
-    "elephant shrew",
     "ethiopian wolf",
     "yellow mongoos",
     "bontebok",
@@ -640,13 +574,11 @@ jQuery(document).ready(function ($) {
     "black panth",
     "minke whal",
     "coryphodon",
-    "savannah eleph",
     "honey bee",
     "cicada",
     "eel catfish",
     "white ferret",
     "albino ferret",
-    "bee-eat",
     "greater kudu",
     "africanized bee",
     "killer be",
@@ -668,10 +600,8 @@ jQuery(document).ready(function ($) {
     "rock python",
     "anteat",
     "red fox",
-    "owl",
     "peringuey's add",
     "bloodhound",
-    "snail",
     "european bee-eat",
     "steinbok",
     "goliath frog",
@@ -685,7 +615,7 @@ jQuery(document).ready(function ($) {
     "avocet",
     "flea",
     "myna bird",
-    "african savanna eleph",
+    "african savannah eleph",
     "hare",
     "reedbuck",
     "the blue monkey",
@@ -697,7 +627,6 @@ jQuery(document).ready(function ($) {
     "beisa oryx",
     "brahminy blindsnak",
     "western gorilla",
-    "bushbuck",
     "cape bushbuck",
     "basenji dog",
     "ant",
@@ -721,11 +650,9 @@ jQuery(document).ready(function ($) {
     "german cockroach",
     "common hippopotamus",
     "colobus monkey",
-    "beetl",
     "fruit fl",
     "great dan",
     "nightingal",
-    "bee",
     "magpi",
     "mantella frog",
     "sand crab",
@@ -747,7 +674,6 @@ jQuery(document).ready(function ($) {
     "zebra snak",
     "sulcata tortois",
     "centiped",
-    "python",
     "osprey",
     "giraff",
     "lungfish",
@@ -805,7 +731,6 @@ jQuery(document).ready(function ($) {
     "black mamba",
     "armyworm",
     "grevy's zebra",
-    "mole",
     "common raven",
     "ibi",
     "tree frog",
@@ -829,7 +754,6 @@ jQuery(document).ready(function ($) {
     "kenyan sand boa",
     "brookesia micra",
     "spotted hyaena",
-    "boa",
     "aye ay",
     "naked mole rat",
     "milliped",
@@ -843,6 +767,85 @@ jQuery(document).ready(function ($) {
     "grysbok",
     "swan",
     "desert ghost ball python",
+    "wild",
+    "otter",
+    "bird",
+    "turtl",
+    "tortois",
+    "forest",
+    "rain forest",
+    "leopard",
+    "panther",
+    "marin",
+    "eagl",
+    "seal",
+    "mamba",
+    "buffalo",
+    "hyena",
+    "crocodil",
+    "elephant shrew",
+    "gorilla",
+    "oryx",
+    "savannah eleph",
+    "savannah",
+    "tree",
+    "horse",
+    "beetl",
+    "gecko",
+    "hunt",
+    "bee",
+    "shark",
+    "parrot",
+    "goos",
+    "gees",
+    "deer",
+    "insect",
+    "lizard",
+    "bat",
+    "fox",
+    "stork",
+    "frog",
+    "civet",
+    "bush",
+    "goat",
+    "hyrax",
+    "baboon",
+    "hippo",
+    "vultur",
+    "gazell",
+    "lion",
+    "heron",
+    "cat",
+    "black widow",
+    "snail",
+    "moth",
+    "python",
+    "pangolin",
+    "cockroach",
+    "jacana",
+    "tuna",
+    "boa",
+    "wood",
+    "eleph",
+    "shrew",
+    "wolf",
+    "mongoos",
+    "rhinoceros",
+    "eel",
+    "kudu",
+    "worm",
+    "mountain",
+    "bee-eat",
+    "duck",
+    "cobra",
+    "monkey",
+    "bushbuck",
+    "zebra",
+    "fish",
+    "owl",
+    "tick",
+    "squirrel",
+    "mole",
   ];
 
   const generalizationArray = [
@@ -894,6 +897,7 @@ jQuery(document).ready(function ($) {
     "warzone",
     "warzones",
   ];
+  const acceptableCoupWords = ["coup", "coups"];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -926,64 +930,70 @@ jQuery(document).ready(function ($) {
         if (exceptions.includes(match.toLowerCase())) continue; // don't highlight exceptions
         // handling words that start with "ban"
         if (
-          match.toLowerCase().includes("ban") &&
+          match.toLowerCase().substring(0, 3) == "ban" &&
           !acceptableBanWords.includes(match)
         ) {
           continue; // ignore all words that start w/ ban except the ones listed
         }
         if (
-          match.toLowerCase().includes("ant") &&
+          match.toLowerCase().substring(0, 3) == "ant" &&
           !acceptableAntWords.includes(match)
         ) {
           continue; // ignore all words that start w/ ant except the ones listed
         }
         if (
-          match.toLowerCase().includes("crow") &&
+          match.toLowerCase().substring(0, 4) == "crow" &&
           !acceptableCrowWords.includes(match)
         ) {
           continue; // ignore all words that start w/ ant except the ones listed
         }
         if (
-          match.toLowerCase().includes("cat") &&
+          match.toLowerCase().substring(0, 3) == "cat" &&
           !acceptableCatWords.includes(match)
         ) {
           continue; // ignore all words that start w/ cat except the ones listed
         }
         if (
-          match.toLowerCase().includes("bat") &&
+          match.toLowerCase().substring(0, 3) == "bat" &&
           !acceptableBatWords.includes(match)
         ) {
           continue; // ignore all words that start w/ bat except the ones listed
         }
         if (
-          match.toLowerCase().includes("moth") &&
+          match.toLowerCase().substring(0, 4) == "moth" &&
           !acceptableMothWords.includes(match)
         ) {
           continue; // ignore all words that start w/ moth except the ones listed
         }
         if (
-          match.toLowerCase().includes("topi") &&
+          match.toLowerCase().substring(0, 4) == "topi" &&
           !acceptableTopiWords.includes(match)
         ) {
           continue; // ignore all words that start w/ moth except the ones listed
         }
         if (
-          match.toLowerCase().includes("boa") &&
+          match.toLowerCase().substring(0, 3) == "boa" &&
           !acceptableBoaWords.includes(match)
         ) {
           continue; // ignore all words that start w/ boa except the ones listed
         }
         if (
-          match.toLowerCase().includes("cod") &&
+          match.toLowerCase().substring(0, 3) == "cod" &&
           !acceptableCodWords.includes(match)
         ) {
           continue; // ignore all words that start w/ cod except the ones listed
         }
         if (
-          match.toLowerCase().includes("war") &&
+          match.toLowerCase().substring(0, 3) == "war" &&
           !acceptableWarWords.includes(match)
         ) {
           continue; // ignore all words that start w/ war except the ones listed
+        }
+        if (
+          match.toLowerCase().substring(0, 4) == "coup" &&
+          !acceptableCoupWords.includes(match)
+        ) {
+          continue; // ignore all words that start w/ coup except the ones listed
         }
 
         let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
@@ -1009,6 +1019,7 @@ jQuery(document).ready(function ($) {
   $("#resultSummary").hide();
   $("#outputText").hide();
   $("#tropeMessage").hide();
+  $("#voicesTable").hide();
 
   $("#scanArticle").click(function () {
     let rawInput;
@@ -1023,6 +1034,14 @@ jQuery(document).ready(function ($) {
         whitelistWord,
         document.getElementById("outputText"),
         "wl",
+        graphObj
+      );
+    }
+    for (let natWord of natureArray) {
+      graphObj = hiliter(
+        natWord,
+        document.getElementById("outputText"),
+        "nat",
         graphObj
       );
     }
@@ -1047,14 +1066,6 @@ jQuery(document).ready(function ($) {
         genWord,
         document.getElementById("outputText"),
         "gen",
-        graphObj
-      );
-    }
-    for (let natWord of natureArray) {
-      graphObj = hiliter(
-        natWord,
-        document.getElementById("outputText"),
-        "nat",
         graphObj
       );
     }
@@ -1132,16 +1143,22 @@ jQuery(document).ready(function ($) {
     document.querySelector("#chartScript") && $("#chartScript").remove();
     $("#chartCDNScript").after(pieChartHtml);
 
-    h2Tag = `<h2 id="tropeBreakdown">Breakdown of tropes detected</h2>`;
+    h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of tropes found</h2>`;
     // add ternary statement to avoid reproducing h2 tags
-    !document.querySelector("#tropeBreakdown") &&
-      $("#tropeMessage").after(h2Tag);
+    !document.querySelector("#tropeBreakdownHeader") &&
+      $("#tropeMessage").after(h2BreakdownTag);
 
     // add text saying what percentage of words were highlighted
-    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found ${totHighlightedWords} words (~ ${percentageWrdsHighlighted}% of this article) associated with tropes about Africa.</p>`;
+    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${percentageWrdsHighlighted}% of this article) associated with tropes about Africa. Hover over the chart to see how many words of each trope we found.</p><p><span class="small"><b>Note:</b> If you wish to see certain tropes on the chart in isolation from others, click on any of the tropes in the legend to remove them from the chart. To add them back to the chart, click on the trope(s) again.</span></p>`;
     document.querySelector("#tropeBreakdownMessage") &&
       $("#tropeBreakdownMessage").remove();
-    $("#tropeBreakdown").after(tropeBreakdownMessage);
+    $("#tropeBreakdownHeader").after(tropeBreakdownMessage);
+
+    h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
+    // add ternary statement to avoid reproducing h2 tags
+    !document.querySelector("#voicesHeader") &&
+      $("#voicesTable").before(h2VoicesTag);
+    $("#voicesTable").show();
     // account for updating values
 
     // if (!tropeBreakdownMessageHtml) {
