@@ -184,6 +184,7 @@ jQuery(document).ready(function ($) {
     "animal",
     "livestock",
     "park",
+    "parks",
     "biota",
     "egyptian gees",
     "egyptian goos",
@@ -212,7 +213,6 @@ jQuery(document).ready(function ($) {
     "reptil",
     "naturalist",
     "waterway",
-    "antelop",
     "wildflow",
     "ecotour",
     "seabird",
@@ -249,7 +249,6 @@ jQuery(document).ready(function ($) {
     "elephant seal",
     "sea leopard",
     "aquatic bird",
-    "wild dog",
     "african wild dog",
     "marine anim",
     "african eleph",
@@ -269,7 +268,6 @@ jQuery(document).ready(function ($) {
     "predator",
     "plant",
     "soil",
-    "cattl",
     "wildland",
     "extinct",
     "poach",
@@ -278,7 +276,6 @@ jQuery(document).ready(function ($) {
     "invertebr",
     "extermin",
     "shellfish",
-    "whale",
     "african buffalo",
     "songbird",
     "forest rang",
@@ -298,7 +295,6 @@ jQuery(document).ready(function ($) {
     "rabbit",
     "scorpion",
     "critically endang",
-    "patas monki",
     "comet moth",
     "bongo",
     "white rhinoceros",
@@ -356,7 +352,6 @@ jQuery(document).ready(function ($) {
     "bumblebe",
     "jellyfish",
     "southeastern black rhino",
-    "catfish",
     "peacock",
     "radiated tortois",
     "eurasian jay",
@@ -373,7 +368,6 @@ jQuery(document).ready(function ($) {
     "black rhino",
     "zebu",
     "scimitar-horned oryx",
-    "warthog",
     "kingfish",
     "african tree toad",
     "impala",
@@ -385,7 +379,6 @@ jQuery(document).ready(function ($) {
     "gnat",
     "bird snak",
     "ring-tailed lemur",
-    "leaf-tailed gecko",
     "huntsman spid",
     "bichir",
     "common wildebeest",
@@ -422,7 +415,6 @@ jQuery(document).ready(function ($) {
     "lechwe antelop",
     "crested cran",
     "blue whal",
-    "forest eleph",
     "puku",
     "bald eagl",
     "orb weav",
@@ -436,7 +428,6 @@ jQuery(document).ready(function ($) {
     "silky shark",
     "dik-dik",
     "fossa",
-    "tiger",
     "tiger beetl",
     "manta ray",
     "xerus",
@@ -452,7 +443,6 @@ jQuery(document).ready(function ($) {
     "african palm civet",
     "african gray parrot",
     "stiletto snak",
-    "bush vip",
     "carac",
     "honey badg",
     "rhino",
@@ -593,7 +583,7 @@ jQuery(document).ready(function ($) {
     "albino ferret",
     "greater kudu",
     "africanized bee",
-    "killer be",
+    "killer bee",
     "mallard",
     "gerenuk",
     "waller's gazell",
@@ -603,6 +593,7 @@ jQuery(document).ready(function ($) {
     "pufferfish",
     "dormous",
     "spiny bush vip",
+    "bush vip",
     "tsetse fl",
     "glow worm",
     "bale mountain vervet",
@@ -672,7 +663,6 @@ jQuery(document).ready(function ($) {
     "american cockroach",
     "genet",
     "hognose snak",
-    "cricket",
     "willow warbl",
     "quelea quelea",
     "nguni cattl",
@@ -761,7 +751,6 @@ jQuery(document).ready(function ($) {
     "cow",
     "reptilian",
     "earthworm",
-    "green mamba",
     "jerboa",
     "addax",
     "white rhino",
@@ -781,6 +770,8 @@ jQuery(document).ready(function ($) {
     "grysbok",
     "swan",
     "desert ghost ball python",
+    "forest eleph",
+    "wild dog",
     "wild",
     "otter",
     "bird",
@@ -793,6 +784,7 @@ jQuery(document).ready(function ($) {
     "marin",
     "eagl",
     "seal",
+    "green mamba",
     "mamba",
     "buffalo",
     "hyena",
@@ -808,6 +800,7 @@ jQuery(document).ready(function ($) {
     "gecko",
     "hunt",
     "bee",
+    "bees",
     "shark",
     "parrot",
     "goos",
@@ -830,6 +823,7 @@ jQuery(document).ready(function ($) {
     "gazell",
     "lion",
     "heron",
+    "cattl",
     "cat",
     "cats",
     "black widow",
@@ -843,7 +837,6 @@ jQuery(document).ready(function ($) {
     "tuna",
     "boa",
     "boas",
-    "wood",
     "eleph",
     "shrew",
     "wolf",
@@ -866,6 +859,13 @@ jQuery(document).ready(function ($) {
     "mole",
     "cod",
     "cods",
+    "antelop",
+    "tiger",
+    "catfish",
+    "leaf-tailed gecko",
+    "warthog",
+    "whale",
+    "cricket",
   ];
 
   const generalizationArray = [
@@ -887,37 +887,12 @@ jQuery(document).ready(function ($) {
   const exceptions = [
     "conflicting",
     "conflicted",
-    "been",
     "feedback",
     "aiding",
-    "warm",
-    "warms",
-    "warming",
-    "warmed",
     "lionel",
   ];
 
   // this is for the dict words that have too many irrelevant words that start with it
-  // const acceptableBanWords = ["ban", "bans", "banned", "banning"];
-  // const acceptableAntWords = ["ant", "ants"];
-  // const acceptableCrowWords = ["crow", "crows"];
-  // const acceptableCatWords = ["cat", "cats"];
-  // const acceptableBatWords = ["bat", "bats"];
-  // const acceptableMothWords = ["moth", "moths"];
-  // const acceptableTopiWords = ["topi", "topis"];
-  // const acceptableBoaWords = ["boa", "boas"];
-  // const acceptableCodWords = ["cod", "cods"];
-  // const acceptableWarWords = [
-  //   "war",
-  //   "wars",
-  //   "warring",
-  //   "warfare",
-  //   "warship",
-  //   "wartime",
-  //   "warzone",
-  //   "warzones",
-  // ];
-  // const acceptableCoupWords = ["coup", "coups"];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -933,7 +908,14 @@ jQuery(document).ready(function ($) {
 
   // This function will return the total number of words in the inputted text
   function getTotWordCount(element) {
-    return element.innerHTML.trim().split(/\s+/).length;
+    // console.log(element.trim().split(/\s+/));
+    // let regex = /\w/g;
+    // words = element
+    //   .trim()
+    //   .split(/\s+/)
+    //   .filter((word) => regex.test(word));
+    // console.log(element.trim().split(/\s+/).length, words.length, words);
+    return element.trim().split(/\s+/).length;
   }
 
   // This function highlights the words that match the rgx expression below
@@ -953,73 +935,6 @@ jQuery(document).ready(function ($) {
       for (let match of rgxMatches) {
         // need to convert to lower case bc .includes is case-sensitive
         if (exceptions.includes(match.toLowerCase())) continue; // don't highlight exceptions
-        // handling words that start with "ban"
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "ban" &&
-        //   !acceptableBanWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ ban except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "ant" &&
-        //   !acceptableAntWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ ant except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 4) == "crow" &&
-        //   !acceptableCrowWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ ant except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "cat" &&
-        //   !acceptableCatWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ cat except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "bat" &&
-        //   !acceptableBatWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ bat except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 4) == "moth" &&
-        //   !acceptableMothWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ moth except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 4) == "topi" &&
-        //   !acceptableTopiWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ moth except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "boa" &&
-        //   !acceptableBoaWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ boa except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "cod" &&
-        //   !acceptableCodWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ cod except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 3) == "war" &&
-        //   !acceptableWarWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ war except the ones listed
-        // }
-        // if (
-        //   match.toLowerCase().substring(0, 4) == "coup" &&
-        //   !acceptableCoupWords.includes(match)
-        // ) {
-        //   continue; // ignore all words that start w/ coup except the ones listed
-        // }
 
         let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
         element.innerHTML = element.innerHTML.replace(
@@ -1049,6 +964,7 @@ jQuery(document).ready(function ($) {
   $("#scanArticle").click(function () {
     let rawInput;
     rawInput = document.getElementById("inputText").value;
+    let totWords = getTotWordCount(rawInput); // get total number of words that were inputted by user
     rawInput = rawInput.replace(/\n\r?/g, "<br>");
     $("#outputText").html(rawInput);
 
@@ -1085,21 +1001,25 @@ jQuery(document).ready(function ($) {
       "warzones",
       "coup",
       "coups",
+      "bee",
+      "bees",
+      "park",
+      "parks",
     ];
-    for (let whitelistWord of whitelistArray) {
-      graphObj = hiliter(
-        whitelistWord,
-        document.getElementById("outputText"),
-        "wl",
-        graphObj,
-        probWords
-      );
-    }
     for (let natWord of natureArray) {
       graphObj = hiliter(
         natWord,
         document.getElementById("outputText"),
         "nat",
+        graphObj,
+        probWords
+      );
+    }
+    for (let whitelistWord of whitelistArray) {
+      graphObj = hiliter(
+        whitelistWord,
+        document.getElementById("outputText"),
+        "wl",
         graphObj,
         probWords
       );
@@ -1143,7 +1063,6 @@ jQuery(document).ready(function ($) {
 
     // add up all highlighted words
     let [totHighlightedWords, wlCount] = getTotHighlightedWords(graphObj);
-    let totWords = getTotWordCount(document.getElementById("outputText"));
     let percentageWrdsHighlighted = (
       (totHighlightedWords / totWords) *
       100
@@ -1154,13 +1073,13 @@ jQuery(document).ready(function ($) {
     let tribWrdsHLCount = graphObj["trib"];
     let natWrdsHLCount = graphObj["nat"];
 
-    console.log(graphObj);
-    console.log(
-      conWrdsHLCount,
-      genWrdsHLCount,
-      natWrdsHLCount,
-      tribWrdsHLCount
-    );
+    // console.log(graphObj);
+    // console.log(
+    //   conWrdsHLCount,
+    //   genWrdsHLCount,
+    //   natWrdsHLCount,
+    //   tribWrdsHLCount
+    // );
 
     // let conflictVioCount = document.querySelectorAll("mark.con").length;
     // let genCount = document.querySelectorAll("mark.gen").length;
@@ -1211,10 +1130,14 @@ jQuery(document).ready(function ($) {
       $("#tropeMessage").after(h2BreakdownTag);
 
     // add text saying what percentage of words were highlighted
-    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${percentageWrdsHighlighted}% of this article) associated with tropes about Africa. Hover over the chart to see how many words of each trope we found.</p><p><span class="small"><b>Note:</b> If you wish to see certain tropes on the chart in isolation from others, click on any of the tropes in the legend to remove them from the chart. To add them back to the chart, click on the trope(s) again.</span></p>`;
+    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${percentageWrdsHighlighted}% of this article) associated with tropes about Africa.</p>`;
     document.querySelector("#tropeBreakdownMessage") &&
-      $("#tropeBreakdownMessage").remove();
-    $("#tropeBreakdownHeader").after(tropeBreakdownMessage);
+      $("#tropeBreakdownMessage").remove(); // remove previous text
+    $("#tropeBreakdownHeader").after(tropeBreakdownMessage); // update with new text
+    // add text describing chart feature with legend
+    let tropeBreakdownNote = `<p>Hover over the chart to see how many words of each trope we found.</p><p id="tropeBreakdownNote"><span class="small"><b>Note:</b> If you wish to see certain tropes on the chart in isolation from others, click on any of the tropes in the legend to remove them from the chart. To add them back to the chart, click on the trope(s) again.</span></p>`;
+    !document.querySelector("#tropeBreakdownNote") &&
+      $("#tropeBreakdownMessage").after(tropeBreakdownNote);
 
     h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
     // add ternary statement to avoid reproducing h2 tags
