@@ -34,7 +34,7 @@ jQuery(document).ready(function ($) {
     "western africa",
     "african american",
     "central african republic",
-    "central african",
+    "central africa",
     "african national congress",
     "africanize",
     "african development bank group",
@@ -890,6 +890,9 @@ jQuery(document).ready(function ($) {
     "feedback",
     "aiding",
     "lionel",
+    "barbie",
+    "barbies",
+    "armstrong",
   ];
 
   // this is for the dict words that have too many irrelevant words that start with it
@@ -1107,7 +1110,7 @@ jQuery(document).ready(function ($) {
             labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
             datasets: [{
                 label: ' # Words',
-                backgroundColor: ['rgb(252, 132, 111)', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
+                backgroundColor: ['#ff8466', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
                 borderColor: 'rgb(255, 255, 255)',
                 borderWidth: '6',
                 data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
@@ -1203,7 +1206,7 @@ jQuery(document).ready(function ($) {
     $(".con").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", "#ff9980");
+      $("#tropeMessage").css("background-color", "#ff8466");
       $("#conflictAndViolence").show();
     });
 
@@ -1213,7 +1216,7 @@ jQuery(document).ready(function ($) {
     );
     if (hasTrope("con")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #a8edea">Conflict<br></span>'
+        '<span style="font-weight:bold; border-bottom: 3px solid #ff8466">Conflict<br></span>'
       );
       $("#resultSummary").show();
     }
