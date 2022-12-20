@@ -948,33 +948,35 @@ jQuery(document).ready(function ($) {
 
   // This function will return the total number of words in the inputted text
   function getTotWordCount(element) {
-    // console.log(element.trim().split(/\s+/));
-    // let regex = /\w/g;
-    // words = element
-    //   .trim()
-    //   .split(/\s+/)
-    //   .filter((word) => regex.test(word));
-    // console.log(element.trim().split(/\s+/).length, words.length, words);
     return element.trim().split(/\s+/).length;
   }
 
-  function makeVoiceObj(element) {
-    let voiceObj;
-    let matches = element.innerHTML.match(/\\b".+"\\b/gi);
+  function makeVoiceObj(element, verbList) {
+    let voiceObj = {};
+    let totNumQuotes;
+    let matches = element.match(/(“|").+(”|")/gi);
     let arrayInputWrds = element.trim().split(/\s+/);
-    let totNumQuotes = matches.length;
-    for (let quoteMatch of matches) {
-      // find speaker name
-      let index = arrayInputWrds.findIndex(
-        (el) => el.substring(0, 5) === quoteMatch.substring(0, 5)
-      ); // find index of first 5 chars of quote
-      let prev10Wrds = arrayInputWrds.slice(index - 5, index + 1);
-      let speakerName = prev10Wrds.find((el) => el);
-      // find verb used to introduce them
+    if (matches) {
+      console.log(matches);
+      totNumQuotes = matches.length;
+      for (let quoteMatch of matches) {
+        // rule out matches that have <= 3 words
+        let numWrds = getTotWordCount(quoteMatch);
+        if (numWrds <= 3) continue;
+        // find speaker name
+        let index = arrayInputWrds.findIndex(
+          (el) => el.substring(0, 5) === quoteMatch.substring(0, 5)
+        ); // find index of first 5 chars of quote
+        let prev20Wrds = arrayInputWrds.slice(index - 20, index + 1);
+        let speakerName = prev20Wrds.find((wrd) => wrd.toUpperCase() === wrd); // find first capitalized word
 
-      index = voiceObj[speakerName].keys().length; // 0-indexed
-      voiceObj[speakerName][index]["quote"] = quoteMatch; // add quote to speaker prop
-      voiceObj[speakerName][index]["verb"] = introVerb; // add intro verb to speaker prop
+        // find verb used to introduce them
+        let introVerb = prev20Wrds.find((wrd) => verbList.includes(wrd)); // find first capitalized word
+
+        index = voiceObj[speakerName].keys().length; // 0-indexed
+        voiceObj[speakerName][index]["quote"] = quoteMatch; // add quote to speaker prop
+        voiceObj[speakerName][index]["verb"] = introVerb; // add intro verb to speaker prop
+      }
     }
     return [voiceObj, totNumQuotes];
   }
@@ -1027,7 +1029,112 @@ jQuery(document).ready(function ($) {
     rawInput = document.getElementById("inputText").value;
     let totWords = getTotWordCount(rawInput); // get total number of words that were inputted by user
     // object of speaker, intro verb, quoted thing, and count of words in quoted thing
-    [voiceObj, totNumQuotes] = makeVoiceObj(rawInput);
+    introVerbsList = [
+      "acknowledge",
+      "add",
+      "admit",
+      // "advis",
+      "advocate",
+      "agree",
+      "analyze",
+      "argue",
+      "assert",
+      "believe",
+      "claim",
+      "comment",
+      "compare",
+      "conclude",
+      "confirm",
+      // "concentrate",
+      "continue",
+      "criticize",
+      "define",
+      "demonstrate",
+      // "deny",
+      "describe",
+      "develop",
+      "disagree",
+      "discuss",
+      "dispute",
+      "distinguish",
+      "emphasize",
+      "endeavour",
+      "examine",
+      // "expand on",
+      "explain",
+      "explore",
+      "express",
+      "feel",
+      "find",
+      // "form",
+      "focus on",
+      "focuses on",
+      "focused on",
+      "identify",
+      "imply",
+      "include",
+      "incorporate",
+      "indicate",
+      "insist",
+      "interpret",
+      "introduce",
+      "judge",
+      "justify",
+      "link",
+      "list",
+      // "locate",
+      "maintain",
+      "negate",
+      "note",
+      "object to",
+      "objects to",
+      "objected to",
+      "observe",
+      "offer",
+      "oppos",
+      "point out",
+      "points out",
+      "pointed out",
+      "provide",
+      "question",
+      "quote",
+      "refer to",
+      "refers to",
+      "referred to",
+      "refute",
+      "reject",
+      "report",
+      // represent
+      "respond",
+      "reveal",
+      // "see",
+      // separate
+      // show
+      // stand for
+      "say",
+      "said",
+      "state",
+      "stress",
+      "suggest",
+      // support
+      "tell",
+      "told",
+      "talk about",
+      "talks about",
+      "talked about",
+      "think",
+      "thought",
+      // tend to
+      // "treat",
+      // try to
+      // use
+      "underline",
+      "underscore",
+      // "view",
+      "write",
+    ];
+    let [voiceObj, totNumQuotes] = makeVoiceObj(rawInput, introVerbsList);
+    console.log(voiceObj, totNumQuotes);
     rawInput = rawInput.replace(/\n\r?/g, "<br>");
     $("#outputText").html(rawInput);
 
@@ -1137,8 +1244,8 @@ jQuery(document).ready(function ($) {
       (totHighlightedWords / totWords) *
       100
     ).toFixed(0);
-    graphObj["gen"] -= wlCount;
-    let genWrdsHLCount = graphObj["gen"]; // subtract whitelist words from gen count
+    graphObj["gen"] -= wlCount; // subtract whitelist words from gen count
+    let genWrdsHLCount = graphObj["gen"];
     let conWrdsHLCount = graphObj["con"];
     let tribWrdsHLCount = graphObj["trib"];
     let natWrdsHLCount = graphObj["nat"];
