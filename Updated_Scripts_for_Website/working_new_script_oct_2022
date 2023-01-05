@@ -943,7 +943,7 @@ jQuery(document).ready(function ($) {
     wlCount = obj["wl"];
     delete obj["wl"];
     Object.values(obj).forEach((el) => (sum += el));
-    return [sum, wlCount];
+    return [sum - wlCount, wlCount]; // subtract wlCount from total sum to avoid counting whitelist words
   }
 
   // This function will return the total number of words in the inputted text
@@ -964,18 +964,27 @@ jQuery(document).ready(function ($) {
         let numWrds = getTotWordCount(quoteMatch);
         if (numWrds <= 3) continue;
         // find speaker name
-        let index = arrayInputWrds.findIndex(
+        let quoteStartIndex = arrayInputWrds.findIndex(
           (el) => el.substring(0, 5) === quoteMatch.substring(0, 5)
         ); // find index of first 5 chars of quote
-        let prev20Wrds = arrayInputWrds.slice(index - 20, index + 1);
+        console.log(quoteStartIndex);
+        let prev20Wrds = arrayInputWrds.slice(
+          quoteStartIndex - 20,
+          quoteStartIndex + 1
+        );
+        console.log(prev20Wrds);
         let speakerName = prev20Wrds.find((wrd) => wrd.toUpperCase() === wrd); // find first capitalized word
 
         // find verb used to introduce them
         let introVerb = prev20Wrds.find((wrd) => verbList.includes(wrd)); // find first capitalized word
 
-        index = voiceObj[speakerName].keys().length; // 0-indexed
-        voiceObj[speakerName][index]["quote"] = quoteMatch; // add quote to speaker prop
-        voiceObj[speakerName][index]["verb"] = introVerb; // add intro verb to speaker prop
+        if (!Object.keys(voiceObj).includes(speakerName))
+          voiceObj[speakerName] = {};
+        let index = Object.keys(voiceObj[speakerName]).length; // 0-indexed
+        voiceObj[speakerName][index] = {
+          quote: quoteMatch, // add quote to speaker prop
+          verb: introVerb, // add intro verb to speaker prop
+        };
       }
     }
     return [voiceObj, totNumQuotes];
@@ -1114,8 +1123,11 @@ jQuery(document).ready(function ($) {
       "say",
       "said",
       "state",
+      "stated",
       "stress",
+      "stressed",
       "suggest",
+      "suggested",
       // support
       "tell",
       "told",
@@ -1132,6 +1144,7 @@ jQuery(document).ready(function ($) {
       "underscore",
       // "view",
       "write",
+      "wrote",
     ];
     let [voiceObj, totNumQuotes] = makeVoiceObj(rawInput, introVerbsList);
     console.log(voiceObj, totNumQuotes);
@@ -1303,24 +1316,6 @@ jQuery(document).ready(function ($) {
     $("#voicesTable").show();
     // account for updating values
 
-    // if (!tropeBreakdownMessageHtml) {
-    //   $("#tropeBreakdown").after(tropeBreakdownMessage);
-    // } else {
-    //   let tropeBreakdownMessageMatches =
-    //     tropeBreakdownMessageHtml.match(/\d+/g);
-    //   tropeBreakdownMessageHtml.innerHTML =
-    //     tropeBreakdownMessageHtml.innerHTML.replace(
-    //       /`${tropeBreakdownMessageMatches[0]}`/g,
-    //       totHighlightedWords
-    //     );
-    //   tropeBreakdownMessageHtml.innerHTML =
-    //     tropeBreakdownMessageHtml.innerHTML.replace(
-    //       /`${tropeBreakdownMessageMatches[1]}`/g,
-    //       percentageWrdsHighlighted
-    //     );
-    // }
-    // add ternary statement to avoid reproducing chart script tags
-
     $("#outputText").show();
     $("mark").bind("mousemove", function (e) {
       $("#tropeMessage").css({
@@ -1339,15 +1334,15 @@ jQuery(document).ready(function ($) {
     $(".gen").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#generalization").show();
       $("#tropeMessage").css("background-color", "#a8edea");
+      $("#generalization").show();
     });
 
     $(".trib").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tribalism").show();
       $("#tropeMessage").css("background-color", "#eaa8d2");
+      $("#tribalism").show();
     });
 
     $(".nat").hover(function () {
@@ -1368,15 +1363,15 @@ jQuery(document).ready(function ($) {
     $("#resultSummary").html(
       "We've found language in your text that might be reinforcing these harmful tropes about Africa:<br>"
     );
-    if (hasTrope("con")) {
+    if (hasTrope("gen")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #ff8466">Conflict<br></span>'
+        '<span style="font-weight:bold; border-bottom: 3px solid #a8edea">Generalization<br></span>'
       );
       $("#resultSummary").show();
     }
-    if (hasTrope("gen")) {
+    if (hasTrope("con")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #fc846f">Generalization<br></span>'
+        '<span style="font-weight:bold; border-bottom: 3px solid #ff8466">Conflict<br></span>'
       );
       $("#resultSummary").show();
     }
