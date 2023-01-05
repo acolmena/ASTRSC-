@@ -984,6 +984,7 @@ jQuery(document).ready(function ($) {
         voiceObj[speakerName][index] = {
           quote: quoteMatch, // add quote to speaker prop
           verb: introVerb, // add intro verb to speaker prop
+          wrdCount: getTotWordCount(quoteMatch),
         };
       }
     }
@@ -1032,6 +1033,7 @@ jQuery(document).ready(function ($) {
   $("#outputText").hide();
   $("#tropeMessage").hide();
   $("#voicesTable").hide();
+  $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
     let rawInput;
@@ -1277,7 +1279,7 @@ jQuery(document).ready(function ($) {
             labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
             datasets: [{
                 label: ' # Words',
-                backgroundColor: ['#ff8466', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
+                backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
                 borderColor: 'rgb(255, 255, 255)',
                 borderWidth: '6',
                 data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
@@ -1371,7 +1373,7 @@ jQuery(document).ready(function ($) {
     }
     if (hasTrope("con")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #ff8466">Conflict<br></span>'
+        '<span style="font-weight:bold; border-bottom: 3px solid #ff9980">Conflict<br></span>'
       );
       $("#resultSummary").show();
     }
@@ -1393,6 +1395,85 @@ jQuery(document).ready(function ($) {
     $("#resultSummary").append(
       "<br>Hover your mouse on the highlighted words below to learn more about each stereotype!<br>"
     );
+  });
+
+  $("#clrBlndCheckbox").change(function () {
+    if (this.checked) {
+      // Change hover colors
+      $(".gen").hover(function () {
+        $("#tropeMessage").css("background-color", "#66ccee");
+        // $("#tropeMessage").css("color", "#ffffff");
+      });
+
+      $(".trib").hover(function () {
+        $("#tropeMessage").css("background-color", "#ee6677");
+      });
+
+      $(".nat").hover(function () {
+        $("#tropeMessage").css("background-color", "#ccbb44");
+      });
+
+      $(".con").hover(function () {
+        $("#tropeMessage").css("background-color", "#bbbbbb");
+      });
+
+      // Change highlight color
+      $(".gen").css("background-color", "#66ccee");
+      $(".trib").css("background-color", "#ee6677");
+      $(".nat").css("background-color", "#ccbb44");
+      $(".con").css("background-color", "#bbbbbb");
+
+      // Change outputText background color
+      $("#outputText").css("background-color", "#ffffff");
+
+      // Show border
+      $("#outputText").css("border", "solid black");
+
+      // Change chart colors
+      document
+        .querySelector("#chartScript")
+        .replace(
+          "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']",
+          "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']"
+        );
+    } else {
+      // Change hover to original colors
+      $(".gen").hover(function () {
+        $("#tropeMessage").css("background-color", "#a8edea");
+      });
+
+      $(".trib").hover(function () {
+        $("#tropeMessage").css("background-color", "#eaa8d2");
+      });
+
+      $(".nat").hover(function () {
+        $("#tropeMessage").css("background-color", "#a7ffa3");
+      });
+
+      $(".con").hover(function () {
+        $("#tropeMessage").css("background-color", "#ff9980");
+      });
+
+      // Change highlight to original colors
+      $(".gen").css("background-color", "#a8edea");
+      $(".trib").css("background-color", "#eaa8d2");
+      $(".nat").css("background-color", "#a7ffa3");
+      $(".con").css("background-color", "#ff9980");
+
+      // Change outputText color back
+      $("#outputText").css("background-color", "#f5f5f5");
+
+      // Hide border again
+      $("#outputText").css("border-style", "hidden");
+
+      // Change chart colors
+      document
+        .querySelector("#chartScript")
+        .replace(
+          "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']",
+          "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']"
+        );
+    }
   });
 
   $("#scanArticle").click(function () {
