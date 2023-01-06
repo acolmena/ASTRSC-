@@ -1430,12 +1430,33 @@ jQuery(document).ready(function ($) {
       $("#outputText").css("border", "solid black");
 
       // Change chart colors
-      document
-        .querySelector("#chartScript")
-        .replace(
-          "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']",
-          "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']"
-        );
+      document.querySelector("#chartScript")
+        .innerHTML(`<script id="chartScript">
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'doughnut',
+        
+            // The data for our dataset
+            data: {
+                labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
+                datasets: [{
+                    label: ' # Words',
+                    backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677'],
+                    borderColor: 'rgb(255, 255, 255)',
+                    borderWidth: '6',
+                    data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
+                }]
+            },
+        
+            // Configuration options go here
+            options: {}
+        });
+        </script>`);
+      // .replace(
+      //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']",
+      //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']"
+      // );
     } else {
       // Change hover to original colors
       $(".gen").hover(function () {
@@ -1467,12 +1488,33 @@ jQuery(document).ready(function ($) {
       $("#outputText").css("border-style", "hidden");
 
       // Change chart colors
-      document
-        .querySelector("#chartScript")
-        .replace(
-          "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']",
-          "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']"
-        );
+      document.querySelector("#chartScript")
+        .innerHTML(`<script id="chartScript">
+          var ctx = document.getElementById('myChart').getContext('2d');
+          var chart = new Chart(ctx, {
+              // The type of chart we want to create
+              type: 'doughnut',
+          
+              // The data for our dataset
+              data: {
+                  labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
+                  datasets: [{
+                      label: ' # Words',
+                      backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
+                      borderColor: 'rgb(255, 255, 255)',
+                      borderWidth: '6',
+                      data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
+                  }]
+              },
+          
+              // Configuration options go here
+              options: {}
+          });
+          </script>`);
+      // (
+      //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']",
+      //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']"
+      // );
     }
   });
 
