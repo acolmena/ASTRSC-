@@ -1260,10 +1260,10 @@ jQuery(document).ready(function ($) {
       100
     ).toFixed(0);
     graphObj["gen"] -= wlCount; // subtract whitelist words from gen count
-    let genWrdsHLCount = graphObj["gen"];
-    let conWrdsHLCount = graphObj["con"];
-    let tribWrdsHLCount = graphObj["trib"];
-    let natWrdsHLCount = graphObj["nat"];
+    window.genWrdsHLCount = graphObj["gen"]; // declare these as global variables using window obj to be able to use them for color-blind friendly button
+    window.conWrdsHLCount = graphObj["con"];
+    window.tribWrdsHLCount = graphObj["trib"];
+    window.natWrdsHLCount = graphObj["nat"];
 
     // update the doughnut chart
     // let chartTitleTag;
@@ -1430,8 +1430,7 @@ jQuery(document).ready(function ($) {
       $("#outputText").css("border", "solid black");
 
       // Change chart colors
-      document.querySelector("#chartScript")
-        .innerHTML(`<script id="chartScript">
+      pieChartColorBlindFriendly = `<script id="chartScript">
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -1445,14 +1444,16 @@ jQuery(document).ready(function ($) {
                     backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677'],
                     borderColor: 'rgb(255, 255, 255)',
                     borderWidth: '6',
-                    data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
+                    data: [${window.conWrdsHLCount}, ${window.genWrdsHLCount}, ${window.natWrdsHLCount}, ${window.tribWrdsHLCount}],
                 }]
             },
         
             // Configuration options go here
             options: {}
         });
-        </script>`);
+        </script>`;
+      $("#chartScript").remove();
+      $("#chartCDNScript").after(pieChartColorBlindFriendly);
       // .replace(
       //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']",
       //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']"
@@ -1488,8 +1489,7 @@ jQuery(document).ready(function ($) {
       $("#outputText").css("border-style", "hidden");
 
       // Change chart colors
-      document.querySelector("#chartScript")
-        .innerHTML(`<script id="chartScript">
+      pieChartOg = `<script id="chartScript">
           var ctx = document.getElementById('myChart').getContext('2d');
           var chart = new Chart(ctx, {
               // The type of chart we want to create
@@ -1503,14 +1503,16 @@ jQuery(document).ready(function ($) {
                       backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
                       borderColor: 'rgb(255, 255, 255)',
                       borderWidth: '6',
-                      data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
+                      data: [${window.conWrdsHLCount}, ${window.genWrdsHLCount}, ${window.natWrdsHLCount}, ${window.tribWrdsHLCount}],
                   }]
               },
           
               // Configuration options go here
               options: {}
           });
-          </script>`);
+          </script>`;
+      $("#chartScript").remove();
+      $("#chartCDNScript").after(pieChartOg);
       // (
       //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']",
       //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']"
