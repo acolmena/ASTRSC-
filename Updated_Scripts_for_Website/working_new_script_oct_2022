@@ -956,7 +956,9 @@ jQuery(document).ready(function ($) {
     let totNumQuotes;
     let matches = element.match(/(“|").+(”|")/gi);
     let arrayInputWrds = element.trim().split(/\s+/);
+    // let sentences = element.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|"); // array of sentences in article
     if (matches) {
+      // console.log(sentences);
       console.log(matches);
       totNumQuotes = matches.length;
       for (let quoteMatch of matches) {
@@ -974,7 +976,7 @@ jQuery(document).ready(function ($) {
         );
         console.log(prev20Wrds);
         let speakerName = prev20Wrds.find((wrd) => wrd.toUpperCase() === wrd); // find first capitalized word
-
+        if (speakerName === undefined) speakerName = "unable to find";
         // find verb used to introduce them
         let introVerb = prev20Wrds.find((wrd) => verbList.includes(wrd)); // find first capitalized word
 
@@ -1020,6 +1022,26 @@ jQuery(document).ready(function ($) {
       }
     }
     return obj;
+  }
+
+  function enterQuotes(voiceObj) {
+    let rowNum = -1;
+    for (let name of Object.keys(voiceObj)) {
+      console.log(voiceObj[name]);
+      let speakerNameAndQuote1 = `<tr id=row${rowNum + 2}><td rowspan=${
+        Object.keys(name).length
+      }>${name}</td><td></td><td></td><td>${
+        voiceObj[name][0]["quote"]
+      }</td></tr>`;
+      $(`#row${rowNum + 1}`).after(speakerNameAndQuote1);
+      for (let i = 1; i < Object.keys(name).length - 1; i++) {
+        console.log(voiceObj[name][i]);
+        let quote = voiceObj[name][i]["quote"];
+        $(`#row${rowNum + 1}`).after(
+          `<tr id=row${rowNum + 2}><td></td><td></td><td>${quote}</td></tr>`
+        );
+      }
+    }
   }
 
   function hasTrope(trope) {
@@ -1265,9 +1287,20 @@ jQuery(document).ready(function ($) {
     window.tribWrdsHLCount = graphObj["trib"];
     window.natWrdsHLCount = graphObj["nat"];
 
+    // if CBF colors button is checked, set colors array to be CBF; else, set to original colors
+    let colors;
+    if ($("#clrBlndCheckbox").prop("checked")) {
+      // array colors are in gen, trib, nat, con order
+      colors = ["#66ccee", "#ee6677", "#ccbb44", "#bbbbbb"]; // CBF colors
+      $(".gen").css("background-color", "#66ccee");
+      $(".trib").css("background-color", "#ee6677");
+      $(".nat").css("background-color", "#ccbb44");
+      $(".con").css("background-color", "#bbbbbb");
+    } else {
+      colors = ["#a8edea", "#eaa8d2", "#a7ffa3", "#ff9980"];
+    }
+
     // update the doughnut chart
-    // let chartTitleTag;
-    // chartTitleTag = document.getElementById("tropeBreakdown");
     pieChartHtml = `<script id="chartScript">
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
@@ -1276,13 +1309,13 @@ jQuery(document).ready(function ($) {
     
         // The data for our dataset
         data: {
-            labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
+            labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
             datasets: [{
                 label: ' # Words',
-                backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
-                borderColor: 'rgb(255, 255, 255)',
+                backgroundColor: ['${colors[0]}', '${colors[1]}', '${colors[2]}', '${colors[3]}'],
+                borderColor: '#ffffff',
                 borderWidth: '6',
-                data: [${conWrdsHLCount}, ${genWrdsHLCount}, ${natWrdsHLCount}, ${tribWrdsHLCount}],
+                data: [${genWrdsHLCount}, ${tribWrdsHLCount}, ${natWrdsHLCount}, ${conWrdsHLCount}],
             }]
         },
     
@@ -1291,12 +1324,10 @@ jQuery(document).ready(function ($) {
     });
     </script>`;
     // remove previous graph
-    document.querySelector("#chartjs-size-monitor") &&
-      $("#chartjs-size-monitor").remove();
     document.querySelector("#chartScript") && $("#chartScript").remove();
     $("#chartCDNScript").after(pieChartHtml);
 
-    h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of tropes found</h2>`;
+    let h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of tropes found</h2>`;
     // add ternary statement to avoid reproducing h2 tags
     !document.querySelector("#tropeBreakdownHeader") &&
       $("#tropeMessage").after(h2BreakdownTag);
@@ -1311,10 +1342,14 @@ jQuery(document).ready(function ($) {
     !document.querySelector("#tropeBreakdownNote") &&
       $("#tropeBreakdownMessage").after(tropeBreakdownNote);
 
-    h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
-    // add ternary statement to avoid reproducing h2 tags
-    !document.querySelector("#voicesHeader") &&
+    let h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
+    let voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes.</p>`;
+    // To avoid reproducing header and message, check if they already exist
+    if (!document.querySelector("#voicesHeader")) {
       $("#voicesTable").before(h2VoicesTag);
+      $("#voicesHeader").after(voicesMessage);
+    }
+    if (totNumQuotes) enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
     $("#voicesTable").show();
     // account for updating values
 
@@ -1336,28 +1371,28 @@ jQuery(document).ready(function ($) {
     $(".gen").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", "#a8edea");
+      $("#tropeMessage").css("background-color", colors[0]);
       $("#generalization").show();
     });
 
     $(".trib").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", "#eaa8d2");
+      $("#tropeMessage").css("background-color", colors[1]);
       $("#tribalism").show();
     });
 
     $(".nat").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", "#a7ffa3");
+      $("#tropeMessage").css("background-color", colors[2]);
       $("#nature").show();
     });
 
     $(".con").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", "#ff8466");
+      $("#tropeMessage").css("background-color", colors[3]);
       $("#conflictAndViolence").show();
     });
 
@@ -1367,27 +1402,27 @@ jQuery(document).ready(function ($) {
     );
     if (hasTrope("gen")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #a8edea">Generalization<br></span>'
+        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[0]}">Generalization<br></span>`
       );
       $("#resultSummary").show();
     }
     if (hasTrope("con")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #ff9980">Conflict<br></span>'
+        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[3]}">Conflict<br></span>`
       );
       $("#resultSummary").show();
     }
 
     if (hasTrope("nat")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #a7ffa3">Nature<br></span>'
+        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[2]}">Nature<br></span>`
       );
       $("#resultSummary").show();
     }
 
     if (hasTrope("trib")) {
       $("#resultSummary").append(
-        '<span style="font-weight:bold; border-bottom: 3px solid #eaa8d2">Tribalism<br></span>'
+        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[1]}">Tribalism<br></span>`
       );
       $("#resultSummary").show();
     }
@@ -1438,13 +1473,13 @@ jQuery(document).ready(function ($) {
         
             // The data for our dataset
             data: {
-                labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
+                labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
                 datasets: [{
                     label: ' # Words',
-                    backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677'],
+                    backgroundColor: ['#66ccee', '#ee6677', '#ccbb44', '#bbbbbb'],
                     borderColor: 'rgb(255, 255, 255)',
                     borderWidth: '6',
-                    data: [${window.conWrdsHLCount}, ${window.genWrdsHLCount}, ${window.natWrdsHLCount}, ${window.tribWrdsHLCount}],
+                    data: [${window.genWrdsHLCount}, ${window.tribWrdsHLCount}, ${window.natWrdsHLCount}, ${window.conWrdsHLCount}],
                 }]
             },
         
@@ -1497,13 +1532,13 @@ jQuery(document).ready(function ($) {
           
               // The data for our dataset
               data: {
-                  labels: ['Conflict and Violence', 'Generalization', 'Nature and Wildlife', 'Tribalism'],
+                  labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
                   datasets: [{
                       label: ' # Words',
-                      backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)'],
+                      backgroundColor: ['rgb(168, 237, 234)', 'rgb(234, 168, 210)', 'rgb(167, 255, 163)', '#ff9980'],
                       borderColor: 'rgb(255, 255, 255)',
                       borderWidth: '6',
-                      data: [${window.conWrdsHLCount}, ${window.genWrdsHLCount}, ${window.natWrdsHLCount}, ${window.tribWrdsHLCount}],
+                      data: [${window.genWrdsHLCount}, ${window.tribWrdsHLCount}, ${window.natWrdsHLCount}, ${window.conWrdsHLCount}],
                   }]
               },
           
