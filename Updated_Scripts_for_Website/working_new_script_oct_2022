@@ -951,10 +951,16 @@ jQuery(document).ready(function ($) {
     return element.trim().split(/\s+/).length;
   }
 
+  function noPunct(word) {
+    return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  }
+
   function makeVoiceObj(element, verbList) {
     let voiceObj = {};
     let totNumQuotes;
     let matches = element.match(/(“|").+(”|")/gi);
+    // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
+    // console.log(sentenceMatches);
     let arrayInputWrds = element.trim().split(/\s+/);
     // let sentences = element.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|"); // array of sentences in article
     if (matches) {
@@ -964,29 +970,51 @@ jQuery(document).ready(function ($) {
       for (let quoteMatch of matches) {
         // rule out matches that have <= 3 words
         let numWrds = getTotWordCount(quoteMatch);
-        if (numWrds <= 3) continue;
+        if (numWrds < 3) continue;
+        let quoteLength = getTotWordCount(quoteMatch);
         // find speaker name
         let quoteStartIndex = arrayInputWrds.findIndex(
           (el) => el.substring(0, 5) === quoteMatch.substring(0, 5)
-        ); // find index of first 5 chars of quote
-        console.log(quoteStartIndex);
-        let prev20Wrds = arrayInputWrds.slice(
-          quoteStartIndex - 20,
-          quoteStartIndex + 1
-        );
-        console.log(prev20Wrds);
-        let speakerName = prev20Wrds.find((wrd) => wrd.toUpperCase() === wrd); // find first capitalized word
-        if (speakerName === undefined) speakerName = "unable to find";
-        // find verb used to introduce them
-        let introVerb = prev20Wrds.find((wrd) => verbList.includes(wrd)); // find first capitalized word
+        ); // find index of first word of quote (by ensuring its 1st 5 letters match those of the matching word in arrayInputWrds)
+        // console.log(quoteStartIndex);
+        let thirtyWrds;
+        if (quoteMatch[quoteMatch.length - 2] == ",") {
+          // if the 2nd to last char is a comma, check for subsequent 20 wrds, else check prev 20 wrds
+          thirtyWrds = arrayInputWrds.slice(
+            // get subsequent wrds
+            quoteStartIndex + quoteLength,
+            quoteStartIndex + quoteLength + 30
+          );
+          console.log("subsequent");
+        } else {
+          thirtyWrds = arrayInputWrds.slice(
+            // get previous wrds
+            quoteStartIndex - 30,
+            quoteStartIndex
+          );
+          console.log("prev");
+        }
+        console.log(thirtyWrds);
 
-        if (!Object.keys(voiceObj).includes(speakerName))
-          voiceObj[speakerName] = {};
-        let index = Object.keys(voiceObj[speakerName]).length; // 0-indexed
-        voiceObj[speakerName][index] = {
+        let introVerb = thirtyWrds.find((wrd) =>
+          verbList.includes(noPunct(wrd))
+        ); // find verb used to introduce them
+        // let thirtyWrdsCopy = thirtyWrds; // to avoid changing original array
+
+        let speakerNameOptions = thirtyWrds.filter(
+          (wrd) => wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd
+        ); // find first capitalized word
+
+        if (speakerNameOptions === undefined) speakerNameOptions = "-";
+        if (introVerb === undefined) introVerb = "-";
+
+        if (!Object.keys(voiceObj).includes(speakerNameOptions))
+          voiceObj[speakerNameOptions] = {};
+        let index = Object.keys(voiceObj[speakerNameOptions]).length; // 0-indexed
+        voiceObj[speakerNameOptions][index] = {
           quote: quoteMatch, // add quote to speaker prop
-          verb: introVerb, // add intro verb to speaker prop
-          wrdCount: getTotWordCount(quoteMatch),
+          verb: noPunct(introVerb), // add intro verb to speaker prop
+          wrdCount: quoteLength,
         };
       }
     }
@@ -1028,19 +1056,16 @@ jQuery(document).ready(function ($) {
     let rowNum = -1;
     let rowsHTML = "";
     for (let name of Object.keys(voiceObj)) {
-      console.log(voiceObj[name]);
-      console.log(name);
+      // console.log(voiceObj[name]);
       rowNum += 1;
-      // console.log(parseInt(Object.keys(name)[-1]) + 1);
-      console.log(Object.keys(voiceObj[name]));
+      // console.log(Object.keys(voiceObj[name]));
       rowsHTML += `<tr id=row${rowNum}><td rowspan=${
         Object.keys(voiceObj[name]).length
-      }>${name}</td><td></td><td>${voiceObj[name][0]["quote"]}</td><td>${
-        voiceObj[name][0]["wrdCount"]
-      }</td></tr>`;
+      }>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${
+        voiceObj[name][0]["quote"]
+      }</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
       // $(`#row${rowNum + 1}`).after(speakerNameAndQuote1);
       for (let i = 1; i < Object.keys(name).length; i++) {
-        console.log(voiceObj[name][i]);
         if (!voiceObj[name][i]) continue;
         let quote = voiceObj[name][i]["quote"];
         let wrdCount = voiceObj[name][i]["wrdCount"];
@@ -1052,7 +1077,7 @@ jQuery(document).ready(function ($) {
       }
     }
     $("#thead").after('<tbody id="tbody"></tbody>');
-    console.log(rowsHTML);
+    // console.log(rowsHTML);
     document.querySelector("#tbody").innerHTML = rowsHTML;
   }
 
