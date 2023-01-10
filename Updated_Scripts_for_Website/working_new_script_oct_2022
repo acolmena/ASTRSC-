@@ -1026,22 +1026,34 @@ jQuery(document).ready(function ($) {
 
   function enterQuotes(voiceObj) {
     let rowNum = -1;
+    let rowsHTML = "";
     for (let name of Object.keys(voiceObj)) {
       console.log(voiceObj[name]);
-      let speakerNameAndQuote1 = `<tr id=row${rowNum + 2}><td rowspan=${
-        Object.keys(name).length
-      }>${name}</td><td></td><td></td><td>${
-        voiceObj[name][0]["quote"]
+      console.log(name);
+      rowNum += 1;
+      // console.log(parseInt(Object.keys(name)[-1]) + 1);
+      console.log(Object.keys(voiceObj[name]));
+      rowsHTML += `<tr id=row${rowNum}><td rowspan=${
+        Object.keys(voiceObj[name]).length
+      }>${name}</td><td></td><td>${voiceObj[name][0]["quote"]}</td><td>${
+        voiceObj[name][0]["wrdCount"]
       }</td></tr>`;
-      $(`#row${rowNum + 1}`).after(speakerNameAndQuote1);
-      for (let i = 1; i < Object.keys(name).length - 1; i++) {
+      // $(`#row${rowNum + 1}`).after(speakerNameAndQuote1);
+      for (let i = 1; i < Object.keys(name).length; i++) {
         console.log(voiceObj[name][i]);
+        if (!voiceObj[name][i]) continue;
         let quote = voiceObj[name][i]["quote"];
-        $(`#row${rowNum + 1}`).after(
-          `<tr id=row${rowNum + 2}><td></td><td></td><td>${quote}</td></tr>`
-        );
+        let wrdCount = voiceObj[name][i]["wrdCount"];
+        rowNum += 1;
+        rowsHTML += `<tr id=row${rowNum}><td></td><td>${quote}</td><td>${wrdCount}</td></tr>`;
+        // $(`#row${rowNum + 1}`).after(
+        //   `<tr id=row${rowNum + 2}><td></td><td></td><td>${quote}</td></tr>`
+        // );
       }
     }
+    $("#thead").after('<tbody id="tbody"></tbody>');
+    console.log(rowsHTML);
+    document.querySelector("#tbody").innerHTML = rowsHTML;
   }
 
   function hasTrope(trope) {
@@ -1054,7 +1066,7 @@ jQuery(document).ready(function ($) {
   $("#resultSummary").hide();
   $("#outputText").hide();
   $("#tropeMessage").hide();
-  $("#voicesTable").hide();
+  $("#voicesFig").hide();
   $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
@@ -1343,14 +1355,15 @@ jQuery(document).ready(function ($) {
       $("#tropeBreakdownMessage").after(tropeBreakdownNote);
 
     let h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
-    let voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes.</p>`;
+    let voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes. See our breakdown of these quotes in the table below.</p>`;
     // To avoid reproducing header and message, check if they already exist
     if (!document.querySelector("#voicesHeader")) {
-      $("#voicesTable").before(h2VoicesTag);
+      $("#voicesFig").before(h2VoicesTag);
       $("#voicesHeader").after(voicesMessage);
     }
+    if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
     if (totNumQuotes) enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
-    $("#voicesTable").show();
+    $("#voicesFig").show();
     // account for updating values
 
     $("#outputText").show();
