@@ -958,7 +958,7 @@ jQuery(document).ready(function ($) {
   function makeVoiceObj(element, verbList) {
     let voiceObj = {};
     let totNumQuotes;
-    let matches = element.match(/(“|").+(”|")/gi);
+    let matches = element.match(/(“|")([^("|”)]*)(”|")/gi);
     // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
     // console.log(sentenceMatches);
     let arrayInputWrds = element.trim().split(/\s+/);
@@ -973,8 +973,12 @@ jQuery(document).ready(function ($) {
         if (numWrds < 3) continue;
         let quoteLength = getTotWordCount(quoteMatch);
         // find speaker name
+        let stopIndex = quoteMatch.indexOf(" "); // make index be the index where the space is
+        console.log(stopIndex);
+        // let stopIndex = ;
         let quoteStartIndex = arrayInputWrds.findIndex(
-          (el) => el.substring(0, 5) === quoteMatch.substring(0, 5)
+          (el) =>
+            el.substring(0, stopIndex) === quoteMatch.substring(0, stopIndex)
         ); // find index of first word of quote (by ensuring its 1st 5 letters match those of the matching word in arrayInputWrds)
         // console.log(quoteStartIndex);
         let thirtyWrds;
@@ -994,7 +998,7 @@ jQuery(document).ready(function ($) {
           );
           console.log("prev");
         }
-        console.log(thirtyWrds);
+        console.log(quoteStartIndex, quoteMatch, thirtyWrds);
 
         let introVerb = thirtyWrds.find((wrd) =>
           verbList.includes(noPunct(wrd))
@@ -1005,15 +1009,12 @@ jQuery(document).ready(function ($) {
           (wrd) => wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd
         ); // find first capitalized word
 
-        if (speakerNameOptions === undefined) speakerNameOptions = "-";
-        if (introVerb === undefined) introVerb = "-";
-
         if (!Object.keys(voiceObj).includes(speakerNameOptions))
           voiceObj[speakerNameOptions] = {};
         let index = Object.keys(voiceObj[speakerNameOptions]).length; // 0-indexed
         voiceObj[speakerNameOptions][index] = {
-          quote: quoteMatch, // add quote to speaker prop
-          verb: noPunct(introVerb), // add intro verb to speaker prop
+          quote: speakerNameOptions !== undefined ? quoteMatch : "━", // add quote to speaker prop
+          verb: introVerb !== undefined ? noPunct(introVerb) : "━", // add intro verb to speaker prop
           wrdCount: quoteLength,
         };
       }
@@ -1385,15 +1386,28 @@ jQuery(document).ready(function ($) {
       $("#tropeBreakdownMessage").after(tropeBreakdownNote);
 
     let h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
-    let voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes. See our breakdown of these quotes in the table below.</p>`;
     // To avoid reproducing header and message, check if they already exist
     if (!document.querySelector("#voicesHeader")) {
       $("#voicesFig").before(h2VoicesTag);
-      $("#voicesHeader").after(voicesMessage);
     }
+    let voicesMessage = `<p id="voicesMessage">We found <b>${
+      totNumQuotes === undefined ? 0 : totNumQuotes
+    }</b> quotes. ${
+      totNumQuotes === undefined
+        ? ""
+        : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
+    }</p>`;
+    document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
+    $("#voicesHeader").after(voicesMessage);
+
     if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
-    if (totNumQuotes) enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
-    $("#voicesFig").show();
+    if (totNumQuotes) {
+      enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
+      $("#voicesFig").show();
+    } else {
+      $("#voicesFig").hide();
+    }
+
     // account for updating values
 
     $("#outputText").show();
