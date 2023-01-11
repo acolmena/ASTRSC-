@@ -1361,7 +1361,12 @@ jQuery(document).ready(function ($) {
     });
     </script>`;
     // remove previous graph
-    document.querySelector("#chartScript") && $("#chartScript").remove();
+    // document.querySelector("#chartScript") && $
+    if (document.querySelector("#chartScript")) {
+      $("#chartScript").remove();
+      $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+      $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
+    }
     $("#chartCDNScript").after(pieChartHtml);
 
     let h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of tropes found</h2>`;
@@ -1525,7 +1530,10 @@ jQuery(document).ready(function ($) {
             options: {}
         });
         </script>`;
+      // $("#chartScript").remove();
       $("#chartScript").remove();
+      $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+      $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartColorBlindFriendly);
       // .replace(
       //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']",
@@ -1584,7 +1592,10 @@ jQuery(document).ready(function ($) {
               options: {}
           });
           </script>`;
+      // $("#chartScript").remove();
       $("#chartScript").remove();
+      $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+      $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartOg);
       // (
       //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']",
