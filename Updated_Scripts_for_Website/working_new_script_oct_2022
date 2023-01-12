@@ -1056,30 +1056,96 @@ jQuery(document).ready(function ($) {
   function enterQuotes(voiceObj) {
     let rowNum = -1;
     let rowsHTML = "";
-    for (let name of Object.keys(voiceObj)) {
+    let speakerTotWrdNums = [];
+    let speakerTotQuoteNums = [];
+    let allSpeakers = Object.keys(voiceObj);
+    for (let name of allSpeakers) {
+      // loop over speakers
       // console.log(voiceObj[name]);
       rowNum += 1;
+      let numQuotesPerSpeaker = Object.keys(voiceObj[name]).length;
+      speakerTotQuoteNums.push(numQuotesPerSpeaker); // add num of quotes to array
       // console.log(Object.keys(voiceObj[name]));
-      rowsHTML += `<tr id=row${rowNum}><td rowspan=${
-        Object.keys(voiceObj[name]).length
-      }>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${
-        voiceObj[name][0]["quote"]
-      }</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
-      // $(`#row${rowNum + 1}`).after(speakerNameAndQuote1);
+      rowsHTML += `<tr id=row${rowNum}><td rowspan=${numQuotesPerSpeaker}>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${voiceObj[name][0]["quote"]}</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
+      let totWrdCount = voiceObj[name][0]["wrdCount"];
       for (let i = 1; i < Object.keys(name).length; i++) {
+        // loop over quotes of each speaker
         if (!voiceObj[name][i]) continue;
         let quote = voiceObj[name][i]["quote"];
         let wrdCount = voiceObj[name][i]["wrdCount"];
         rowNum += 1;
         rowsHTML += `<tr id=row${rowNum}><td></td><td>${quote}</td><td>${wrdCount}</td></tr>`;
-        // $(`#row${rowNum + 1}`).after(
-        //   `<tr id=row${rowNum + 2}><td></td><td></td><td>${quote}</td></tr>`
-        // );
+        totWrdCount += wrdCount; // add new quote lengths to total word count
       }
+      speakerTotWrdNums.push(totWrdCount); // add total num of words to array
     }
     $("#thead").after('<tbody id="tbody"></tbody>');
     // console.log(rowsHTML);
     document.querySelector("#tbody").innerHTML = rowsHTML;
+    console.log(
+      `quote: ${speakerTotQuoteNums}`,
+      `wrdNums: ${speakerTotWrdNums}`
+    );
+    // add charts and their headings
+    speakerPieChartWrdNumHtml = `<script id="wrdNumChartScript">
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: 'doughnut',
+      
+          // The data for our dataset
+          data: {
+              labels: ${allSpeakers},  // speaker name
+              datasets: [{
+                  label: ' Total # Words Per Speaker',
+                  borderColor: '#ffffff',
+                  borderWidth: '6',
+                  data: ${speakerTotWrdNums},  // sum of all words spoken by speaker 
+              }]
+          },
+      
+          // Configuration options go here
+          options: {}
+      });
+      </script>`;
+    speakerPieChartQuoteNumHtml = `<script id="quotesChartScript">
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: 'doughnut',
+      
+          // The data for our dataset
+          data: {
+              labels: ${allSpeakers},  // speaker name
+              datasets: [{
+                  label: ' Total # Quotes Per Speaker',
+                  borderColor: '#ffffff',
+                  borderWidth: '6',
+                  data: ${speakerTotQuoteNums},  // sum quotes by each speaker
+              }]
+          },
+      
+          // Configuration options go here
+          options: {}
+      });
+      </script>`;
+    let h3tags = [
+      "<h3><b>Breakdown of Speakers' Total Number of Word</b></h3>",
+      "<h3><b>Breakdown of Speaker's Total Number of Quotes</b></h3>",
+    ];
+    if (!document.querySelector("h3")) {
+      // insert headings if not already there
+      $("#wordNumChart").before(h3tags[0]);
+      $("#quoteNumChart").before(h3tags[1]);
+      $("#wrdNumChartScript").remove(); // remove previous plotting script
+      $("#quoteChartScript").remove(); // remove previous plotting script
+    }
+    $("#wordNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+    $("#quoteNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+    $("#chart2CDNScript").before('<canvas id="wordNumChart"></canvas>');
+    $("#chart3CDNScript").before('<canvas id="quoteNumChart"></canvas>');
+    $("#chart2CDNScript").after(speakerPieChartWrdNumHtml);
+    $("#chart3CDNScript").after(speakerPieChartQuoteNumHtml);
   }
 
   function hasTrope(trope) {
