@@ -956,6 +956,8 @@ jQuery(document).ready(function ($) {
   }
 
   function makeVoiceObj(element, verbList) {
+    // document.querySelector("script[type='// add library to script tag
+    console.log();
     let voiceObj = {};
     let totNumQuotes;
     let matches = element.match(/(“|")([^("|”)]*)(”|")/gi);
@@ -1006,7 +1008,9 @@ jQuery(document).ready(function ($) {
         // let thirtyWrdsCopy = thirtyWrds; // to avoid changing original array
 
         let speakerNameOptions = thirtyWrds.filter(
-          (wrd) => wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd
+          (wrd) =>
+            wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
+            wrd.search(/\d/)
         ); // find first capitalized word
 
         if (!Object.keys(voiceObj).includes(speakerNameOptions))
@@ -1053,15 +1057,35 @@ jQuery(document).ready(function ($) {
     return obj;
   }
 
+  // helper function that generates 3 random numbers
+  function randomColorGenerator(min, max) {
+    return [
+      Math.floor(Math.random() * (max - min)) + min,
+      Math.floor(Math.random() * (max - min)) + min,
+      Math.floor(Math.random() * (max - min)) + min,
+    ];
+  }
+
+  // helper function for enterQuotes()
+  function randomColorPaletteGenerator(numOfColors) {
+    let backgroundColors = [];
+    for (let i = 0; i < numOfColors; i++) {
+      backgroundColors.push(`'rgb(${randomColorGenerator(0, 255)})'`);
+    }
+    return backgroundColors;
+  }
+
   function enterQuotes(voiceObj) {
     let rowNum = -1;
     let rowsHTML = "";
     let speakerTotWrdNums = [];
     let speakerTotQuoteNums = [];
     let allSpeakers = Object.keys(voiceObj);
+    let allSpeakersGraphFormat = [];
     for (let name of allSpeakers) {
       // loop over speakers
       // console.log(voiceObj[name]);
+      allSpeakersGraphFormat.push(`'${name}'`);
       rowNum += 1;
       let numQuotesPerSpeaker = Object.keys(voiceObj[name]).length;
       speakerTotQuoteNums.push(numQuotesPerSpeaker); // add num of quotes to array
@@ -1088,19 +1112,22 @@ jQuery(document).ready(function ($) {
     );
     // add charts and their headings
     speakerPieChartWrdNumHtml = `<script id="wrdNumChartScript">
-      var ctx = document.getElementById('myChart').getContext('2d');
+      var ctx = document.getElementById('wordNumChart').getContext('2d');
       var chart = new Chart(ctx, {
           // The type of chart we want to create
           type: 'doughnut',
       
           // The data for our dataset
           data: {
-              labels: ${allSpeakers},  // speaker name
+              labels: [${allSpeakersGraphFormat}],  // speaker name
               datasets: [{
                   label: ' Total # Words Per Speaker',
                   borderColor: '#ffffff',
                   borderWidth: '6',
-                  data: ${speakerTotWrdNums},  // sum of all words spoken by speaker 
+                  backgroundColor: [${randomColorPaletteGenerator(
+                    allSpeakersGraphFormat.length
+                  )}],
+                  data: [${speakerTotWrdNums}],  // sum of all words spoken by speaker 
               }]
           },
       
@@ -1109,19 +1136,22 @@ jQuery(document).ready(function ($) {
       });
       </script>`;
     speakerPieChartQuoteNumHtml = `<script id="quotesChartScript">
-      var ctx = document.getElementById('myChart').getContext('2d');
+      var ctx = document.getElementById('quoteNumChart').getContext('2d');
       var chart = new Chart(ctx, {
           // The type of chart we want to create
           type: 'doughnut',
       
           // The data for our dataset
           data: {
-              labels: ${allSpeakers},  // speaker name
+              labels: [${allSpeakersGraphFormat}],  // speaker name
               datasets: [{
                   label: ' Total # Quotes Per Speaker',
                   borderColor: '#ffffff',
                   borderWidth: '6',
-                  data: ${speakerTotQuoteNums},  // sum quotes by each speaker
+                  backgroundColor: [${randomColorPaletteGenerator(
+                    allSpeakersGraphFormat.length
+                  )}],
+                  data: [${speakerTotQuoteNums}],  // sum quotes by each speaker
               }]
           },
       
@@ -1130,13 +1160,10 @@ jQuery(document).ready(function ($) {
       });
       </script>`;
     let h3tags = [
-      "<h3><b>Breakdown of Speakers' Total Number of Word</b></h3>",
+      "<h3><b>Breakdown of Speakers' Total Number of Words</b></h3>",
       "<h3><b>Breakdown of Speaker's Total Number of Quotes</b></h3>",
     ];
-    if (!document.querySelector("h3")) {
-      // insert headings if not already there
-      $("#wordNumChart").before(h3tags[0]);
-      $("#quoteNumChart").before(h3tags[1]);
+    if (document.querySelector("#wrdNumChartScript")) {
       $("#wrdNumChartScript").remove(); // remove previous plotting script
       $("#quoteChartScript").remove(); // remove previous plotting script
     }
@@ -1144,6 +1171,11 @@ jQuery(document).ready(function ($) {
     $("#quoteNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
     $("#chart2CDNScript").before('<canvas id="wordNumChart"></canvas>');
     $("#chart3CDNScript").before('<canvas id="quoteNumChart"></canvas>');
+    if (!document.querySelector("h3")) {
+      // insert headings if not already there
+      $("#wordNumChart").before(h3tags[0]);
+      $("#quoteNumChart").before(h3tags[1]);
+    }
     $("#chart2CDNScript").after(speakerPieChartWrdNumHtml);
     $("#chart3CDNScript").after(speakerPieChartQuoteNumHtml);
   }
@@ -1615,10 +1647,6 @@ jQuery(document).ready(function ($) {
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartColorBlindFriendly);
-      // .replace(
-      //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']",
-      //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']"
-      // );
     } else {
       // Change hover to original colors
       $(".gen").hover(function () {
@@ -1677,10 +1705,6 @@ jQuery(document).ready(function ($) {
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartOg);
-      // (
-      //   "backgroundColor: ['#bbbbbb', '#66ccee', '#ccbb44', '#ee6677']",
-      //   "backgroundColor: ['#ff9980', 'rgb(168, 237, 234)', 'rgb(167, 255, 163)', 'rgb(234, 168, 210)']"
-      // );
     }
   });
 
