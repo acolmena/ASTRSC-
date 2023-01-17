@@ -931,7 +931,64 @@ jQuery(document).ready(function ($) {
     "armstrong",
   ];
 
-  // this is for the dict words that have too many irrelevant words that start with it
+  const pronouns = ["she", "they", "he"];
+
+  const africanCountries = [
+    "Algeria",
+    "Angola",
+    "Benin",
+    "Botswana",
+    "Burkina Faso",
+    "Burundi",
+    "Cabo Verde",
+    "Cameroon",
+    "Central African Republic",
+    "Chad",
+    "Comoros",
+    "Democratic Republic of the Congo",
+    "Republic of the Congo",
+    "Cote d'Ivoire",
+    "Djibouti",
+    "Egypt",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Eswatini",
+    "Ethiopia",
+    "Gabon",
+    "Gambia",
+    "Ghana",
+    "Guinea",
+    "Guinea-Bissau",
+    "Kenya",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Madagascar",
+    "Malawi",
+    "Mali",
+    "Mauritania",
+    "Mauritius",
+    "Morocco",
+    "Mozambique",
+    "Namibia",
+    "Niger",
+    "Nigeria",
+    "Rwanda",
+    "Sao Tome and Principe",
+    "Senegal",
+    "Seychelles",
+    "Sierra Leone",
+    "Somalia",
+    "South Africa",
+    "South Sudan",
+    "Sudan",
+    "Tanzania",
+    "Togo",
+    "Tunisia",
+    "Uganda",
+    "Zambia",
+    "Zimbabwe",
+  ];
 
   // const ambiguousWords = ["arm", "arms", "conflicts"];
 
@@ -951,7 +1008,13 @@ jQuery(document).ready(function ($) {
   }
 
   function noPunct(word) {
-    return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+    return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()“”"]/g, "");
+  }
+
+  function cleanSpeakerArray(arr) {
+    let newArr = [];
+    arr.forEach((el) => newArr.push(noPunct(el)));
+    return newArr;
   }
 
   function makeVoiceObj(element, verbList) {
@@ -968,6 +1031,8 @@ jQuery(document).ready(function ($) {
       // console.log(sentences);
       console.log(matches);
       totNumQuotes = matches.length;
+      let index;
+      let endPunct = [".", "!", "?"];
       for (let quoteMatch of matches) {
         // rule out matches that have <= 3 words
         let numWrds = getTotWordCount(quoteMatch);
@@ -976,15 +1041,12 @@ jQuery(document).ready(function ($) {
         // find speaker name
         let stopIndex = quoteMatch.indexOf(" "); // make index be the index where the space is
         console.log(stopIndex);
-        // let stopIndex = ;
         let quoteStartIndex = arrayInputWrds.findIndex(
-          (el) =>
-            el.substring(0, stopIndex) === quoteMatch.substring(0, stopIndex)
+          (el) => el === quoteMatch.substring(0, stopIndex)
         ); // find index of first word of quote (by ensuring its 1st 5 letters match those of the matching word in arrayInputWrds)
-        // console.log(quoteStartIndex);
         let thirtyWrds;
-        if (quoteMatch[quoteMatch.length - 2] == ",") {
-          // if the 2nd to last char is a comma, check for subsequent 20 wrds, else check prev 20 wrds
+        if (!endPunct.includes(quoteMatch[quoteMatch.length - 2])) {
+          // if the 2nd to last char is not a period, exclamation mark, or question mark, check for subsequent 20 wrds, else check prev 20 wrds
           thirtyWrds = arrayInputWrds.slice(
             // get subsequent wrds
             quoteStartIndex + quoteLength,
@@ -1004,19 +1066,25 @@ jQuery(document).ready(function ($) {
         let introVerb = thirtyWrds.find((wrd) =>
           verbList.includes(noPunct(wrd))
         ); // find verb used to introduce them
-        // let thirtyWrdsCopy = thirtyWrds; // to avoid changing original array
 
         let speakerNameOptions = thirtyWrds.filter(
           (wrd) =>
-            wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
-            wrd.search(/\d/)
+            (wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
+              wrd.search(/\d/) &&
+              wrd.length > 2 &&
+              !africanCountries.includes(noPunct(wrd))) ||
+            pronouns.includes(wrd)
         ); // find first capitalized word
+        let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
 
-        if (!Object.keys(voiceObj).includes(speakerNameOptions))
-          voiceObj[speakerNameOptions] = {};
-        let index = Object.keys(voiceObj[speakerNameOptions]).length; // 0-indexed
-        voiceObj[speakerNameOptions][index] = {
-          quote: speakerNameOptions !== undefined ? quoteMatch : "━", // add quote to speaker prop
+        if (speakerNameOptionsNoPunct.length === 1) {
+          speakerNameOptionsNoPunct = speakerNameOptionsNoPunct[0]; // take name out of array if there is just one name
+        }
+        if (!Object.keys(voiceObj).includes(speakerNameOptionsNoPunct))
+          voiceObj[speakerNameOptionsNoPunct] = {};
+        index = Object.keys(voiceObj[speakerNameOptionsNoPunct]).length; // 0-indexed
+        voiceObj[speakerNameOptionsNoPunct][index] = {
+          quote: speakerNameOptionsNoPunct !== undefined ? quoteMatch : "━", // add quote to speaker prop
           verb: introVerb !== undefined ? noPunct(introVerb) : "━", // add intro verb to speaker prop
           wrdCount: quoteLength,
         };
@@ -1094,10 +1162,11 @@ jQuery(document).ready(function ($) {
       for (let i = 1; i < Object.keys(name).length; i++) {
         // loop over quotes of each speaker
         if (!voiceObj[name][i]) continue;
+        let verb = voiceObj[name][i]["verb"];
         let quote = voiceObj[name][i]["quote"];
         let wrdCount = voiceObj[name][i]["wrdCount"];
         rowNum += 1;
-        rowsHTML += `<tr id=row${rowNum}><td></td><td>${quote}</td><td>${wrdCount}</td></tr>`;
+        rowsHTML += `<tr id=row${rowNum}><td>${verb}</td><td>${quote}</td><td>${wrdCount}</td></tr>`;
         totWrdCount += wrdCount; // add new quote lengths to total word count
       }
       speakerTotWrdNums.push(totWrdCount); // add total num of words to array
@@ -1312,6 +1381,7 @@ jQuery(document).ready(function ($) {
 
     // initialize graph object (graphObj)
     let graphObj = { wl: 0, gen: 0, con: 0, trib: 0, nat: 0 };
+    // this is for the dict words that have too many irrelevant words that start with it
     let probWords = [
       "ban",
       "bans",
