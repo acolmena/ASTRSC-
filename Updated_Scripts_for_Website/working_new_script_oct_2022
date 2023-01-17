@@ -61,6 +61,7 @@ jQuery(document).ready(function ($) {
     "wartime",
     "warzone",
     "warzones",
+    "civil war",
     "atroc",
     "crime",
     "violent",
@@ -166,6 +167,8 @@ jQuery(document).ready(function ($) {
     "shoot",
     "slaughter",
     "smuggl",
+    "smuggled weapons",
+    "child soldier",
     "soldier",
     "suffer",
     "terrorist",
@@ -199,13 +202,9 @@ jQuery(document).ready(function ($) {
     "harm",
     "artillery",
     "coup d'etat",
-    "child soldier",
-    "execut",
     "mass execut",
+    "execut",
     "guerilla",
-    "smuggled weapons",
-    "smugglers",
-    "civil war",
     "detention camp",
   ];
 
@@ -218,6 +217,7 @@ jQuery(document).ready(function ($) {
     "conservatio",
     "animal",
     "livestock",
+    "safari park",
     "park",
     "parks",
     "biota",
@@ -255,16 +255,15 @@ jQuery(document).ready(function ($) {
     "amphibian",
     "wolves",
     "stone curlew",
-    "sacred ibi",
     "african sacred ibi",
-    "monarch butterfl",
+    "sacred ibi",
     "african monarch butterfl",
+    "monarch butterfl",
     "plain tig",
     "african monarch",
-    "goshawk",
     "african goshawk",
+    "goshawk",
     "cirl bunt",
-    "safari park",
     "seafowl",
     "bird of passag",
     "shore bird",
@@ -815,8 +814,8 @@ jQuery(document).ready(function ($) {
     "bird",
     "turtl",
     "tortois",
-    "forest",
     "rain forest",
+    "forest",
     "leopard",
     "panther",
     "marin",
@@ -835,6 +834,7 @@ jQuery(document).ready(function ($) {
     "tree",
     "horse",
     "beetl",
+    "leaf-tailed gecko",
     "gecko",
     "hunt",
     "bee",
@@ -900,7 +900,6 @@ jQuery(document).ready(function ($) {
     "antelop",
     "tiger",
     "catfish",
-    "leaf-tailed gecko",
     "warthog",
     "whale",
     "cricket",
@@ -1402,6 +1401,7 @@ jQuery(document).ready(function ($) {
       );
     }
 
+    // Making the wl words not be highlighted
     let whitelistedWords = document.getElementsByClassName("wl"); // Find the elements
     let rgxpTropeTag = /gen|con|trib|nat/i;
     for (let whitelistWord of whitelistedWords) {
@@ -1468,7 +1468,7 @@ jQuery(document).ready(function ($) {
     }
     $("#chartCDNScript").after(pieChartHtml);
 
-    let h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of tropes found</h2>`;
+    let h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of words found</h2>`;
     // add ternary statement to avoid reproducing h2 tags
     !document.querySelector("#tropeBreakdownHeader") &&
       $("#tropeMessage").after(h2BreakdownTag);
@@ -1483,7 +1483,7 @@ jQuery(document).ready(function ($) {
     !document.querySelector("#tropeBreakdownNote") &&
       $("#tropeBreakdownMessage").after(tropeBreakdownNote);
 
-    let h2VoicesTag = `<h2 id="voicesHeader">Breakdown of voices found</h2>`;
+    let h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
     // To avoid reproducing header and message, check if they already exist
     if (!document.querySelector("#voicesHeader")) {
       $("#voicesFig").before(h2VoicesTag);
