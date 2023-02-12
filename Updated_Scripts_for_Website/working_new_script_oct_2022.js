@@ -1029,9 +1029,16 @@ jQuery(document).ready(function ($) {
   //   }
   // };
 
-  function getPeriodIndex(arrayInputWrds, arrStartIndex) {
+  function prevGetPeriodIndex(arrayInputWrds, arrStartIndex) {
     // start searching at beginning of quote and go backwards through array
-    for (let i = arrStartIndex; i > -1; i--) {
+    for (let i = arrStartIndex; i >= 0; i--) {
+      if (arrayInputWrds[i].includes(".")) return i - 1;
+    }
+  }
+
+  function subGetPeriodIndex(arrayInputWrds, arrStartIndex) {
+    // start searching at beginning of quote and go backwards through array
+    for (let i = arrStartIndex; i < arrayInputWrds.length; i++) {
       if (arrayInputWrds[i].includes(".")) return i;
     }
   }
@@ -1050,34 +1057,27 @@ jQuery(document).ready(function ($) {
       // get subsequent wrds
       console.log("subsequent");
       arrStartIndex = quoteStartIndex + quoteLength; // index at which we will start the slice
-      arrStopIndex = arrayInputWrds.findIndex(
-        (el) => el.includes("."),
-        arrStartIndex
-      );
-      // return arrayInputWrds.slice(
-      //   quoteStartIndex + quoteLength,
-      //   quoteStartIndex + quoteLength + 30
+      arrStopIndex = subGetPeriodIndex(arrayInputWrds, arrStartIndex);
+
+      // arrayInputWrds.findIndex(
+      //   (el, arrStartIndex) => el.includes(".")
+
       // );
+      console.log(arrStartIndex, arrStopIndex);
     } else {
       // get previous wrds
       console.log("prev");
 
-      arrStartIndex = quoteStartIndex - 30;
-      arrStopIndex = quoteStartIndex;
+      // arrStartIndex = quoteStartIndex - 30;
       // arrStopIndex = quoteStartIndex;
-
-      // arrStartIndex = getPeriodIndex(arrayInputWrds, arrStartIndex);
-      // return arrayInputWrds.slice(
-      //   quoteStartIndex - 30,
-      //   quoteStartIndex
-      // );
+      arrStopIndex = quoteStartIndex;
+      arrStartIndex = prevGetPeriodIndex(arrayInputWrds, arrStopIndex);
     }
 
     return arrayInputWrds.slice(arrStartIndex, arrStopIndex + 1);
   }
 
   function makeVoiceObj(element, verbList) {
-    // document.querySelector("script[type='// add library to script tag
     let voiceObj = {};
     let totNumQuotes;
     let matches = element.match(/(“|")([^("|”)]*)(”|")/gi);
@@ -1097,30 +1097,30 @@ jQuery(document).ready(function ($) {
 
       for (let quoteMatch of matches) {
         // rule out matches that have <= 3 words
-        let numWrds = getTotWordCount(quoteMatch);
-        if (numWrds < 3) continue;
-        let quoteLength = getTotWordCount(quoteMatch);
+        const quoteLength = getTotWordCount(quoteMatch);
+        if (quoteLength < 3) continue;
+
         // find speaker name
-        let stopIndex = quoteMatch.indexOf(" "); // make index be the index where the space is
-        console.log(stopIndex);
-        let quoteStartIndex = arrayInputWrds.findIndex(
+        const stopIndex = quoteMatch.indexOf(" "); // make index be the index where the space is
+        console.log(stopIndex, quoteMatch.substring(0, stopIndex));
+        const quoteStartIndex = arrayInputWrds.findIndex(
           (el) => el === quoteMatch.substring(0, stopIndex)
-        ); // find index of first word of quote (by ensuring its 1st 5 letters match those of the matching word in arrayInputWrds)
+        ); // find index of first word of quote (by ensuring its 1st word match those of the matching word in arrayInputWrds)
 
         // find the words of the rest of the sentence containing speaker and intro verb
-        const thirtyWrds = getPrevOrSubWords(
+        const prevOrSubWrds = getPrevOrSubWords(
           quoteMatch,
           quoteStartIndex,
           quoteLength,
           arrayInputWrds
         );
-        console.log(quoteStartIndex, quoteMatch, thirtyWrds);
+        console.log(quoteStartIndex, quoteMatch, prevOrSubWrds);
 
-        let introVerb = thirtyWrds.find((wrd) =>
+        const introVerb = prevOrSubWrds.find((wrd) =>
           verbList.includes(noPunct(wrd))
         ); // find verb used to introduce them
 
-        let speakerNameOptions = thirtyWrds.filter(
+        const speakerNameOptions = prevOrSubWrds.filter(
           (wrd) =>
             (wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
               wrd.search(/\d/) &&
@@ -1130,9 +1130,10 @@ jQuery(document).ready(function ($) {
         ); // find first capitalized word
         let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
 
-        if (speakerNameOptionsNoPunct.length === 1) {
-          speakerNameOptionsNoPunct = speakerNameOptionsNoPunct[0]; // take name out of array if there is just one name
-        }
+        // if (speakerNameOptionsNoPunct.length === 1) {
+        //   speakerNameOptionsNoPunct = speakerNameOptionsNoPunct[0]; // take name out of array if there is just one name
+        // }
+        speakerNameOptionsNoPunct = speakerNameOptionsNoPunct.join(" ");
         if (!Object.keys(voiceObj).includes(speakerNameOptionsNoPunct))
           voiceObj[speakerNameOptionsNoPunct] = {};
         index = Object.keys(voiceObj[speakerNameOptionsNoPunct]).length; // 0-indexed
