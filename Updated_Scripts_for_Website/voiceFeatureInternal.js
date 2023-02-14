@@ -1,3 +1,153 @@
+const introVerbsList = [
+  "acknowledge",
+  "add",
+  "admit",
+  // "advis",
+  "advocate",
+  "agree",
+  "analyze",
+  "argue",
+  "articulate",
+  "assert",
+  "believe",
+  "claim",
+  "comment",
+  "compare",
+  "conclude",
+  "confirm",
+  // "concentrate",
+  "continue",
+  "convey",
+  "criticize",
+  "define",
+  "demonstrate",
+  "deny",
+  "describe",
+  "develop",
+  "disagree",
+  "discuss",
+  "dispute",
+  "distinguish",
+  "emphasize",
+  "endeavour",
+  "examine",
+  // "expand on",
+  "explain",
+  "explore",
+  "express",
+  "feel",
+  "find",
+  // "form",
+  "focus on",
+  "focuses on",
+  "focused on",
+  //   "identifie",
+  "identify",
+  "imply",
+  "include",
+  "incorporate",
+  "indicate",
+  "insist",
+  "interpret",
+  "introduce",
+  "judge",
+  //   "judging",
+  "justify",
+  "link",
+  "list",
+  // "locate",
+  "maintain",
+  "mention",
+  "negate",
+  "note",
+  //   "noting",
+  "object to",
+  "objects to",
+  "objected to",
+  "observ",
+  "offer",
+  "oppose",
+  "outline",
+  "point out",
+  "points out",
+  "pointed out",
+  "provide",
+  "question",
+  "quote",
+  //   "quoting",
+  "refer to",
+  "refers to",
+  "referred to",
+  "refute",
+  "reject",
+  "relate",
+  "remark",
+  "report",
+  // represent
+  "respond",
+  "reveal",
+  // "see",
+  // separate
+  // show
+  // stand for
+  "say",
+  "said",
+  "state",
+  //   "stating",
+  "stress",
+  "suggest",
+  "tell",
+  //   "told",
+  "talk about",
+  "talks about",
+  "talked about",
+  "think",
+  //   "thought",
+  // tend to
+  // "treat",
+  // try to
+  // use
+  "underline",
+  "underscore",
+  // "view",
+  "write",
+  //   "wrote",
+  "goes on to say that",
+  "go on to say that",
+  "went on to say that",
+  "recognize",
+  "clarify",
+  "concede",
+  "accept",
+  "uncover",
+  "highlight",
+  "illuminate",
+  "support",
+  "elucidate",
+  "verify",
+  "reason", // questionable
+  "contend",
+  "hypothesize",
+  "propose",
+  "theorize",
+  "consider",
+  "opine",
+  "posit",
+  "show",
+  "illustrate",
+  "prove",
+  // "evidence",
+  "attest",
+  "assume",
+  "allege",
+  "speculate",
+  "surmise",
+  "challenge",
+  "critique",
+  "declare",
+  "uphold",
+];
+
 // This function will return the total number of words in the inputted text
 function getTotWordCount(element) {
   return element.trim().split(/\s+/).length;
@@ -24,6 +174,13 @@ function subGetPeriodIndex(arrayInputWrds, arrStartIndex) {
   // start searching at beginning of quote and go backwards through array
   for (let i = arrStartIndex; i < arrayInputWrds.length; i++) {
     if (arrayInputWrds[i].includes(".")) return i;
+  }
+}
+
+function getIntroVerb(prevOrSubWrds) {
+  for (let listVerb of introVerbsList) {
+    rgxpPlural = new RegExp(`\\b${listVerb}[a-z]*\\b`, "gi");
+    let verbMatch = prevOrSubWrds.match(rgxpPlural);
   }
 }
 
@@ -59,6 +216,23 @@ function getPrevOrSubWords(
   }
 
   return arrayInputWrds.slice(arrStartIndex, arrStopIndex + 1);
+}
+
+function getSpeakerOptions(docWrds) {
+  let possibleSpeakers = [];
+  for (let i = 0; i < doc.document[0].length; i++) {
+    let wrdDoc = doc.document[0][i]["tags"];
+    if (
+      (wrdDoc.has("ProperNoun") &&
+        !wrdDoc.has("Place") &&
+        !wrdDoc.has("Date") &&
+        !wrdDoc.has("Demonym")) ||
+      wrdDoc.has("Pronoun")
+    ) {
+      possibleSpeakers.push(wrdDoc);
+    }
+  }
+  return possibleSpeakers;
 }
 
 function makeVoiceObj(element, verbList) {
@@ -99,19 +273,25 @@ function makeVoiceObj(element, verbList) {
       );
       console.log(quoteStartIndex, quoteMatch, prevOrSubWrds);
 
-      const introVerb = prevOrSubWrds.find((wrd) =>
-        verbList.includes(noPunct(wrd))
-      ); // find verb used to introduce them
+      // find verb used to introduce them
+      const doc = nlp(prevOrSubWrds);
+      //   const allVerbs = doc.verbs().toInfinitive().match('#Verb').out('array')  // get all verbs in prev or sub words in sentence of quote
+      const introVerb = getIntroVerb(prevOrSubWrds);
+      //   if (allVerbs.length > 1) {
+      //   getIntroVerbs(allVerbs);
+      // this method of finding a speaker will help catch speakers when they are not people and/or do not have capitalized names
+      // try to find speaker within 6 words before the intro verb
 
       // find speaker name
-      const speakerNameOptions = prevOrSubWrds.filter(
-        (wrd) =>
-          (wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
-            wrd.search(/\d/) &&
-            wrd.length > 2 &&
-            !africanCountries.includes(noPunct(wrd))) ||
-          pronouns.includes(wrd)
-      ); // find first capitalized word
+      //   const speakerNameOptions = prevOrSubWrds.filter(
+      //     (wrd) =>
+      //       (wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
+      //         wrd.search(/\d/) &&
+      //         wrd.length > 2 &&
+      //         !africanCountries.includes(noPunct(wrd))) ||
+      //       pronouns.includes(wrd)
+      //   ); // find first capitalized word
+      let speakerNameOptions = getSpeakerOptions(doc); // get all capitalized words
       let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
 
       // if (speakerNameOptionsNoPunct.length === 1) {
