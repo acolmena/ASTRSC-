@@ -1428,8 +1428,8 @@ jQuery(document).ready(function ($) {
     //   "write",
     //   "wrote",
     // ];
-    let [voiceObj, totNumQuotes] = makeVoiceObj(rawInput, introVerbsList);
-    console.log(voiceObj, totNumQuotes);
+    // let [voiceObj, totNumQuotes] = makeVoiceObj(rawInput, introVerbsList);
+    // console.log(voiceObj, totNumQuotes);
     rawInput = rawInput.replace(/\n\r?/g, "<br>");
     $("#outputText").html(rawInput);
 
@@ -1607,28 +1607,29 @@ jQuery(document).ready(function ($) {
     !document.querySelector("#tropeBreakdownNote") &&
       $("#tropeBreakdownMessage").after(tropeBreakdownNote);
 
-    let h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
-    // To avoid reproducing header and message, check if they already exist
-    if (!document.querySelector("#voicesHeader")) {
-      $("#voicesFig").before(h2VoicesTag);
-    }
-    let voicesMessage = `<p id="voicesMessage">We found <b>${
-      totNumQuotes === undefined ? 0 : totNumQuotes
-    }</b> quotes. ${
-      totNumQuotes === undefined
-        ? ""
-        : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
-    }</p>`;
-    document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
-    $("#voicesHeader").after(voicesMessage);
+    // Adding HTML for voices feature
+    // let h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
+    // // To avoid reproducing header and message, check if they already exist
+    // if (!document.querySelector("#voicesHeader")) {
+    //   $("#voicesFig").before(h2VoicesTag);
+    // }
+    // let voicesMessage = `<p id="voicesMessage">We found <b>${
+    //   totNumQuotes === undefined ? 0 : totNumQuotes
+    // }</b> quotes. ${
+    //   totNumQuotes === undefined
+    //     ? ""
+    //     : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
+    // }</p>`;
+    // document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
+    // $("#voicesHeader").after(voicesMessage);
 
-    if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
-    if (totNumQuotes) {
-      enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
-      $("#voicesFig").show();
-    } else {
-      $("#voicesFig").hide();
-    }
+    // if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
+    // if (totNumQuotes) {
+    //   enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
+    //   $("#voicesFig").show();
+    // } else {
+    //   $("#voicesFig").hide();
+    // }
 
     // account for updating values
 

@@ -1,3 +1,6 @@
+const scanBttn = document.querySelector("#scanArticle");
+scanBttn.addEventListener("click", makeVoiceObj);
+
 const introVerbsList = [
   "acknowledge",
   "add",
@@ -62,15 +65,15 @@ const introVerbsList = [
   "note",
   //   "noting",
   "object to",
-  "objects to",
-  "objected to",
+  // "objects to",
+  // "objected to",
   "observ",
   "offer",
   "oppose",
   "outline",
   "point out",
-  "points out",
-  "pointed out",
+  // "points out",
+  // "pointed out",
   "provide",
   "question",
   "quote",
@@ -177,11 +180,17 @@ function subGetPeriodIndex(arrayInputWrds, arrStartIndex) {
   }
 }
 
-function getIntroVerb(prevOrSubWrds) {
-  for (let listVerb of introVerbsList) {
-    rgxpPlural = new RegExp(`\\b${listVerb}[a-z]*\\b`, "gi");
-    let verbMatch = prevOrSubWrds.match(rgxpPlural);
+function getIntroVerb(docVerbs) {
+  // for (let listVerb of introVerbsList) {
+  // rgxpPlural = new RegExp(`\\b${listVerb}[a-z]*\\b`, "gi");
+  // let verbMatch = prevOrSubWrds.match(rgxpPlural);
+
+  // }
+  for (let docVerb of docVerbs) {
+    docVerb = noPunct(docVerb);
+    if (introVerbsList.includes(docVerb)) return docVerb;
   }
+  return undefined;
 }
 
 function getPrevOrSubWords(
@@ -193,32 +202,24 @@ function getPrevOrSubWords(
   const endPunct = [".", "!", "?"];
   let arrStartIndex;
   let arrStopIndex;
-  // if the 2nd to last char is not a period, exclamation mark, or question mark, check for subsequent 20 wrds, else check prev 20 wrds
-  if (!endPunct.includes(quoteMatch[quoteMatch.length - 2])) {
+  // if the 2nd to last char is a period, exclamation mark, or question mark, check prev 20 wrds, else check for subsequent 20 wrds
+  if (endPunct.includes(quoteMatch[quoteMatch.length - 2])) {
+    // get previous wrds
+    console.log("prev");
+    arrStopIndex = quoteStartIndex - 1;
+    arrStartIndex = prevGetPeriodIndex(arrayInputWrds, arrStopIndex);
+  } else {
     // get subsequent wrds
     console.log("subsequent");
     arrStartIndex = quoteStartIndex + quoteLength; // index at which we will start the slice
     arrStopIndex = subGetPeriodIndex(arrayInputWrds, arrStartIndex);
-
-    // arrayInputWrds.findIndex(
-    //   (el, arrStartIndex) => el.includes(".")
-
-    // );
     console.log(arrStartIndex, arrStopIndex);
-  } else {
-    // get previous wrds
-    console.log("prev");
-
-    // arrStartIndex = quoteStartIndex - 30;
-    // arrStopIndex = quoteStartIndex;
-    arrStopIndex = quoteStartIndex - 1;
-    arrStartIndex = prevGetPeriodIndex(arrayInputWrds, arrStopIndex);
   }
 
   return arrayInputWrds.slice(arrStartIndex, arrStopIndex + 1);
 }
 
-function getSpeakerOptions(docWrds) {
+function getSpeakerOptions(doc) {
   let possibleSpeakers = [];
   for (let i = 0; i < doc.document[0].length; i++) {
     let wrdDoc = doc.document[0][i]["tags"];
@@ -229,15 +230,16 @@ function getSpeakerOptions(docWrds) {
         !wrdDoc.has("Demonym")) ||
       wrdDoc.has("Pronoun")
     ) {
-      possibleSpeakers.push(wrdDoc);
+      possibleSpeakers.push(noPunct(doc.document[0][i].text));
     }
   }
   return possibleSpeakers;
 }
 
-function makeVoiceObj(element, verbList) {
+function makeVoiceObj() {
   let voiceObj = {};
   let totNumQuotes;
+  let element = document.querySelector("#inputText").value;
   let matches = element.match(/(“|")([^("|”)]*)(”|")/gi);
   // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
   // console.log(sentenceMatches);
@@ -275,8 +277,8 @@ function makeVoiceObj(element, verbList) {
 
       // find verb used to introduce them
       const doc = nlp(prevOrSubWrds);
-      //   const allVerbs = doc.verbs().toInfinitive().match('#Verb').out('array')  // get all verbs in prev or sub words in sentence of quote
-      const introVerb = getIntroVerb(prevOrSubWrds);
+      const docVerbs = doc.verbs().toInfinitive().out("array"); // get all verbs in prev or sub words in sentence of quote
+      const introVerb = getIntroVerb(docVerbs);
       //   if (allVerbs.length > 1) {
       //   getIntroVerbs(allVerbs);
       // this method of finding a speaker will help catch speakers when they are not people and/or do not have capitalized names
@@ -292,22 +294,23 @@ function makeVoiceObj(element, verbList) {
       //       pronouns.includes(wrd)
       //   ); // find first capitalized word
       let speakerNameOptions = getSpeakerOptions(doc); // get all capitalized words
-      let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
+      // let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
 
       // if (speakerNameOptionsNoPunct.length === 1) {
       //   speakerNameOptionsNoPunct = speakerNameOptionsNoPunct[0]; // take name out of array if there is just one name
       // }
-      speakerNameOptionsNoPunct = speakerNameOptionsNoPunct.join(" ");
-      if (!Object.keys(voiceObj).includes(speakerNameOptionsNoPunct))
-        voiceObj[speakerNameOptionsNoPunct] = {};
-      index = Object.keys(voiceObj[speakerNameOptionsNoPunct]).length; // 0-indexed
-      voiceObj[speakerNameOptionsNoPunct][index] = {
-        quote: speakerNameOptionsNoPunct !== undefined ? quoteMatch : "━", // add quote to speaker prop
+      speakerNameOptions = speakerNameOptions.join(" ");
+      if (!Object.keys(voiceObj).includes(speakerNameOptions))
+        voiceObj[speakerNameOptions] = {};
+      index = Object.keys(voiceObj[speakerNameOptions]).length; // 0-indexed
+      voiceObj[speakerNameOptions][index] = {
+        quote: speakerNameOptions !== undefined ? quoteMatch : "━", // add quote to speaker prop
         verb: introVerb !== undefined ? noPunct(introVerb) : "━", // add intro verb to speaker prop
         wrdCount: quoteLength,
       };
     }
   }
+  console.log(voiceObj, totNumQuotes);
   //   return [voiceObj, totNumQuotes];
   enterQuotes(voiceObj);
 }
@@ -363,75 +366,97 @@ function enterQuotes(voiceObj) {
   // console.log(rowsHTML);
   document.querySelector("#tbody").innerHTML = rowsHTML;
   console.log(`quote: ${speakerTotQuoteNums}`, `wrdNums: ${speakerTotWrdNums}`);
-  // add charts and their headings
-  speakerPieChartWrdNumHtml = `<script id="wrdNumChartScript">
-      var ctx = document.getElementById('wordNumChart').getContext('2d');
-      var chart = new Chart(ctx, {
-          // The type of chart we want to create
-          type: 'doughnut',
-      
-          // The data for our dataset
-          data: {
-              labels: [${allSpeakersGraphFormat}],  // speaker name
-              datasets: [{
-                  label: ' Total # Words Per Speaker',
-                  borderColor: '#ffffff',
-                  borderWidth: '6',
-                  backgroundColor: [${randomColorPaletteGenerator(
-                    allSpeakersGraphFormat.length
-                  )}],
-                  data: [${speakerTotWrdNums}],  // sum of all words spoken by speaker 
-              }]
-          },
-      
-          // Configuration options go here
-          options: {}
-      });
-      </script>`;
-  speakerPieChartQuoteNumHtml = `<script id="quotesChartScript">
-      var ctx = document.getElementById('quoteNumChart').getContext('2d');
-      var chart = new Chart(ctx, {
-          // The type of chart we want to create
-          type: 'doughnut',
-      
-          // The data for our dataset
-          data: {
-              labels: [${allSpeakersGraphFormat}],  // speaker name
-              datasets: [{
-                  label: ' Total # Quotes Per Speaker',
-                  borderColor: '#ffffff',
-                  borderWidth: '6',
-                  backgroundColor: [${randomColorPaletteGenerator(
-                    allSpeakersGraphFormat.length
-                  )}],
-                  data: [${speakerTotQuoteNums}],  // sum quotes by each speaker
-              }]
-          },
-      
-          // Configuration options go here
-          options: {}
-      });
-      </script>`;
-  let h4tags = [
-    "<h4><b>Breakdown of Speakers' Total Number of Words</b></h4>",
-    "<h4><b>Breakdown of Speaker's Total Number of Quotes</b></h4>",
-  ];
-  if (document.querySelector("#wrdNumChartScript")) {
-    $("#wrdNumChartScript").remove(); // remove previous plotting script
-    $("#quoteChartScript").remove(); // remove previous plotting script
-  }
-  $("#wordNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
-  $("#quoteNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
-  $("#chart2CDNScript").before('<canvas id="wordNumChart"></canvas>');
-  $("#chart3CDNScript").before('<canvas id="quoteNumChart"></canvas>');
-  if (!document.querySelector("h4")) {
-    // insert headings if not already there
-    $("#wordNumChart").before(h4tags[0]);
-    $("#quoteNumChart").before(h4tags[1]);
-  }
-  $("#chart2CDNScript").after(speakerPieChartWrdNumHtml);
-  $("#chart3CDNScript").after(speakerPieChartQuoteNumHtml);
-}
 
-const scanBttn = document.querySelector("#scanArticle");
-scanBttn.addEventListener("click", voiceFunction);
+  // Adding HTML for voices feature
+  // let h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
+  // // To avoid reproducing header and message, check if they already exist
+  // if (!document.querySelector("#voicesHeader")) {
+  //   $("#voicesFig").before(h2VoicesTag);
+  // }
+  // let voicesMessage = `<p id="voicesMessage">We found <b>${
+  //   totNumQuotes === undefined ? 0 : totNumQuotes
+  // }</b> quotes. ${
+  //   totNumQuotes === undefined
+  //     ? ""
+  //     : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
+  // }</p>`;
+  // document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
+  // $("#voicesHeader").after(voicesMessage);
+
+  // if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
+  // if (totNumQuotes) {
+  //   enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
+  //   $("#voicesFig").show();
+  // } else {
+  //   $("#voicesFig").hide();
+  // }
+
+  // add charts and their headings
+  // speakerPieChartWrdNumHtml = `<script id="wrdNumChartScript">
+  //     var ctx = document.getElementById('wordNumChart').getContext('2d');
+  //     var chart = new Chart(ctx, {
+  //         // The type of chart we want to create
+  //         type: 'doughnut',
+
+  //         // The data for our dataset
+  //         data: {
+  //             labels: [${allSpeakersGraphFormat}],  // speaker name
+  //             datasets: [{
+  //                 label: ' Total # Words Per Speaker',
+  //                 borderColor: '#ffffff',
+  //                 borderWidth: '6',
+  //                 backgroundColor: [${randomColorPaletteGenerator(
+  //                   allSpeakersGraphFormat.length
+  //                 )}],
+  //                 data: [${speakerTotWrdNums}],  // sum of all words spoken by speaker
+  //             }]
+  //         },
+
+  //         // Configuration options go here
+  //         options: {}
+  //     });
+  //     </script>`;
+  // speakerPieChartQuoteNumHtml = `<script id="quotesChartScript">
+  //     var ctx = document.getElementById('quoteNumChart').getContext('2d');
+  //     var chart = new Chart(ctx, {
+  //         // The type of chart we want to create
+  //         type: 'doughnut',
+
+  //         // The data for our dataset
+  //         data: {
+  //             labels: [${allSpeakersGraphFormat}],  // speaker name
+  //             datasets: [{
+  //                 label: ' Total # Quotes Per Speaker',
+  //                 borderColor: '#ffffff',
+  //                 borderWidth: '6',
+  //                 backgroundColor: [${randomColorPaletteGenerator(
+  //                   allSpeakersGraphFormat.length
+  //                 )}],
+  //                 data: [${speakerTotQuoteNums}],  // sum quotes by each speaker
+  //             }]
+  //         },
+
+  //         // Configuration options go here
+  //         options: {}
+  //     });
+  //     </script>`;
+  // let h4tags = [
+  //   "<h4><b>Breakdown of Speakers' Total Number of Words</b></h4>",
+  //   "<h4><b>Breakdown of Speaker's Total Number of Quotes</b></h4>",
+  // ];
+  // if (document.querySelector("#wrdNumChartScript")) {
+  //   $("#wrdNumChartScript").remove(); // remove previous plotting script
+  //   $("#quoteChartScript").remove(); // remove previous plotting script
+  // }
+  // $("#wordNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+  // $("#quoteNumChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
+  // $("#chart2CDNScript").before('<canvas id="wordNumChart"></canvas>');
+  // $("#chart3CDNScript").before('<canvas id="quoteNumChart"></canvas>');
+  // if (!document.querySelector("h4")) {
+  //   // insert headings if not already there
+  //   $("#wordNumChart").before(h4tags[0]);
+  //   $("#quoteNumChart").before(h4tags[1]);
+  // }
+  // $("#chart2CDNScript").after(speakerPieChartWrdNumHtml);
+  // $("#chart3CDNScript").after(speakerPieChartQuoteNumHtml);
+}
