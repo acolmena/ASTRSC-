@@ -312,7 +312,8 @@ function makeVoiceObj() {
   }
   console.log(voiceObj, totNumQuotes);
   //   return [voiceObj, totNumQuotes];
-  enterQuotes(voiceObj);
+  if (totNumQuotes === undefined) totNumQuotes = 0;
+  enterQuotes(voiceObj, totNumQuotes);
 }
 
 // helper function that generates 3 random numbers
@@ -333,63 +334,59 @@ function randomColorPaletteGenerator(numOfColors) {
   return backgroundColors;
 }
 
-function enterQuotes(voiceObj) {
+function enterQuotes(voiceObj, totNumQuotes) {
   let rowNum = -1;
   let rowsHTML = "";
   let speakerTotWrdNums = [];
   let speakerTotQuoteNums = [];
   let allSpeakers = Object.keys(voiceObj);
   let allSpeakersGraphFormat = [];
-  for (let name of allSpeakers) {
-    // loop over speakers
-    // console.log(voiceObj[name]);
-    allSpeakersGraphFormat.push(`'${name}'`);
-    rowNum += 1;
-    let numQuotesPerSpeaker = Object.keys(voiceObj[name]).length;
-    speakerTotQuoteNums.push(numQuotesPerSpeaker); // add num of quotes to array
-    // console.log(Object.keys(voiceObj[name]));
-    rowsHTML += `<tr id=row${rowNum}><td rowspan=${numQuotesPerSpeaker}>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${voiceObj[name][0]["quote"]}</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
-    let totWrdCount = voiceObj[name][0]["wrdCount"];
-    for (let i = 1; i < Object.keys(name).length; i++) {
-      // loop over quotes of each speaker
-      if (!voiceObj[name][i]) continue;
-      let verb = voiceObj[name][i]["verb"];
-      let quote = voiceObj[name][i]["quote"];
-      let wrdCount = voiceObj[name][i]["wrdCount"];
-      rowNum += 1;
-      rowsHTML += `<tr id=row${rowNum}><td>${verb}</td><td>${quote}</td><td>${wrdCount}</td></tr>`;
-      totWrdCount += wrdCount; // add new quote lengths to total word count
-    }
-    speakerTotWrdNums.push(totWrdCount); // add total num of words to array
+  // Creating + adding HTML for voices feature
+  const h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
+  const voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes. ${
+    totNumQuotes ? "" : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
+  }</p>`;
+  // To avoid reproducing header and message, check if they already exist
+  if (!document.querySelector("#voicesHeader")) {
+    $("#voicesFig").before(h2VoicesTag);
   }
-  $("#thead").after('<tbody id="tbody"></tbody>');
-  // console.log(rowsHTML);
-  document.querySelector("#tbody").innerHTML = rowsHTML;
-  console.log(`quote: ${speakerTotQuoteNums}`, `wrdNums: ${speakerTotWrdNums}`);
+  if (totNumQuotes) {
+    for (let name of allSpeakers) {
+      allSpeakersGraphFormat.push(`'${name}'`);
+      rowNum += 1;
+      let numQuotesPerSpeaker = Object.keys(voiceObj[name]).length;
+      speakerTotQuoteNums.push(numQuotesPerSpeaker); // add num of quotes to array
+      // console.log(Object.keys(voiceObj[name]));
+      rowsHTML += `<tr id=row${rowNum}><td rowspan=${numQuotesPerSpeaker}>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${voiceObj[name][0]["quote"]}</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
+      let totWrdCount = voiceObj[name][0]["wrdCount"];
+      for (let i = 1; i < Object.keys(name).length; i++) {
+        // loop over quotes of each speaker
+        if (!voiceObj[name][i]) continue;
+        let verb = voiceObj[name][i]["verb"];
+        let quote = voiceObj[name][i]["quote"];
+        let wrdCount = voiceObj[name][i]["wrdCount"];
+        rowNum += 1;
+        rowsHTML += `<tr id=row${rowNum}><td>${verb}</td><td>${quote}</td><td>${wrdCount}</td></tr>`;
+        totWrdCount += wrdCount; // add new quote lengths to total word count
+      }
+      speakerTotWrdNums.push(totWrdCount); // add total num of words to array
+    }
+    if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
+    $("#thead").after('<tbody id="tbody"></tbody>');
+    document.querySelector("#tbody").innerHTML = rowsHTML;
+    console.log(
+      `quote: ${speakerTotQuoteNums}`,
+      `wrdNums: ${speakerTotWrdNums}`
+    );
 
-  // Adding HTML for voices feature
-  // let h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
-  // // To avoid reproducing header and message, check if they already exist
-  // if (!document.querySelector("#voicesHeader")) {
-  //   $("#voicesFig").before(h2VoicesTag);
-  // }
-  // let voicesMessage = `<p id="voicesMessage">We found <b>${
-  //   totNumQuotes === undefined ? 0 : totNumQuotes
-  // }</b> quotes. ${
-  //   totNumQuotes === undefined
-  //     ? ""
-  //     : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
-  // }</p>`;
-  // document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
-  // $("#voicesHeader").after(voicesMessage);
+    console.log(totNumQuotes);
+    document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
+    $("#voicesHeader").after(voicesMessage);
 
-  // if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
-  // if (totNumQuotes) {
-  //   enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
-  //   $("#voicesFig").show();
-  // } else {
-  //   $("#voicesFig").hide();
-  // }
+    $("#voicesFig").show();
+  } else {
+    $("#voicesFig").hide();
+  }
 
   // add charts and their headings
   // speakerPieChartWrdNumHtml = `<script id="wrdNumChartScript">
