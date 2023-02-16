@@ -240,7 +240,7 @@ function makeVoiceObj() {
   let voiceObj = {};
   let totNumQuotes;
   let element = document.querySelector("#inputText").value;
-  let matches = element.match(/(“|")([^("|”)]*)(”|")/gi);
+  let matches = element.match(/(“|")([^["|”]*)(”|")/gi);
   // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
   // console.log(sentenceMatches);
   let arrayInputWrds = element.trim().split(/\s+/);
