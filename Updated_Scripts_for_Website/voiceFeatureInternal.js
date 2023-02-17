@@ -1,6 +1,6 @@
 const scanBttn = document.querySelector("#scanArticle");
 scanBttn.addEventListener("click", makeVoiceObj);
-
+const pronouns = ["she", "he", "they", "we"]; // working list
 const introVerbsList = [
   "acknowledge",
   "add",
@@ -169,14 +169,16 @@ function cleanSpeakerArray(arr) {
 function prevGetPeriodIndex(arrayInputWrds, arrStartIndex) {
   // start searching at beginning of quote and go backwards through array
   for (let i = arrStartIndex; i >= 0; i--) {
-    if (arrayInputWrds[i].includes(".")) return i - 1;
+    // make sure you stop before at a period or the beginning of a subsequent quote
+    if (arrayInputWrds[i].includes("." || '"' || "“")) return i - 1;
   }
 }
 
 function subGetPeriodIndex(arrayInputWrds, arrStartIndex) {
   // start searching at beginning of quote and go backwards through array
   for (let i = arrStartIndex; i < arrayInputWrds.length; i++) {
-    if (arrayInputWrds[i].includes(".")) return i;
+    // make sure you stop before at a period or the beginning of a subsequent quote
+    if (arrayInputWrds[i].includes("." || '"' || "“")) return i;
   }
 }
 
@@ -219,18 +221,26 @@ function getPrevOrSubWords(
   return arrayInputWrds.slice(arrStartIndex, arrStopIndex + 1);
 }
 
-function getSpeakerOptions(doc) {
+function getSpeakerOptions(doc, prevSpeaker) {
+  if (doc === undefined) return prevSpeaker;
   let possibleSpeakers = [];
   for (let i = 0; i < doc.document[0].length; i++) {
-    let wrdDoc = doc.document[0][i]["tags"];
+    let wrdDoc = doc.document[0][i].text;
     if (
-      (wrdDoc.has("ProperNoun") &&
-        !wrdDoc.has("Place") &&
-        !wrdDoc.has("Date") &&
-        !wrdDoc.has("Demonym")) ||
-      wrdDoc.has("Pronoun")
+      !wrdDoc[0].toUpperCase() + wrdDoc.substring(1, wrdDoc.length) ===
+      wrdDoc
+    )
+      continue; // if word is not capitalized, continue
+    let wrdDocTags = doc.document[0][i]["tags"];
+    if (
+      (wrdDocTags.has("ProperNoun") &&
+        !wrdDocTags.has("Place") &&
+        !wrdDocTags.has("Date") &&
+        !wrdDocTags.has("Demonym")) ||
+      wrdDocTags.has("Pronoun") ||
+      wrdDocTags.has("Person")
     ) {
-      possibleSpeakers.push(noPunct(doc.document[0][i].text));
+      possibleSpeakers.push(noPunct(wrdDoc));
     }
   }
   return possibleSpeakers;
@@ -242,17 +252,13 @@ function makeVoiceObj() {
   let element = document.querySelector("#inputText").value;
   let matches = element.match(/(“|")([^["|”]*)(”|")/gi);
   // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
-  // console.log(sentenceMatches);
   let arrayInputWrds = element.trim().split(/\s+/);
   // let sentences = element.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|"); // array of sentences in article
-  // const spacy = require("spacy");
-
-  // getEntities();
 
   if (matches) {
-    // console.log(sentences);
     console.log(matches);
     totNumQuotes = matches.length;
+    let prevSpeaker = "━"; // will be used to connect pronouns to whichever name was previously found
     let index;
 
     for (let quoteMatch of matches) {
@@ -276,30 +282,15 @@ function makeVoiceObj() {
       console.log(quoteStartIndex, quoteMatch, prevOrSubWrds);
 
       // find verb used to introduce them
-      const doc = nlp(prevOrSubWrds);
+      const doc = nlp(prevOrSubWrds.join(" "));
       const docVerbs = doc.verbs().toInfinitive().out("array"); // get all verbs in prev or sub words in sentence of quote
       const introVerb = getIntroVerb(docVerbs);
-      //   if (allVerbs.length > 1) {
-      //   getIntroVerbs(allVerbs);
-      // this method of finding a speaker will help catch speakers when they are not people and/or do not have capitalized names
-      // try to find speaker within 6 words before the intro verb
+      let speakerNameOptions = getSpeakerOptions(doc, prevSpeaker); // get all capitalized words
 
-      // find speaker name
-      //   const speakerNameOptions = prevOrSubWrds.filter(
-      //     (wrd) =>
-      //       (wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
-      //         wrd.search(/\d/) &&
-      //         wrd.length > 2 &&
-      //         !africanCountries.includes(noPunct(wrd))) ||
-      //       pronouns.includes(wrd)
-      //   ); // find first capitalized word
-      let speakerNameOptions = getSpeakerOptions(doc); // get all capitalized words
-      // let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
-
-      // if (speakerNameOptionsNoPunct.length === 1) {
-      //   speakerNameOptionsNoPunct = speakerNameOptionsNoPunct[0]; // take name out of array if there is just one name
-      // }
       speakerNameOptions = speakerNameOptions.join(" ");
+      if (!speakerNameOptions) speakerNameOptions = "━";
+      // if (pronouns.includes(speakerNameOptions))
+      //   speakerNameOptions = prevSpeaker;
       if (!Object.keys(voiceObj).includes(speakerNameOptions))
         voiceObj[speakerNameOptions] = {};
       index = Object.keys(voiceObj[speakerNameOptions]).length; // 0-indexed
@@ -308,9 +299,12 @@ function makeVoiceObj() {
         verb: introVerb !== undefined ? noPunct(introVerb) : "━", // add intro verb to speaker prop
         wrdCount: quoteLength,
       };
+
+      prevSpeaker = speakerNameOptions;
     }
   }
-  console.log(voiceObj, totNumQuotes);
+  console.table(voiceObj);
+  console.log("tot num quotes:", totNumQuotes);
   //   return [voiceObj, totNumQuotes];
   if (totNumQuotes === undefined) totNumQuotes = 0;
   enterQuotes(voiceObj, totNumQuotes);
@@ -344,7 +338,9 @@ function enterQuotes(voiceObj, totNumQuotes) {
   // Creating + adding HTML for voices feature
   const h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
   const voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes. ${
-    totNumQuotes ? "" : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
+    totNumQuotes === 0
+      ? ""
+      : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
   }</p>`;
   // To avoid reproducing header and message, check if they already exist
   if (!document.querySelector("#voicesHeader")) {
@@ -359,9 +355,15 @@ function enterQuotes(voiceObj, totNumQuotes) {
       // console.log(Object.keys(voiceObj[name]));
       rowsHTML += `<tr id=row${rowNum}><td rowspan=${numQuotesPerSpeaker}>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${voiceObj[name][0]["quote"]}</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
       let totWrdCount = voiceObj[name][0]["wrdCount"];
-      for (let i = 1; i < Object.keys(name).length; i++) {
+      if (numQuotesPerSpeaker < 2) continue;
+      for (let i = 1; i < Object.keys(voiceObj[name]).length; i++) {
         // loop over quotes of each speaker
-        if (!voiceObj[name][i]) continue;
+        console.log(
+          name,
+          voiceObj[name][i],
+          typeof voiceObj[name][i],
+          !voiceObj[name][i]
+        );
         let verb = voiceObj[name][i]["verb"];
         let quote = voiceObj[name][i]["quote"];
         let wrdCount = voiceObj[name][i]["wrdCount"];

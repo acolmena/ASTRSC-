@@ -1714,6 +1714,19 @@ jQuery(document).ready(function ($) {
 
   $("#clrBlndCheckbox").change(function () {
     if (this.checked) {
+      // Change scan article button color
+      $("#scanArticle").css("border-color", "#66ccee");
+      $("#scanArticle").hover(
+        function () {
+          $(this).css("background-color", "#66ccee");
+        },
+        function () {
+          $(this).css("background-color", "white");
+        }
+      );
+      // Change CBF background color
+      $("#clrBlnd").css("color", "#fbfbfb");
+      $("#clrBlnd").css("background-color", "#ee6677");
       // Change hover colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#66ccee");
@@ -1749,6 +1762,7 @@ jQuery(document).ready(function ($) {
 
       // Change table background color to blue
       $("#thead").css("background-color", "#66ccee");
+      console.log($("#thead").css("background-color"));
 
       // Change h4 color to black
       $("h4").css("color", "#000000");
@@ -1782,6 +1796,19 @@ jQuery(document).ready(function ($) {
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartColorBlindFriendly);
     } else {
+      // Change back scan article button color
+      $("#scanArticle").css("border-color", "#34D293");
+      $("#scanArticle").hover(
+        function () {
+          $(this).css("background-color", "#34D293");
+        },
+        function () {
+          $(this).css("background-color", "white");
+        }
+      );
+      // Change back CBF background color
+      $("#clrBlnd").css("color", "#333333");
+      $("#clrBlnd").css("background-color", "#ffb38d");
       // Change hover to original colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#a8edea");
