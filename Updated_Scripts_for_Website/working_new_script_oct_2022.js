@@ -1727,6 +1727,7 @@ jQuery(document).ready(function ($) {
       // Change CBF background color
       $("#clrBlnd").css("color", "#fbfbfb");
       $("#clrBlnd").css("background-color", "#ee6677");
+      $("#clrBlnd").css("border", "hidden");
       // Change hover colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#66ccee");
@@ -1808,7 +1809,8 @@ jQuery(document).ready(function ($) {
       );
       // Change back CBF background color
       $("#clrBlnd").css("color", "#333333");
-      $("#clrBlnd").css("background-color", "#ffb38d");
+      $("#clrBlnd").css("background-color", "#ffdfa4");
+      $("#clrBlnd").css("border", "3px solid #ffcc6d");
       // Change hover to original colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#a8edea");
