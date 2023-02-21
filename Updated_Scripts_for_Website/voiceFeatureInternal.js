@@ -205,7 +205,7 @@ function getPrevOrSubWords(
   let arrStartIndex;
   let arrStopIndex;
   // if the 2nd to last char is a period, exclamation mark, or question mark, check prev 20 wrds, else check for subsequent 20 wrds
-  if (endPunct.includes(quoteMatch[quoteMatch.length - 2])) {
+  if (endPunct.includes(quoteMatch[0][quoteMatch.length - 2])) {
     // get previous wrds
     console.log("prev");
     arrStopIndex = quoteStartIndex - 1;
@@ -248,34 +248,34 @@ function getSpeakerOptions(doc, prevSpeaker) {
 
 function makeVoiceObj() {
   let voiceObj = {};
-  let totNumQuotes;
   let element = document.querySelector("#inputText").value;
-  let matches = element.match(/(“|")([^["|”]*)(”|")/gi);
+  let matches = element.matchAll(/(“|")([^["|”]*)(”|")/gi); // .matchAll() returns an iterator
   // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
   let arrayInputWrds = element.trim().split(/\s+/);
   // let sentences = element.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|"); // array of sentences in article
-
+  let totNumQuotes = 0;
   if (matches) {
     console.log(matches);
-    totNumQuotes = matches.length;
+    // totNumQuotes = matches.length;
     let prevSpeaker = "━"; // will be used to connect pronouns to whichever name was previously found
     let index;
 
     for (let quoteMatch of matches) {
       // rule out matches that have <= 3 words
-      const quoteLength = getTotWordCount(quoteMatch);
+      // const quoteLength = getTotWordCount(quoteMatch);
+      const quoteLength = quoteMatch[0].length;
       if (quoteLength < 3) continue;
 
-      const stopIndex = quoteMatch.indexOf(" "); // make index be the index where the space is
-      console.log(stopIndex, quoteMatch.substring(0, stopIndex));
-      const quoteStartIndex = arrayInputWrds.findIndex(
-        (el) => el === quoteMatch.substring(0, stopIndex)
-      ); // find index of first word of quote (by ensuring its 1st word match those of the matching word in arrayInputWrds)
+      // const stopIndex = quoteMatch[0].indexOf(" "); // make index be the index where the space is
+      // console.log(stopIndex, quoteMatch.substring(0, stopIndex));
+      // const quoteStartIndex = arrayInputWrds.findIndex(
+      //   (el) => el === quoteMatch.substring(0, stopIndex)
+      // ); // find index of first word of quote (by ensuring its 1st word match those of the matching word in arrayInputWrds)
 
       // find the words of the rest of the sentence containing speaker and intro verb
       const prevOrSubWrds = getPrevOrSubWords(
         quoteMatch,
-        quoteStartIndex,
+        quoteMatch.index, // gets starting index of quote
         quoteLength,
         arrayInputWrds
       );
@@ -301,6 +301,7 @@ function makeVoiceObj() {
       };
 
       prevSpeaker = speakerNameOptions;
+      totNumQuotes++;
     }
   }
   console.table(voiceObj);
