@@ -5,7 +5,6 @@ const introVerbsList = [
   "acknowledge",
   "add",
   "admit",
-  // "advis",
   "advocate",
   "agree",
   "analyze",
@@ -18,7 +17,6 @@ const introVerbsList = [
   "compare",
   "conclude",
   "confirm",
-  // "concentrate",
   "continue",
   "convey",
   "criticize",
@@ -34,17 +32,12 @@ const introVerbsList = [
   "emphasize",
   "endeavour",
   "examine",
-  // "expand on",
   "explain",
   "explore",
   "express",
   "feel",
   "find",
   // "form",
-  "focus on",
-  "focuses on",
-  "focused on",
-  //   "identifie",
   "identify",
   "imply",
   "include",
@@ -54,7 +47,6 @@ const introVerbsList = [
   "interpret",
   "introduce",
   "judge",
-  //   "judging",
   "justify",
   "link",
   "list",
@@ -63,24 +55,13 @@ const introVerbsList = [
   "mention",
   "negate",
   "note",
-  //   "noting",
-  "object to",
-  // "objects to",
-  // "objected to",
-  "observ",
+  "observe",
   "offer",
   "oppose",
   "outline",
-  "point out",
-  // "points out",
-  // "pointed out",
   "provide",
   "question",
   "quote",
-  //   "quoting",
-  "refer to",
-  "refers to",
-  "referred to",
   "refute",
   "reject",
   "relate",
@@ -96,16 +77,10 @@ const introVerbsList = [
   "say",
   "said",
   "state",
-  //   "stating",
   "stress",
   "suggest",
   "tell",
-  //   "told",
-  "talk about",
-  "talks about",
-  "talked about",
   "think",
-  //   "thought",
   // tend to
   // "treat",
   // try to
@@ -114,10 +89,6 @@ const introVerbsList = [
   "underscore",
   // "view",
   "write",
-  //   "wrote",
-  "goes on to say that",
-  "go on to say that",
-  "went on to say that",
   "recognize",
   "clarify",
   "concede",
@@ -149,6 +120,17 @@ const introVerbsList = [
   "critique",
   "declare",
   "uphold",
+  "warn",
+];
+
+const introVerbPhrases = [
+  "go on to say that",
+  "talk about",
+  "refer to",
+  "point out",
+  "object to",
+  "focus on",
+  "expand on",
 ];
 
 // This function will return the total number of words in the inputted text
@@ -166,59 +148,55 @@ function cleanSpeakerArray(arr) {
   return newArr;
 }
 
-function prevGetPeriodIndex(arrayInputWrds, arrStartIndex) {
+function prevGetPeriodIndex(element, startIndex) {
   // start searching at beginning of quote and go backwards through array
-  for (let i = arrStartIndex; i >= 0; i--) {
+  for (let i = startIndex; i >= 0; i--) {
     // make sure you stop before at a period or the beginning of a subsequent quote
-    if (arrayInputWrds[i].includes("." || '"' || "“")) return i - 1;
+    if (element[i].includes("." || '"' || "“")) return i - 1;
   }
 }
 
-function subGetPeriodIndex(arrayInputWrds, arrStartIndex) {
+function subGetPeriodIndex(element, startIndex) {
   // start searching at beginning of quote and go backwards through array
-  for (let i = arrStartIndex; i < arrayInputWrds.length; i++) {
+  for (let i = startIndex; i < element.length; i++) {
     // make sure you stop before at a period or the beginning of a subsequent quote
-    if (arrayInputWrds[i].includes("." || '"' || "“")) return i;
+    if (element[i].includes("." || '"' || "“")) return i;
   }
 }
 
 function getIntroVerb(docVerbs) {
-  // for (let listVerb of introVerbsList) {
-  // rgxpPlural = new RegExp(`\\b${listVerb}[a-z]*\\b`, "gi");
-  // let verbMatch = prevOrSubWrds.match(rgxpPlural);
-
-  // }
-  for (let docVerb of docVerbs) {
+  // check if there is a longer verb phrase in docVerbs
+  // split here rather than output verbs as array with compromise for when compromise incorrectly labels more than 2 words as a verb
+  for (let docVerb of docVerbs.split(" ")) {
     docVerb = noPunct(docVerb);
     if (introVerbsList.includes(docVerb)) return docVerb;
   }
   return undefined;
 }
 
-function getPrevOrSubWords(
-  quoteMatch,
-  quoteStartIndex,
-  quoteLength,
-  arrayInputWrds
-) {
+function getPrevOrSubWords(quoteStr, quoteStartIndex, quoteCharCount, element) {
   const endPunct = [".", "!", "?"];
   let arrStartIndex;
   let arrStopIndex;
+  // console.log(
+  //   quoteStr,
+  //   quoteStr[quoteStr.length - 2],
+  //   endPunct.includes(quoteStr[quoteStr.length - 2])
+  // );
   // if the 2nd to last char is a period, exclamation mark, or question mark, check prev 20 wrds, else check for subsequent 20 wrds
-  if (endPunct.includes(quoteMatch[0][quoteMatch.length - 2])) {
+  if (endPunct.includes(quoteStr[quoteStr.length - 2])) {
     // get previous wrds
-    console.log("prev");
+    // console.log("prev");
     arrStopIndex = quoteStartIndex - 1;
-    arrStartIndex = prevGetPeriodIndex(arrayInputWrds, arrStopIndex);
+    arrStartIndex = prevGetPeriodIndex(element, arrStopIndex);
   } else {
     // get subsequent wrds
-    console.log("subsequent");
-    arrStartIndex = quoteStartIndex + quoteLength; // index at which we will start the slice
-    arrStopIndex = subGetPeriodIndex(arrayInputWrds, arrStartIndex);
-    console.log(arrStartIndex, arrStopIndex);
+    // console.log("subsequent");
+    arrStartIndex = quoteStartIndex + quoteCharCount; // index at which we will start the slice
+    arrStopIndex = subGetPeriodIndex(element, arrStartIndex);
   }
 
-  return arrayInputWrds.slice(arrStartIndex, arrStopIndex + 1);
+  return element.substring(arrStartIndex, arrStopIndex + 1);
 }
 
 function getSpeakerOptions(doc, prevSpeaker) {
@@ -237,7 +215,7 @@ function getSpeakerOptions(doc, prevSpeaker) {
         !wrdDocTags.has("Place") &&
         !wrdDocTags.has("Date") &&
         !wrdDocTags.has("Demonym")) ||
-      wrdDocTags.has("Pronoun") ||
+      (wrdDocTags.has("Pronoun") && !wrdDocTags.has("Possessive")) ||
       wrdDocTags.has("Person")
     ) {
       possibleSpeakers.push(noPunct(wrdDoc));
@@ -251,39 +229,33 @@ function makeVoiceObj() {
   let element = document.querySelector("#inputText").value;
   let matches = element.matchAll(/(“|")([^["|”]*)(”|")/gi); // .matchAll() returns an iterator
   // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
-  let arrayInputWrds = element.trim().split(/\s+/);
+  // let arrayInputWrds = element.trim().split(/\s+/);
   // let sentences = element.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|"); // array of sentences in article
   let totNumQuotes = 0;
   if (matches) {
-    console.log(matches);
+    // console.log(matches);
     // totNumQuotes = matches.length;
     let prevSpeaker = "━"; // will be used to connect pronouns to whichever name was previously found
     let index;
 
     for (let quoteMatch of matches) {
       // rule out matches that have <= 3 words
-      // const quoteLength = getTotWordCount(quoteMatch);
-      const quoteLength = quoteMatch[0].length;
+      const quoteLength = quoteMatch[0].split(" ").length; // word count
       if (quoteLength < 3) continue;
 
-      // const stopIndex = quoteMatch[0].indexOf(" "); // make index be the index where the space is
-      // console.log(stopIndex, quoteMatch.substring(0, stopIndex));
-      // const quoteStartIndex = arrayInputWrds.findIndex(
-      //   (el) => el === quoteMatch.substring(0, stopIndex)
-      // ); // find index of first word of quote (by ensuring its 1st word match those of the matching word in arrayInputWrds)
-
       // find the words of the rest of the sentence containing speaker and intro verb
+      const quoteStartIndex = quoteMatch.index; // gets starting index of quote
       const prevOrSubWrds = getPrevOrSubWords(
-        quoteMatch,
-        quoteMatch.index, // gets starting index of quote
-        quoteLength,
-        arrayInputWrds
+        quoteMatch[0],
+        quoteStartIndex, // gets starting index of quote
+        quoteMatch[0].length, // character count
+        element // need this to get substring
       );
-      console.log(quoteStartIndex, quoteMatch, prevOrSubWrds);
 
       // find verb used to introduce them
-      const doc = nlp(prevOrSubWrds.join(" "));
-      const docVerbs = doc.verbs().toInfinitive().out("array"); // get all verbs in prev or sub words in sentence of quote
+      const doc = nlp(prevOrSubWrds);
+      const docVerbs = doc.verbs().toInfinitive().text(); // get all verbs in prev or sub words in sentence of quote
+      console.log(quoteStartIndex, quoteMatch, prevOrSubWrds, docVerbs);
       const introVerb = getIntroVerb(docVerbs);
       let speakerNameOptions = getSpeakerOptions(doc, prevSpeaker); // get all capitalized words
 
@@ -295,7 +267,7 @@ function makeVoiceObj() {
         voiceObj[speakerNameOptions] = {};
       index = Object.keys(voiceObj[speakerNameOptions]).length; // 0-indexed
       voiceObj[speakerNameOptions][index] = {
-        quote: speakerNameOptions !== undefined ? quoteMatch : "━", // add quote to speaker prop
+        quote: speakerNameOptions !== undefined ? quoteMatch[0] : "━", // add quote to speaker prop
         verb: introVerb !== undefined ? noPunct(introVerb) : "━", // add intro verb to speaker prop
         wrdCount: quoteLength,
       };
@@ -304,8 +276,8 @@ function makeVoiceObj() {
       totNumQuotes++;
     }
   }
-  console.table(voiceObj);
-  console.log("tot num quotes:", totNumQuotes);
+  // console.table(voiceObj);
+  // console.log("tot num quotes:", totNumQuotes);
   //   return [voiceObj, totNumQuotes];
   if (totNumQuotes === undefined) totNumQuotes = 0;
   enterQuotes(voiceObj, totNumQuotes);
@@ -340,9 +312,9 @@ function enterQuotes(voiceObj, totNumQuotes) {
   const h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
   const voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes. ${
     totNumQuotes === 0
-      ? ""
-      : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
-  }</p>`;
+      ? "</p>"
+      : `See our breakdown of these quotes in the table below.</p><p id="quoteNote"><span class="small"><b>Note:</b> All of the intro verbs will be in infinitive form.</span></p>`
+  }`;
   // To avoid reproducing header and message, check if they already exist
   if (!document.querySelector("#voicesHeader")) {
     $("#voicesFig").before(h2VoicesTag);
@@ -353,7 +325,6 @@ function enterQuotes(voiceObj, totNumQuotes) {
       rowNum += 1;
       let numQuotesPerSpeaker = Object.keys(voiceObj[name]).length;
       speakerTotQuoteNums.push(numQuotesPerSpeaker); // add num of quotes to array
-      // console.log(Object.keys(voiceObj[name]));
       rowsHTML += `<tr id=row${rowNum}><td rowspan=${numQuotesPerSpeaker}>${name}</td><td>${voiceObj[name][0]["verb"]}</td><td>${voiceObj[name][0]["quote"]}</td><td>${voiceObj[name][0]["wrdCount"]}</td></tr>`;
       let totWrdCount = voiceObj[name][0]["wrdCount"];
       if (numQuotesPerSpeaker < 2) continue;
@@ -377,12 +348,6 @@ function enterQuotes(voiceObj, totNumQuotes) {
     if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
     $("#thead").after('<tbody id="tbody"></tbody>');
     document.querySelector("#tbody").innerHTML = rowsHTML;
-    console.log(
-      `quote: ${speakerTotQuoteNums}`,
-      `wrdNums: ${speakerTotWrdNums}`
-    );
-
-    console.log(totNumQuotes);
     document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
     $("#voicesHeader").after(voicesMessage);
 
