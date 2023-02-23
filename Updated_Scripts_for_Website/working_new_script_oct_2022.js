@@ -1345,25 +1345,23 @@ jQuery(document).ready(function ($) {
       colors = ["#a8edea", "#eaa8d2", "#a7ffa3", "#ff9980"];
     }
 
-    // Remove previous chart and note text if there was any:
+    // Remove previous chart if there was one:
     if (document.querySelector("#chartScript")) {
       // remove previous graph
       $("#chartScript").remove();
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
     }
-    // Add corresponding text and create pie chart if ASTRSC found any trope words
+    // Add corresponding heading and text (always)
     const h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of words found</h2>`;
     // add ternary statement to avoid reproducing h2 tags
     !document.querySelector("#tropeBreakdownHeader") &&
       $("#tropeMessage").after(h2BreakdownTag);
-
-    // add text saying what percentage of words were highlighted
     let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${perTropeWrds}% of this article) associated with tropes about Africa.</p>`;
-    document.querySelector("#tropeBreakdownMessage") &&
-      $("#tropeBreakdownMessage").remove(); // remove previous text
+    $("#tropeBreakdownMessage").remove(); // remove previous text
     $("#tropeBreakdownHeader").after(tropeBreakdownMessage); // update with new text
     // add text describing chart feature with legend
+    // Create pie chart if ASTRSC found any trope words
     if (totHighlightedWords) {
       addPieChart(
         colors,

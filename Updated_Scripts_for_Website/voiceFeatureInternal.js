@@ -279,7 +279,7 @@ function makeVoiceObj() {
   // console.table(voiceObj);
   // console.log("tot num quotes:", totNumQuotes);
   //   return [voiceObj, totNumQuotes];
-  if (totNumQuotes === undefined) totNumQuotes = 0;
+  // if (totNumQuotes === undefined) totNumQuotes = 0;
   enterQuotes(voiceObj, totNumQuotes);
 }
 
@@ -310,11 +310,12 @@ function enterQuotes(voiceObj, totNumQuotes) {
   let allSpeakersGraphFormat = [];
   // Creating + adding HTML for voices feature
   const h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
+  console.log(totNumQuotes);
   const voicesMessage = `<p id="voicesMessage">We found <b>${totNumQuotes}</b> quotes. ${
     totNumQuotes === 0
-      ? "</p>"
+      ? ""
       : `See our breakdown of these quotes in the table below.</p><p id="quoteNote"><span class="small"><b>Note:</b> All of the intro verbs will be in infinitive form.</span></p>`
-  }`;
+  }</p>`;
   // To avoid reproducing header and message, check if they already exist
   if (!document.querySelector("#voicesHeader")) {
     $("#voicesFig").before(h2VoicesTag);
@@ -348,13 +349,14 @@ function enterQuotes(voiceObj, totNumQuotes) {
     if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
     $("#thead").after('<tbody id="tbody"></tbody>');
     document.querySelector("#tbody").innerHTML = rowsHTML;
-    document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
-    $("#voicesHeader").after(voicesMessage);
 
     $("#voicesFig").show();
   } else {
     $("#voicesFig").hide();
+    $("#quoteNote").remove();
   }
+  if (document.querySelector("#voicesMessage")) $("#voicesMessage").remove(); // remove previous voicesMessage if there is one
+  $("#voicesHeader").after(voicesMessage);
 
   // add charts and their headings
   // speakerPieChartWrdNumHtml = `<script id="wrdNumChartScript">
