@@ -1007,146 +1007,6 @@ jQuery(document).ready(function ($) {
     return element.trim().split(/\s+/).length;
   }
 
-  function noPunct(word) {
-    return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()“”"]/g, "");
-  }
-
-  // function cleanSpeakerArray(arr) {
-  //   let newArr = [];
-  //   arr.forEach((el) => newArr.push(noPunct(el)));
-  //   return newArr;
-  // }
-
-  // const getEntities = async () => {
-  //   try {
-  //     const nlp = spacy.load("en_core_web_sm");
-  //     const doc = await nlp(matches[0]);
-  //     for (let ent of doc.ents) {
-  //       console.log("NER", ent.text, ent.label);
-  //     }
-  //   } catch (e) {
-  //     console.log("Error:", e);
-  //   }
-  // };
-
-  // function prevGetPeriodIndex(arrayInputWrds, arrStartIndex) {
-  //   // start searching at beginning of quote and go backwards through array
-  //   for (let i = arrStartIndex; i >= 0; i--) {
-  //     if (arrayInputWrds[i].includes(".")) return i - 1;
-  //   }
-  // }
-
-  // function subGetPeriodIndex(arrayInputWrds, arrStartIndex) {
-  //   // start searching at beginning of quote and go backwards through array
-  //   for (let i = arrStartIndex; i < arrayInputWrds.length; i++) {
-  //     if (arrayInputWrds[i].includes(".")) return i;
-  //   }
-  // }
-
-  // function getPrevOrSubWords(
-  //   quoteMatch,
-  //   quoteStartIndex,
-  //   quoteLength,
-  //   arrayInputWrds
-  // ) {
-  //   const endPunct = [".", "!", "?"];
-  //   let arrStartIndex;
-  //   let arrStopIndex;
-  //   // if the 2nd to last char is not a period, exclamation mark, or question mark, check for subsequent 20 wrds, else check prev 20 wrds
-  //   if (!endPunct.includes(quoteMatch[quoteMatch.length - 2])) {
-  //     // get subsequent wrds
-  //     console.log("subsequent");
-  //     arrStartIndex = quoteStartIndex + quoteLength; // index at which we will start the slice
-  //     arrStopIndex = subGetPeriodIndex(arrayInputWrds, arrStartIndex);
-
-  //     // arrayInputWrds.findIndex(
-  //     //   (el, arrStartIndex) => el.includes(".")
-
-  //     // );
-  //     console.log(arrStartIndex, arrStopIndex);
-  //   } else {
-  //     // get previous wrds
-  //     console.log("prev");
-
-  //     // arrStartIndex = quoteStartIndex - 30;
-  //     // arrStopIndex = quoteStartIndex;
-  //     arrStopIndex = quoteStartIndex - 1;
-  //     arrStartIndex = prevGetPeriodIndex(arrayInputWrds, arrStopIndex);
-  //   }
-
-  //   return arrayInputWrds.slice(arrStartIndex, arrStopIndex + 1);
-  // }
-
-  // function makeVoiceObj(element, verbList) {
-  //   let voiceObj = {};
-  //   let totNumQuotes;
-  //   let matches = element.match(/(“|")([^("|”)]*)(”|")/gi);
-  //   // let sentenceMatches = element.match(/^[A-Z][^.!?]*[.!?]$/gm);
-  //   // console.log(sentenceMatches);
-  //   let arrayInputWrds = element.trim().split(/\s+/);
-  //   // let sentences = element.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|"); // array of sentences in article
-  //   // const spacy = require("spacy");
-
-  //   // getEntities();
-
-  //   if (matches) {
-  //     // console.log(sentences);
-  //     console.log(matches);
-  //     totNumQuotes = matches.length;
-  //     let index;
-
-  //     for (let quoteMatch of matches) {
-  //       // rule out matches that have <= 3 words
-  //       const quoteLength = getTotWordCount(quoteMatch);
-  //       if (quoteLength < 3) continue;
-
-  //       const stopIndex = quoteMatch.indexOf(" "); // make index be the index where the space is
-  //       console.log(stopIndex, quoteMatch.substring(0, stopIndex));
-  //       const quoteStartIndex = arrayInputWrds.findIndex(
-  //         (el) => el === quoteMatch.substring(0, stopIndex)
-  //       ); // find index of first word of quote (by ensuring its 1st word match those of the matching word in arrayInputWrds)
-
-  //       // find the words of the rest of the sentence containing speaker and intro verb
-  //       const prevOrSubWrds = getPrevOrSubWords(
-  //         quoteMatch,
-  //         quoteStartIndex,
-  //         quoteLength,
-  //         arrayInputWrds
-  //       );
-  //       console.log(quoteStartIndex, quoteMatch, prevOrSubWrds);
-
-  //       const introVerb = prevOrSubWrds.find((wrd) =>
-  //         verbList.includes(noPunct(wrd))
-  //       ); // find verb used to introduce them
-
-  //       // find speaker name
-  //       const speakerNameOptions = prevOrSubWrds.filter(
-  //         (wrd) =>
-  //           (wrd[0].toUpperCase() + wrd.substring(1, wrd.length) === wrd &&
-  //             wrd.search(/\d/) &&
-  //             wrd.length > 2 &&
-  //             !africanCountries.includes(noPunct(wrd))) ||
-  //           pronouns.includes(wrd)
-  //       ); // find first capitalized word
-  //       let speakerNameOptionsNoPunct = cleanSpeakerArray(speakerNameOptions);
-
-  //       // if (speakerNameOptionsNoPunct.length === 1) {
-  //       //   speakerNameOptionsNoPunct = speakerNameOptionsNoPunct[0]; // take name out of array if there is just one name
-  //       // }
-  //       speakerNameOptionsNoPunct = speakerNameOptionsNoPunct.join(" ");
-  //       if (!Object.keys(voiceObj).includes(speakerNameOptionsNoPunct))
-  //         voiceObj[speakerNameOptionsNoPunct] = {};
-  //       index = Object.keys(voiceObj[speakerNameOptionsNoPunct]).length; // 0-indexed
-  //       voiceObj[speakerNameOptionsNoPunct][index] = {
-  //         quote: speakerNameOptionsNoPunct !== undefined ? quoteMatch : "━", // add quote to speaker prop
-  //         verb: introVerb !== undefined ? noPunct(introVerb) : "━", // add intro verb to speaker prop
-  //         wrdCount: quoteLength,
-  //       };
-  //     }
-  //   }
-  //   return [voiceObj, totNumQuotes];
-  // }
-
   // This function highlights the words that match the rgx expression below
   function hiliter(word, element, tropeClass, obj, probWords) {
     let rgxpPlural;
@@ -1306,6 +1166,45 @@ jQuery(document).ready(function ($) {
     return $("mark").classList.contains(trope);
   }
 
+  function addPieChart(
+    colors,
+    genWrdsHLCount,
+    tribWrdsHLCount,
+    natWrdsHLCount,
+    conWrdsHLCount
+  ) {
+    // update the doughnut chart
+    let pieChartHtml = `<script id="chartScript">
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+    
+        // The data for our dataset
+        data: {
+            labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
+            datasets: [{
+                label: ' # Words',
+                backgroundColor: ['${colors[0]}', '${colors[1]}', '${colors[2]}', '${colors[3]}'],
+                borderColor: '#ffffff',
+                borderWidth: '6',
+                data: [${genWrdsHLCount}, ${tribWrdsHLCount}, ${natWrdsHLCount}, ${conWrdsHLCount}],
+            }]
+        },
+    
+        // Configuration options go here
+        options: {}
+    });
+    </script>`;
+    $("#chartCDNScript").after(pieChartHtml);
+
+    // Add note about pie chart functionality
+    let tropeBreakdownNote = `<p id="tropeBreakdownNote">Hover over the chart to see how many words of each trope we found. <br><br/> <span class="small"><b>Note:</b> If you wish to see certain tropes on the chart in isolation from others, click on any of the tropes in the legend to remove them from the chart. To add them back to the chart, click on the trope(s) again.</span></p>`;
+    // avoid reproducing note if already there
+    if (!document.querySelector("#tropeBreakdownNote"))
+      $("#tropeBreakdownMessage").after(tropeBreakdownNote);
+  }
+
   /*$(function run() {*/
 
   $("aside").hide();
@@ -1319,117 +1218,6 @@ jQuery(document).ready(function ($) {
     let rawInput;
     rawInput = document.getElementById("inputText").value;
     let totWords = getTotWordCount(rawInput); // get total number of words that were inputted by user
-    // object of speaker, intro verb, quoted thing, and count of words in quoted thing
-    // introVerbsList = [
-    //   "acknowledge",
-    //   "add",
-    //   "admit",
-    //   // "advis",
-    //   "advocate",
-    //   "agree",
-    //   "analyze",
-    //   "argue",
-    //   "assert",
-    //   "believe",
-    //   "claim",
-    //   "comment",
-    //   "compare",
-    //   "conclude",
-    //   "confirm",
-    //   // "concentrate",
-    //   "continue",
-    //   "criticize",
-    //   "define",
-    //   "demonstrate",
-    //   // "deny",
-    //   "describe",
-    //   "develop",
-    //   "disagree",
-    //   "discuss",
-    //   "dispute",
-    //   "distinguish",
-    //   "emphasize",
-    //   "endeavour",
-    //   "examine",
-    //   // "expand on",
-    //   "explain",
-    //   "explore",
-    //   "express",
-    //   "feel",
-    //   "find",
-    //   // "form",
-    //   "focus on",
-    //   "focuses on",
-    //   "focused on",
-    //   "identify",
-    //   "imply",
-    //   "include",
-    //   "incorporate",
-    //   "indicate",
-    //   "insist",
-    //   "interpret",
-    //   "introduce",
-    //   "judge",
-    //   "justify",
-    //   "link",
-    //   "list",
-    //   // "locate",
-    //   "maintain",
-    //   "negate",
-    //   "note",
-    //   "object to",
-    //   "objects to",
-    //   "objected to",
-    //   "observe",
-    //   "offer",
-    //   "oppos",
-    //   "point out",
-    //   "points out",
-    //   "pointed out",
-    //   "provide",
-    //   "question",
-    //   "quote",
-    //   "refer to",
-    //   "refers to",
-    //   "referred to",
-    //   "refute",
-    //   "reject",
-    //   "report",
-    //   // represent
-    //   "respond",
-    //   "reveal",
-    //   // "see",
-    //   // separate
-    //   // show
-    //   // stand for
-    //   "say",
-    //   "said",
-    //   "state",
-    //   "stated",
-    //   "stress",
-    //   "stressed",
-    //   "suggest",
-    //   "suggested",
-    //   // support
-    //   "tell",
-    //   "told",
-    //   "talk about",
-    //   "talks about",
-    //   "talked about",
-    //   "think",
-    //   "thought",
-    //   // tend to
-    //   // "treat",
-    //   // try to
-    //   // use
-    //   "underline",
-    //   "underscore",
-    //   // "view",
-    //   "write",
-    //   "wrote",
-    // ];
-    // let [voiceObj, totNumQuotes] = makeVoiceObj(rawInput, introVerbsList);
-    // console.log(voiceObj, totNumQuotes);
     rawInput = rawInput.replace(/\n\r?/g, "<br>");
     $("#outputText").html(rawInput);
 
@@ -1537,10 +1325,7 @@ jQuery(document).ready(function ($) {
 
     // add up all highlighted words
     let [totHighlightedWords, wlCount] = getTotHighlightedWords(graphObj);
-    let percentageWrdsHighlighted = (
-      (totHighlightedWords / totWords) *
-      100
-    ).toFixed(0);
+    let perTropeWrds = ((totHighlightedWords / totWords) * 100).toFixed(0);
     graphObj["gen"] -= wlCount; // subtract whitelist words from gen count
     window.genWrdsHLCount = graphObj["gen"]; // declare these as global variables using window obj to be able to use them for color-blind friendly button
     window.conWrdsHLCount = graphObj["con"];
@@ -1560,76 +1345,36 @@ jQuery(document).ready(function ($) {
       colors = ["#a8edea", "#eaa8d2", "#a7ffa3", "#ff9980"];
     }
 
-    // update the doughnut chart
-    pieChartHtml = `<script id="chartScript">
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'doughnut',
-    
-        // The data for our dataset
-        data: {
-            labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
-            datasets: [{
-                label: ' # Words',
-                backgroundColor: ['${colors[0]}', '${colors[1]}', '${colors[2]}', '${colors[3]}'],
-                borderColor: '#ffffff',
-                borderWidth: '6',
-                data: [${genWrdsHLCount}, ${tribWrdsHLCount}, ${natWrdsHLCount}, ${conWrdsHLCount}],
-            }]
-        },
-    
-        // Configuration options go here
-        options: {}
-    });
-    </script>`;
-    // remove previous graph
-    // document.querySelector("#chartScript") && $
+    // Remove previous chart and note text if there was any:
     if (document.querySelector("#chartScript")) {
+      // remove previous graph
       $("#chartScript").remove();
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
     }
-    $("#chartCDNScript").after(pieChartHtml);
-
-    let h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of words found</h2>`;
+    // Add corresponding text and create pie chart if ASTRSC found any trope words
+    const h2BreakdownTag = `<h2 id="tropeBreakdownHeader">Breakdown of words found</h2>`;
     // add ternary statement to avoid reproducing h2 tags
     !document.querySelector("#tropeBreakdownHeader") &&
       $("#tropeMessage").after(h2BreakdownTag);
 
     // add text saying what percentage of words were highlighted
-    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${percentageWrdsHighlighted}% of this article) associated with tropes about Africa.</p>`;
+    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${perTropeWrds}% of this article) associated with tropes about Africa.</p>`;
     document.querySelector("#tropeBreakdownMessage") &&
       $("#tropeBreakdownMessage").remove(); // remove previous text
     $("#tropeBreakdownHeader").after(tropeBreakdownMessage); // update with new text
     // add text describing chart feature with legend
-    let tropeBreakdownNote = `<p>Hover over the chart to see how many words of each trope we found.</p><p id="tropeBreakdownNote"><span class="small"><b>Note:</b> If you wish to see certain tropes on the chart in isolation from others, click on any of the tropes in the legend to remove them from the chart. To add them back to the chart, click on the trope(s) again.</span></p>`;
-    !document.querySelector("#tropeBreakdownNote") &&
-      $("#tropeBreakdownMessage").after(tropeBreakdownNote);
-
-    // Adding HTML for voices feature
-    // let h2VoicesTag = `<h2 id="voicesHeader">Quotes found</h2>`;
-    // // To avoid reproducing header and message, check if they already exist
-    // if (!document.querySelector("#voicesHeader")) {
-    //   $("#voicesFig").before(h2VoicesTag);
-    // }
-    // let voicesMessage = `<p id="voicesMessage">We found <b>${
-    //   totNumQuotes === undefined ? 0 : totNumQuotes
-    // }</b> quotes. ${
-    //   totNumQuotes === undefined
-    //     ? ""
-    //     : "See our breakdown of these quotes in the table below." // only show this message if there are quotes in the text
-    // }</p>`;
-    // document.querySelector("#voicesMessage") && $("#voicesMessage").remove();
-    // $("#voicesHeader").after(voicesMessage);
-
-    // if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
-    // if (totNumQuotes) {
-    //   enterQuotes(voiceObj); // only execute fuction if there is at least 1 quote
-    //   $("#voicesFig").show();
-    // } else {
-    //   $("#voicesFig").hide();
-    // }
+    if (totHighlightedWords) {
+      addPieChart(
+        colors,
+        genWrdsHLCount,
+        tribWrdsHLCount,
+        natWrdsHLCount,
+        conWrdsHLCount
+      );
+    } else {
+      $("#tropeBreakdownNote").remove(); // remove previous note
+    }
 
     // account for updating values
 
@@ -1765,8 +1510,8 @@ jQuery(document).ready(function ($) {
       $("#thead").css("background-color", "#66ccee");
       console.log($("#thead").css("background-color"));
 
-      // Change h4 color to black
-      $("h4").css("color", "#000000");
+      // // Change h4 color to black
+      // $("h4").css("color", "#000000");
 
       // Change chart colors
       pieChartColorBlindFriendly = `<script id="chartScript">
@@ -1791,7 +1536,6 @@ jQuery(document).ready(function ($) {
             options: {}
         });
         </script>`;
-      // $("#chartScript").remove();
       $("#chartScript").remove();
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
