@@ -45,6 +45,7 @@ jQuery(document).ready(function ($) {
     "black african",
     "african-american",
     "french equitorial africa",
+    "horn of africa",
   ];
 
   const conflictAndViolenceArray = [
@@ -931,75 +932,13 @@ jQuery(document).ready(function ($) {
     "armstrong",
   ];
 
-  const pronouns = ["she", "they", "he"];
-
-  const africanCountries = [
-    "Algeria",
-    "Angola",
-    "Benin",
-    "Botswana",
-    "Burkina Faso",
-    "Burundi",
-    "Cabo Verde",
-    "Cameroon",
-    "Central African Republic",
-    "Chad",
-    "Comoros",
-    "Democratic Republic of the Congo",
-    "Republic of the Congo",
-    "Cote d'Ivoire",
-    "Djibouti",
-    "Egypt",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Eswatini",
-    "Ethiopia",
-    "Gabon",
-    "Gambia",
-    "Ghana",
-    "Guinea",
-    "Guinea-Bissau",
-    "Kenya",
-    "Lesotho",
-    "Liberia",
-    "Libya",
-    "Madagascar",
-    "Malawi",
-    "Mali",
-    "Mauritania",
-    "Mauritius",
-    "Morocco",
-    "Mozambique",
-    "Namibia",
-    "Niger",
-    "Nigeria",
-    "Rwanda",
-    "Sao Tome and Principe",
-    "Senegal",
-    "Seychelles",
-    "Sierra Leone",
-    "Somalia",
-    "South Africa",
-    "South Sudan",
-    "Sudan",
-    "Tanzania",
-    "Togo",
-    "Tunisia",
-    "Uganda",
-    "Zambia",
-    "Zimbabwe",
-  ];
-
-  // const ambiguousWords = ["arm", "arms", "conflicts"];
-
   // This function will return the total number of words in the inputted text
   function getTotHighlightedWords(obj) {
     // get all counts, add them up, and return them
-    sum = 0;
-    wlCount = obj["wl"];
-    delete obj["wl"];
+    let sum = 0;
     Object.values(obj).forEach((el) => (sum += el));
-    return [sum - wlCount, wlCount]; // subtract wlCount from total sum to avoid counting whitelist words
+    console.log(obj);
+    return sum - 2 * obj["wl"]; // subtract wlCount from total sum bc they are in the gen count
   }
 
   // This function will return the total number of words in the inputted text
@@ -1215,8 +1154,7 @@ jQuery(document).ready(function ($) {
   $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
-    let rawInput;
-    rawInput = document.getElementById("inputText").value;
+    let rawInput = document.getElementById("inputText").value;
     let totWords = getTotWordCount(rawInput); // get total number of words that were inputted by user
     rawInput = rawInput.replace(/\n\r?/g, "<br>");
     $("#outputText").html(rawInput);
@@ -1324,9 +1262,10 @@ jQuery(document).ready(function ($) {
     }
 
     // add up all highlighted words
-    let [totHighlightedWords, wlCount] = getTotHighlightedWords(graphObj);
+    let totHighlightedWords = getTotHighlightedWords(graphObj);
+    console.log(totWords);
     let perTropeWrds = ((totHighlightedWords / totWords) * 100).toFixed(0);
-    graphObj["gen"] -= wlCount; // subtract whitelist words from gen count
+    graphObj["gen"] -= graphObj["wl"]; // subtract whitelist words from gen count
     window.genWrdsHLCount = graphObj["gen"]; // declare these as global variables using window obj to be able to use them for color-blind friendly button
     window.conWrdsHLCount = graphObj["con"];
     window.tribWrdsHLCount = graphObj["trib"];
@@ -1470,7 +1409,7 @@ jQuery(document).ready(function ($) {
       // Change CBF background color
       $("#clrBlnd").css("color", "#fbfbfb");
       $("#clrBlnd").css("background-color", "#ee6677");
-      $("#clrBlnd").css("border", "hidden");
+      $("#clrBlnd").css("border", "3px solid #ee6677");
       // Change hover colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#66ccee");

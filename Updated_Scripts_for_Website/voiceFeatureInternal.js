@@ -171,6 +171,7 @@ const introVerbPhrases = [
   "object to",
   "focus on",
   "expand on",
+  "call for",
 ];
 
 // This function will return the total number of words in the inputted text
