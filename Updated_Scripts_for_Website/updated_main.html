@@ -1,0 +1,104 @@
+<form>
+  <textarea
+    id="inputText"
+    spellcheck="true"
+    maxlength="100000"
+    placeholder="Enter your article about Africa here!"
+  ></textarea>
+  <p>&nbsp;</p>
+  <p><input id="scanArticle" type="button" value="Scan Article" /></p>
+  <br />
+  <div id="clrBlnd">
+    <b>Need color-blind friendly colors?</b> <br /><label class="switch">
+      <input
+        id="clrBlndCheckbox"
+        name="clr-blnd"
+        type="checkbox"
+        value="Color-blind friendly"
+      />
+    </label>
+    Yes, please!
+  </div>
+</form>
+<div>
+  <!-- wp:spacer -->
+  <div class="wp-block-spacer" style="height: 40px" aria-hidden="true"> </div>
+  <!-- /wp:spacer -->
+  <div>
+    <p id="outputText"> </p>
+  </div>
+  <div id="tropeMessage">
+    <aside id="generalization">
+      Do you really mean the whole entire continent? Africa is often treated as
+      a country, and Africans depicted as a monolith! If it's relevant, try to
+      be more specific.
+      <span style="text-decoration: underline"
+        ><a href="https://astrsc.com/tropes/generalization"
+          >Read more about the Generalization Trope.</a
+        ></span
+      >
+    </aside>
+    <aside id="tribalism">
+      African issues are often reduced to matters of ethnicity and tribal
+      rivalries, even when that is an incomplete or inaccurate picture. African
+      communities and groups are often described as tribes regardless of social
+      organization, when similar groups would be described as nations, minority
+      groups, or communities elsewhere in the world. The framing of conflicts as
+      driven by tribal hatred is particularly harmful and can contribute to
+      conflict escalation.
+      <span style="text-decoration: underline"
+        ><a
+          href="https://astrsc.com/tropes/tribalism"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Read more about the Tribalism Trope.</a
+        ></span
+      >
+    </aside>
+    <aside id="nature">
+      People love to describe the savanna, the jungles, the wildlife, and the
+      vast empty lands of Africa. Fascinating and thrilling as they are,
+      descriptions of African nature and wildlife should be used carefully.
+      Africa has long been portrayed as an unadulterated natural reservation; a
+      big virgin jungle to tame and explore. If it is not directly related to
+      your subject matter, spare your readers the romanticized natural
+      descriptions.
+      <span style="text-decoration: underline"
+        ><a
+          href="https://astrsc.com/tropes/nature"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Read more about the Nature and Wildlife Trope.</a
+        ></span
+      >
+    </aside>
+    <aside id="conflictAndViolence">
+      <span style="font-weight: 400"
+        >To this day, Africa is seen as a place ridden with conflict, violence,
+        and devastation. While crises continue to unfold in certain regions of
+        the continent, the language used to describe them is often particularly
+        bleak and fatalistic. As the 'Dark Continent' stereotype continues to be
+        one of the most harmful ones to Africa's image, it is worth
+        interrogating whether we are seeing the continent through too negative
+        and alarmist a lens.</span
+      > <span style="text-decoration: underline"
+        ><a
+          href="https://astrsc.com/tropes/conflict-and-violence"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Read more about the Conflict and Violence Trope.</a
+        ></span
+      >
+    </aside>
+  </div>
+</div>
+<!-- wp:html -->
+<p>
+  <canvas id="myChart"></canvas>
+  <script
+    id="chartCDNScript"
+    src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
+  ></script>
+</p>
+<!-- /wp:html -->
+<p>&nbsp;</p>
