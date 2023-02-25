@@ -1274,15 +1274,37 @@ jQuery(document).ready(function ($) {
     // if CBF colors button is checked, set colors array to be CBF; else, set to original colors
     let colors;
     if ($("#clrBlndCheckbox").prop("checked")) {
-      // array colors are in gen, trib, nat, con order
-      colors = ["#66ccee", "#ee6677", "#ccbb44", "#bbbbbb"]; // CBF colors
-      $(".gen").css("background-color", "#66ccee");
-      $(".trib").css("background-color", "#ee6677");
-      $(".nat").css("background-color", "#ccbb44");
-      $(".con").css("background-color", "#bbbbbb");
+      // order: gen popup background (PB), trib PB, nat PB, con PB, gen link color, trib link color, nat link color, con link color
+      colors = [
+        "#3DB7E9",
+        "#f0e442",
+        "#d55e00  ",
+        "black  ",
+        "#f0e442",
+        "#3DB7E9",
+        "#f0e442",
+        "#f0e442",
+      ]; // CBF colors for when you hover over word
+      // change general highlighting colors and font color of highlighted words
+      $(".gen").css("background-color", "#3DB7E9");
+      $(".trib").css("background-color", "#f0e442");
+      $(".nat").css("background-color", "#d55e00");
+      $(".con").css({ "background-color": "black  ", color: "white" });
     } else {
-      colors = ["#a8edea", "#eaa8d2", "#a7ffa3", "#ff9980"];
+      // color order: gen PB, trib PB, nat PB, con PB, gen link color, trib link color, con link color
+      colors = [
+        "#a8edea",
+        "#eaa8d2",
+        "#a7ffa3",
+        "#ff9980",
+        "#ff7451",
+        "rgb(59, 84, 205)",
+        "#ff7451",
+        "rgb(59, 84, 205)",
+      ];
     }
+
+    console.log(colors);
 
     // Remove previous chart if there was one:
     if (document.querySelector("#chartScript")) {
@@ -1333,7 +1355,8 @@ jQuery(document).ready(function ($) {
     $(".gen").hover(function () {
       $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", colors[0]);
+      $("#tropeMessage").css("background-color", colors[0]); // turn background of popup text this color
+      $("#genLink").css("color", colors[4]); // change link color
       $("#generalization").show();
     });
 
@@ -1341,6 +1364,7 @@ jQuery(document).ready(function ($) {
       $("#tropeMessage").show();
       $("aside").hide();
       $("#tropeMessage").css("background-color", colors[1]);
+      $("#tribLink").css("color", colors[5]); // change link color
       $("#tribalism").show();
     });
 
@@ -1348,6 +1372,7 @@ jQuery(document).ready(function ($) {
       $("#tropeMessage").show();
       $("aside").hide();
       $("#tropeMessage").css("background-color", colors[2]);
+      $("#natLink").css("color", colors[6]); // change link color
       $("#nature").show();
     });
 
@@ -1355,6 +1380,7 @@ jQuery(document).ready(function ($) {
       $("#tropeMessage").show();
       $("aside").hide();
       $("#tropeMessage").css("background-color", colors[3]);
+      $("#conLink").css("color", colors[7]);
       $("#conflictAndViolence").show();
     });
 
@@ -1397,7 +1423,7 @@ jQuery(document).ready(function ($) {
   $("#clrBlndCheckbox").change(function () {
     if (this.checked) {
       // Change scan article button color
-      $("#scanArticle").css("border-color", "#66ccee");
+      $("#scanArticle").css("border-color", "#3DB7E9");
       $("#scanArticle").hover(
         function () {
           $(this).css("background-color", "#66ccee");
@@ -1407,32 +1433,40 @@ jQuery(document).ready(function ($) {
         }
       );
       // Change CBF background color
-      $("#clrBlnd").css("color", "#fbfbfb");
-      $("#clrBlnd").css("background-color", "#ee6677");
-      $("#clrBlnd").css("border", "3px solid #ee6677");
+      $("#clrBlnd").css("background-color", "#f0e442");
+      $("#clrBlnd").css("border", "3px solid #f0e442");
       // Change hover colors
       $(".gen").hover(function () {
-        $("#tropeMessage").css("background-color", "#66ccee");
-        // $("#tropeMessage").css("color", "#ffffff");
+        $("#tropeMessage").css("background-color", "#3DB7E9");
+        $("#genLink").css("color", "black");
       });
 
       $(".trib").hover(function () {
-        $("#tropeMessage").css("background-color", "#ee6677");
+        $("#tropeMessage").css("background-color", "#f0e442");
+        $("#tribLink").css("color", "#3DB7E9");
       });
 
       $(".nat").hover(function () {
-        $("#tropeMessage").css("background-color", "#ccbb44");
+        $("#tropeMessage").css("background-color", "#d55e00");
+        $("#natLink").css("color", "black");
       });
 
       $(".con").hover(function () {
-        $("#tropeMessage").css("background-color", "#bbbbbb");
+        $("#tropeMessage").css({
+          "background-color": "black",
+          color: "white",
+        });
+        $("#conLink").css("color", "#f0e442");
       });
 
       // Change highlight color
-      $(".gen").css("background-color", "#66ccee");
-      $(".trib").css("background-color", "#ee6677");
-      $(".nat").css("background-color", "#ccbb44");
-      $(".con").css("background-color", "#bbbbbb");
+      $(".gen").css("background-color", "#3DB7E9");
+      $(".trib").css("background-color", "#f0e442");
+      $(".nat").css("background-color", "#d55e00");
+      $(".con").css({
+        "background-color": "black",
+        color: "white",
+      });
 
       // Change outputText background color
       $("#outputText").css("background-color", "#ffffff");
@@ -1441,14 +1475,14 @@ jQuery(document).ready(function ($) {
       $("#outputText").css("border", "solid black");
 
       // Change headers' color to black
-      $("h2").css("color", "#000000");
+      $("h2").css("color", "black");
 
       // Change table background color to blue
-      $("#thead").css("background-color", "#66ccee");
+      $("#thead").css("background-color", "#3DB7E9");
       console.log($("#thead").css("background-color"));
 
       // // Change h4 color to black
-      // $("h4").css("color", "#000000");
+      // $("h4").css("color", "black");
 
       // Change chart colors
       pieChartColorBlindFriendly = `<script id="chartScript">
@@ -1462,7 +1496,7 @@ jQuery(document).ready(function ($) {
                 labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
                 datasets: [{
                     label: ' # Words',
-                    backgroundColor: ['#66ccee', '#ee6677', '#ccbb44', '#bbbbbb'],
+                    backgroundColor: ['#3DB7E9', '#f0e442', '#d55e00', 'black'],
                     borderColor: 'rgb(255, 255, 255)',
                     borderWidth: '6',
                     data: [${window.genWrdsHLCount}, ${window.tribWrdsHLCount}, ${window.natWrdsHLCount}, ${window.conWrdsHLCount}],
@@ -1489,31 +1523,40 @@ jQuery(document).ready(function ($) {
         }
       );
       // Change back CBF background color
-      $("#clrBlnd").css("color", "#333333");
-      $("#clrBlnd").css("background-color", "#ffdfa4");
-      $("#clrBlnd").css("border", "3px solid #ffcc6d");
+      $("#clrBlnd").css({
+        color: "#333333",
+        "background-color": "#ffdfa4",
+        border: "3px solid #ffcc6d",
+      });
       // Change hover to original colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#a8edea");
+        $("#genLink").css("color", "#ff7451");
       });
 
       $(".trib").hover(function () {
         $("#tropeMessage").css("background-color", "#eaa8d2");
+        $("#tribLink").css("color", "rgb(59, 84, 205)");
       });
 
       $(".nat").hover(function () {
         $("#tropeMessage").css("background-color", "#a7ffa3");
+        $("#natLink").css("color", "#ff7451");
       });
 
       $(".con").hover(function () {
-        $("#tropeMessage").css("background-color", "#ff9980");
+        $("#tropeMessage").css({
+          "background-color": "#ff9980",
+          color: "black",
+        });
+        $("#conLink").css("color", "rgb(59, 84, 205)");
       });
 
       // Change highlight to original colors
       $(".gen").css("background-color", "#a8edea");
       $(".trib").css("background-color", "#eaa8d2");
       $(".nat").css("background-color", "#a7ffa3");
-      $(".con").css("background-color", "#ff9980");
+      $(".con").css({ "background-color": "#ff9980", color: "black" });
 
       // Change outputText color back
       $("#outputText").css("background-color", "#f5f5f5");
