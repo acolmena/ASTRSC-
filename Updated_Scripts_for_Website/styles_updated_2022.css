@@ -147,7 +147,7 @@ input:checked + .slider {
 
 input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
-}  
+}
 
 input:checked + .slider:before {
 	-webkit-transform: translateX(17px);
@@ -170,7 +170,7 @@ mark {
 }
 
 
-#outputText{
+/* #outputText{
 	width: 50%;
     min-width: 400px;
 	display: block;
@@ -181,9 +181,9 @@ mark {
 	margin-left: 5%;
 	background-color: #F4F5F5;
   	margin-bottom: 200px;
-}
+} */
 
-#tropeMessage{
+/* #tropeMessage{
 	background-color: white;
     float: right;
 	position: absolute;
@@ -194,7 +194,7 @@ mark {
     right:5%;
     border-radius: 10px;
     margin-bottom: 100px;
-}*/
+} */
 
 mark {
 	border-radius: 2.5px;
@@ -215,7 +215,7 @@ mark {
 
 #outputText{
 	width: 50%;
-	display: block;
+	display: none;
 	float: left;
 	height: auto;
 	padding: 1%;
@@ -229,6 +229,7 @@ mark {
 }
 
 #tropeMessage{
+	display: none;
 	background-color: white;
 	color: black;
 	position: absolute;
@@ -240,14 +241,18 @@ mark {
     border-radius: 10px;
 }
 
-table {
+/* table { */
 /* 	display: flex;
 	flex-direction: row; */
 /* 	border: 6px !important; */
 /* 	min-width: 70vw;
   	width: auto;
   	flex: 1; */
-	width: 100%;
+/* 	width: 100%;
+} */
+
+#voicesFig {
+	display: none;
 }
 
 #thead{
@@ -270,7 +275,7 @@ table {
     }
 }
 
-.gen:hover, .trib:hover, .con:hover, .nat:hover, #genLink:hover, #tribLink:hover, #conLink:hover, #natLink:hover {
+.gen:hover, .trib:hover, .nat:hover, .con:hover, #genLink:hover, #tribLink:hover, #conLink:hover, #natLink:hover {
 	font-weight: bold;
 }
 
@@ -305,10 +310,6 @@ table {
 .nat {
 	background-color: #a7ffa3;
 }
-
-/* .nat:hover {
-	font-weight: bold;
-} */
 
 #natLink {
 	text-decoration: underline;
