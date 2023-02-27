@@ -321,7 +321,6 @@ jQuery(document).ready(function ($) {
     "safari",
     "biospher",
     "environment",
-    "freshwat",
     "herbivor",
     "pygmy hippopotamus",
     "ladybug",
@@ -904,6 +903,7 @@ jQuery(document).ready(function ($) {
     "warthog",
     "whale",
     "cricket",
+    "freshwat",
   ];
 
   const generalizationArray = [
@@ -970,7 +970,9 @@ jQuery(document).ready(function ($) {
           replHighlight
         );
 
-        // add to count of trope class or add property if not in obj yet
+        // add to count of trope class
+        console.log(match, tropeClass);
+        console.table(obj);
         obj[tropeClass] += 1;
       }
     }
@@ -1262,6 +1264,7 @@ jQuery(document).ready(function ($) {
     }
 
     // add up all highlighted words
+    console.log(document.querySelectorAll(".nat").length);
     let totHighlightedWords = getTotHighlightedWords(graphObj);
     console.log(totWords);
     let perTropeWrds = ((totHighlightedWords / totWords) * 100).toFixed(0);
