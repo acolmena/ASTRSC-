@@ -390,13 +390,15 @@ function enterQuotes(voiceObj, totNumQuotes) {
     if (document.querySelector("#tbody")) $("#tbody").remove(); // remove previous table
     $("#thead").after('<tbody id="tbody"></tbody>');
     document.querySelector("#tbody").innerHTML = rowsHTML;
-
     $("#voicesFig").show();
+    // $("#voicesFig").css("visibility", "visible");
   } else {
-    $("#voicesFig").hide();
+    // $("#voicesFig").css("visibility", "hidden");
     $("#quoteNote").remove();
+    $("#voicesFig").hide();
   }
   if (document.querySelector("#voicesMessage")) $("#voicesMessage").remove(); // remove previous voicesMessage if there is one
+  if (document.querySelector("#quoteNote")) $("#quoteNote").remove(); // remove previous quoteNote if there is one
   $("#voicesHeader").after(voicesMessage);
 
   // add charts and their headings
