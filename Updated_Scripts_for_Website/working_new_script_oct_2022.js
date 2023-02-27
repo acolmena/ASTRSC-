@@ -1148,9 +1148,9 @@ jQuery(document).ready(function ($) {
 
   $("aside").hide();
   $("#resultSummary").hide();
-  $("#outputText").hide();
-  $("#tropeMessage").hide();
-  $("#voicesFig").hide();
+  // $("#outputText").hide();
+  // $("#tropeMessage").hide();
+  // $("#voicesFig").hide();
   $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
@@ -1337,7 +1337,7 @@ jQuery(document).ready(function ($) {
 
     // account for updating values
 
-    $("#outputText").show();
+    $("#outputText").css("visibility", "visible");
     $("mark").bind("mousemove", function (e) {
       $("#tropeMessage").css({
         top: e.pageY,
@@ -1353,34 +1353,46 @@ jQuery(document).ready(function ($) {
     });
 
     $(".gen").hover(function () {
-      $("#tropeMessage").show();
+      // $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", colors[0]); // turn background of popup text this color
       $("#genLink").css("color", colors[4]); // change link color
+      $("#tropeMessage").css({
+        "background-color": colors[0],
+        visibility: "visible",
+      }); // turn background of popup text this color
       $("#generalization").show();
     });
 
     $(".trib").hover(function () {
-      $("#tropeMessage").show();
+      // $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", colors[1]);
       $("#tribLink").css("color", colors[5]); // change link color
+      $("#tropeMessage").css({
+        "background-color": colors[1],
+        visibility: "visible",
+      });
       $("#tribalism").show();
     });
 
     $(".nat").hover(function () {
-      $("#tropeMessage").show();
+      // $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", colors[2]);
       $("#natLink").css("color", colors[6]); // change link color
+      $("#tropeMessage").css({
+        "background-color": colors[2],
+        visibility: "visible",
+      });
       $("#nature").show();
     });
 
     $(".con").hover(function () {
-      $("#tropeMessage").show();
+      // $("#tropeMessage").show();
       $("aside").hide();
-      $("#tropeMessage").css("background-color", colors[3]);
       $("#conLink").css("color", colors[7]);
+      $("#tropeMessage").css({
+        "background-color": colors[3],
+        visibility: "visible",
+      });
       $("#conflictAndViolence").show();
     });
 
@@ -1438,6 +1450,7 @@ jQuery(document).ready(function ($) {
       // Change hover colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#3DB7E9");
+        $("#generalization").css("color", "white"); // make font color white
         $("#genLink").css("color", "black");
       });
 
@@ -1448,14 +1461,13 @@ jQuery(document).ready(function ($) {
 
       $(".nat").hover(function () {
         $("#tropeMessage").css("background-color", "#d55e00");
+        $("#nature").css("color", "white");
         $("#natLink").css("color", "black");
       });
 
       $(".con").hover(function () {
-        $("#tropeMessage").css({
-          "background-color": "black",
-          color: "white",
-        });
+        $("#tropeMessage").css("background-color", "black");
+        $("#conflictAndViolence").css("color", "white");
         $("#conLink").css("color", "#f0e442");
       });
 
@@ -1531,6 +1543,7 @@ jQuery(document).ready(function ($) {
       // Change hover to original colors
       $(".gen").hover(function () {
         $("#tropeMessage").css("background-color", "#a8edea");
+        $("#generalization").css("color", "black");
         $("#genLink").css("color", "#ff7451");
       });
 
@@ -1541,14 +1554,13 @@ jQuery(document).ready(function ($) {
 
       $(".nat").hover(function () {
         $("#tropeMessage").css("background-color", "#a7ffa3");
+        $("#nature").css("color", "black");
         $("#natLink").css("color", "#ff7451");
       });
 
       $(".con").hover(function () {
-        $("#tropeMessage").css({
-          "background-color": "#ff9980",
-          color: "black",
-        });
+        $("#tropeMessage").css("background-color", "#ff9980");
+        $("#conflictAndViolence").css("color", "black");
         $("#conLink").css("color", "rgb(59, 84, 205)");
       });
 
