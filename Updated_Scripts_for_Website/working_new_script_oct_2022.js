@@ -1337,7 +1337,7 @@ jQuery(document).ready(function ($) {
 
     // account for updating values
 
-    $("#outputText").css("visibility", "visible");
+    $("#outputText").css("display", "block");
     $("mark").bind("mousemove", function (e) {
       $("#tropeMessage").css({
         top: e.pageY,
@@ -1353,46 +1353,34 @@ jQuery(document).ready(function ($) {
     });
 
     $(".gen").hover(function () {
-      // $("#tropeMessage").show();
+      $("#tropeMessage").show();
       $("aside").hide();
       $("#genLink").css("color", colors[4]); // change link color
-      $("#tropeMessage").css({
-        "background-color": colors[0],
-        visibility: "visible",
-      }); // turn background of popup text this color
+      $("#tropeMessage").css("background-color", colors[0]); // turn background of popup text this color
       $("#generalization").show();
     });
 
     $(".trib").hover(function () {
-      // $("#tropeMessage").show();
+      $("#tropeMessage").show();
       $("aside").hide();
       $("#tribLink").css("color", colors[5]); // change link color
-      $("#tropeMessage").css({
-        "background-color": colors[1],
-        visibility: "visible",
-      });
+      $("#tropeMessage").css("background-color", colors[1]);
       $("#tribalism").show();
     });
 
     $(".nat").hover(function () {
-      // $("#tropeMessage").show();
+      $("#tropeMessage").show();
       $("aside").hide();
       $("#natLink").css("color", colors[6]); // change link color
-      $("#tropeMessage").css({
-        "background-color": colors[2],
-        visibility: "visible",
-      });
+      $("#tropeMessage").css("background-color", colors[2]);
       $("#nature").show();
     });
 
     $(".con").hover(function () {
-      // $("#tropeMessage").show();
+      $("#tropeMessage").show();
       $("aside").hide();
       $("#conLink").css("color", colors[7]);
-      $("#tropeMessage").css({
-        "background-color": colors[3],
-        visibility: "visible",
-      });
+      $("#tropeMessage").css("background-color", colors[3]);
       $("#conflictAndViolence").show();
     });
 
