@@ -948,34 +948,42 @@ jQuery(document).ready(function ($) {
 
   // This function highlights the words that match the rgx expression below
   function hiliter(word, element, tropeClass, obj, probWords) {
-    let rgxpPlural;
+    let rgxp;
+    // let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
     // for words that have too many words that start with it
     if (probWords.includes(word)) {
-      rgxpPlural = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
+      rgxp = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
     } else {
-      rgxpPlural = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
+      rgxp = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
     }
+
+    element.innerHTML = element.innerHTML.replace(rgxp, function (x) {
+      return `<mark class=${tropeClass}>${x}</mark>`;
+    });
 
     // find words that match rgx
-    let rgxMatches = element.innerHTML.match(rgxpPlural);
+    // let rgxMatches = element.innerHTML.match(rgxp);
     // do highlighting if there is/are rgx matches
-    if (rgxMatches) {
-      for (let match of rgxMatches) {
-        // need to convert to lower case bc .includes is case-sensitive
-        if (exceptions.includes(match.toLowerCase())) continue; // don't highlight exceptions
+    // if (rgxMatches) {
+    //   console.log("with duplicates", rgxMatches)
+    //   let wrdSet = new Set(rgxMatches);
+    // for (let match of rgxMatches) {
+    // need to convert to lower case bc .includes is case-sensitive
+    // if (exceptions.includes(match.toLowerCase())) continue; // don't highlight exceptions
 
-        let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
-        element.innerHTML = element.innerHTML.replace(
-          new RegExp(`\\b${match}\\b`, "gi"),
-          replHighlight
-        );
+    // let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
+    // element.innerHTML = element.innerHTML.replace(
+    //   new RegExp(`\\b${match}\\b`, "gi"),
+    //   replHighlight
+    // );
 
-        // add to count of trope class
-        console.log(match, tropeClass);
-        console.table(obj);
-        obj[tropeClass] += 1;
-      }
-    }
+    // add to count of trope class
+    // console.log(match, tropeClass);
+    // console.table(obj);
+    // obj[tropeClass] += 1;
+    // }
+    // }
+    console.log(element.innerHTML);
     return obj;
   }
 
