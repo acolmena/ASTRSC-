@@ -180,7 +180,7 @@ function getTotWordCount(element) {
 }
 
 function noPunct(word) {
-  return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()“”"]/g, "");
+  return word.replace(/[.,?\/#!$%\^&\*;:{}=\-_`~()“”"]/g, "");
 }
 
 function cleanSpeakerArray(arr) {
@@ -245,11 +245,7 @@ function getSpeakerOptions(doc, prevSpeaker) {
   let possibleSpeakers = [];
   for (let i = 0; i < doc.document[0].length; i++) {
     let wrdDoc = doc.document[0][i].text;
-    if (
-      !wrdDoc[0].toUpperCase() + wrdDoc.substring(1, wrdDoc.length) ===
-      wrdDoc
-    )
-      continue; // if word is not capitalized, continue
+    if (!wrdDoc[0].toUpperCase() + wrdDoc.slice(1) === wrdDoc) continue; // if word is not capitalized, continue
     let wrdDocTags = doc.document[0][i]["tags"];
     if (
       (wrdDocTags.has("ProperNoun") &&
