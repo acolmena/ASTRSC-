@@ -938,7 +938,7 @@ jQuery(document).ready(function ($) {
     let sum = 0;
     Object.values(obj).forEach((el) => (sum += el));
     console.log(obj);
-    return sum - 2 * obj["wl"]; // subtract wlCount from total sum bc they are in the gen count
+    return sum - obj["wl"]; // subtract wlCount from total sum bc they are in the gen count
   }
 
   // This function will return the total number of words in the inputted text
@@ -1259,7 +1259,6 @@ jQuery(document).ready(function ($) {
     let totHighlightedWords = getTotHighlightedWords(graphObj);
     console.log(totWords);
     let perTropeWrds = ((totHighlightedWords / totWords) * 100).toFixed(0);
-    graphObj["gen"] -= graphObj["wl"]; // subtract whitelist words from gen count
     window.genWrdsHLCount = graphObj["gen"]; // declare these as global variables using window obj to be able to use them for color-blind friendly button
     window.conWrdsHLCount = graphObj["con"];
     window.tribWrdsHLCount = graphObj["trib"];
