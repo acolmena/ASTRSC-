@@ -1471,7 +1471,7 @@ jQuery(document).ready(function ($) {
       $("h2").css("color", "black");
 
       // Change table background color to blue
-      $("#thead").css("background-color", "#3DB7E9");
+      document.querySelector("#thead").style.backgroundColor = "#3DB7E9";
       console.log($("#thead").css("background-color"));
 
       // // Change h4 color to black
@@ -1591,7 +1591,8 @@ jQuery(document).ready(function ($) {
     }
 
     // Change table background color back to teal-ish
-    $("#thead").css("background-color", "rgba(0, 233, 117, 0.58)");
+    document.querySelector("#thead").style.backgroundColor =
+      "rgba(0, 233, 117, 0.58)";
 
     // Change h4 color back to teal-ish
     $("h4").css("color", "#34D293");
