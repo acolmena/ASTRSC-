@@ -48,7 +48,7 @@ p{
 	margin-left:auto;
 	display: block;
 	border-radius: 10px;
-    border-width: 3px;
+    border-width: 1.5px;
 }
 
 
@@ -166,8 +166,9 @@ input:checked + .slider:before {
 }
 
 mark {
-	border-radius: 5px;
-    margin: 0.03em;
+	border-radius: 8px;
+	padding-left: 0.35em;
+    padding-right: 0.35em;
 }
 
 
@@ -197,10 +198,6 @@ mark {
     margin-bottom: 100px;
 } */
 
-mark {
-	border-radius: 2.5px;
-	width: 60%;
-}
 
 #resultSummary{
 	font-size: 1.2em;
