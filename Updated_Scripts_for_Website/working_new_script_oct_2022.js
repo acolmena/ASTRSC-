@@ -19,6 +19,32 @@ jQuery(document).ready(function ($) {
 
   // New Trope Structure
 
+  const generalizationArray = [
+    "africa",
+    "subsaharan",
+    "continent",
+    "sub-saharan",
+  ];
+
+  const tribalismArray = [
+    "ethnic",
+    "nomad",
+    "bushmen",
+    "tribe",
+    "pygmy",
+    "tribal",
+    "clan",
+  ];
+
+  // const exceptions = [
+  //   "conflicting",
+  //   "conflicted",
+  //   "feedback",
+  //   "aiding",
+  //   "lionel",
+  //   "armstrong",
+  // ];
+
   const whitelistArray = [
     "pan-african",
     "pan african",
@@ -54,6 +80,9 @@ jQuery(document).ready(function ($) {
     "gender based violence",
     "violenc",
     "conflict",
+    "coup d'etat",
+    "civil war",
+    "smuggled weapons",
     "war",
     "wars",
     "warring",
@@ -62,7 +91,6 @@ jQuery(document).ready(function ($) {
     "wartime",
     "warzone",
     "warzones",
-    "civil war",
     "atroc",
     "crime",
     "violent",
@@ -168,7 +196,6 @@ jQuery(document).ready(function ($) {
     "shoot",
     "slaughter",
     "smuggl",
-    "smuggled weapons",
     "child soldier",
     "soldier",
     "suffer",
@@ -202,7 +229,6 @@ jQuery(document).ready(function ($) {
     "topple",
     "harm",
     "artillery",
-    "coup d'etat",
     "mass execut",
     "execut",
     "guerilla",
@@ -267,7 +293,6 @@ jQuery(document).ready(function ($) {
     "cirl bunt",
     "seafowl",
     "bird of passag",
-    "shore bird",
     "african black oystercatch",
     "water thick-kne",
     "white-fronted plov",
@@ -276,14 +301,12 @@ jQuery(document).ready(function ($) {
     "zoo",
     "mammal",
     "gallery forest",
-    "bird tabl",
     "sea cow",
     "manate",
     "tropical rain forest",
     "sea eleph",
     "elephant seal",
     "sea leopard",
-    "aquatic bird",
     "african wild dog",
     "marine anim",
     "african eleph",
@@ -322,7 +345,7 @@ jQuery(document).ready(function ($) {
     "biospher",
     "environment",
     "herbivor",
-    "pygmy hippopotamus",
+    "pygmy hippo",
     "ladybug",
     "golden eagl",
     "oranda goldfish",
@@ -332,7 +355,8 @@ jQuery(document).ready(function ($) {
     "critically endang",
     "comet moth",
     "bongo",
-    "white rhinoceros",
+    "northern white rhino",
+    "white rhino",
     "madagascar cockroach",
     "dolphin",
     "eastern green mamba",
@@ -341,7 +365,6 @@ jQuery(document).ready(function ($) {
     "ostrich",
     "flycatch",
     "vervet monkey",
-    "northern white rhinocero",
     "angelshark",
     "olive baboon",
     "green bee eat",
@@ -360,7 +383,6 @@ jQuery(document).ready(function ($) {
     "short-eared owl",
     "dragonfl",
     "chimp",
-    "birds of prey",
     "suni",
     "cape buffalo",
     "striped hyena",
@@ -392,7 +414,6 @@ jQuery(document).ready(function ($) {
     "eurasian jay",
     "sardin",
     "wild cat",
-    "cod",
     "springbok",
     "jackal",
     "sea eagl",
@@ -523,7 +544,6 @@ jQuery(document).ready(function ($) {
     "porpois",
     "oribi",
     "hamster",
-    "black rhinocero",
     "bearded vultur",
     "green bee-eat",
     "fennec fox",
@@ -533,7 +553,6 @@ jQuery(document).ready(function ($) {
     "dumeril's boa",
     "indri",
     "brown dog tick",
-    "black rhinoceros",
     "common carp",
     "galapagos shark",
     "grant's gazell",
@@ -559,7 +578,6 @@ jQuery(document).ready(function ($) {
     "agama lizard",
     "turaco",
     "egyptian vultur",
-    "giant african land snail",
     "saturniidae moth",
     "sunset ball python",
     "addra gazell",
@@ -605,7 +623,6 @@ jQuery(document).ready(function ($) {
     "kitefin shark",
     "tarantula hawk",
     "rodent",
-    "white rhinocero",
     "praying manti",
     "meerkat",
     "black panth",
@@ -687,7 +704,6 @@ jQuery(document).ready(function ($) {
     "thrush",
     "klipspring",
     "german cockroach",
-    "common hippopotamus",
     "colobus monkey",
     "fruit fl",
     "great dan",
@@ -777,9 +793,7 @@ jQuery(document).ready(function ($) {
     "aardwolf",
     "lobster",
     "cape hyrax",
-    "locust",
     "serval",
-    "rhino vip",
     "pigeon",
     "needlefish",
     "ground squirrel",
@@ -790,7 +804,6 @@ jQuery(document).ready(function ($) {
     "earthworm",
     "jerboa",
     "addax",
-    "white rhino",
     "kenyan sand boa",
     "brookesia micra",
     "spotted hyaena",
@@ -802,7 +815,6 @@ jQuery(document).ready(function ($) {
     "devils coach horse beetl",
     "puff add",
     "glass lizard",
-    "west african wild dog",
     "western green mamba",
     "grysbok",
     "swan",
@@ -837,6 +849,7 @@ jQuery(document).ready(function ($) {
     "leaf-tailed gecko",
     "gecko",
     "hunt",
+    "bee-eat",
     "bee",
     "bees",
     "shark",
@@ -879,17 +892,16 @@ jQuery(document).ready(function ($) {
     "shrew",
     "wolf",
     "mongoos",
-    "rhinoceros",
     "eel",
     "kudu",
     "worm",
     "mountain",
-    "bee-eat",
     "duck",
     "cobra",
     "monkey",
     "bushbuck",
     "zebra",
+    "catfish",
     "fish",
     "owl",
     "tick",
@@ -899,76 +911,12 @@ jQuery(document).ready(function ($) {
     "cods",
     "antelop",
     "tiger",
-    "catfish",
     "warthog",
     "whale",
     "cricket",
     "freshwat",
+    "locust",
   ];
-
-  const generalizationArray = [
-    "africa",
-    "subsaharan",
-    "continent",
-    "sub-saharan",
-  ];
-
-  const tribalismArray = [
-    "ethnic",
-    "nomad",
-    "bushmen",
-    "tribe",
-    "pygmy",
-    "tribal",
-    "clan",
-  ];
-
-  const exceptions = [
-    "conflicting",
-    "conflicted",
-    "feedback",
-    "aiding",
-    "lionel",
-    "armstrong",
-  ];
-
-  // This function will return the total number of words in the inputted text
-  function getTotHighlightedWords(obj) {
-    // get all counts, add them up, and return them
-    let sum = 0;
-    Object.values(obj).forEach((el) => (sum += el));
-    console.log(obj);
-    return sum - obj["wl"]; // subtract wlCount from total sum bc they are in the gen count
-  }
-
-  // This function will return the total number of words in the inputted text
-  function getTotWordCount(element) {
-    return element.trim().split(/\s+/).length;
-  }
-
-  // This function highlights the words that match the rgx expression below
-  function hiliter(word, element, tropeClass, obj, probWords) {
-    let rgxp;
-    // let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
-    // for words that have too many words that start with it
-    if (probWords.includes(word)) {
-      rgxp = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
-    } else {
-      rgxp = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
-    }
-
-    element.innerHTML = element.innerHTML.replace(rgxp, function (x, offset) {
-      if (
-        element.innerHTML.slice(offset + x.length, offset + x.length + 6) ===
-          "</mark" ||
-        element.innerHTML.slice(offset - 2, offset) == '">'
-      )
-        return x;
-      obj[tropeClass] += x.split(" ").length;
-      return `<mark class=${tropeClass}>${x}</mark>`;
-    });
-    return obj;
-  }
 
   // // helper function that generates 3 random numbers
   // function randomColorGenerator(min, max) {
@@ -1137,13 +1085,47 @@ jQuery(document).ready(function ($) {
       $("#tropeBreakdownMessage").after(tropeBreakdownNote);
   }
 
-  /*$(function run() {*/
+  // This function will return the total number of words in the inputted text
+  function getTotHighlightedWords(obj) {
+    // get all counts, add them up, and return them
+    console.log("selecting hilit words", document.querySelectorAll("mark"));
+    let sum = 0;
+    Object.values(obj).forEach((el) => (sum += el));
+    console.log(obj);
+    return sum - obj["wl"]; // subtract wlCount from total sum
+  }
+
+  // This function highlights the words that match the rgx expression below
+  function hiliter(word, element, tropeClass, obj, probWords) {
+    let rgxp;
+    // let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
+    // for words that have too many words that start with it
+    if (probWords.includes(word)) {
+      rgxp = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
+    } else {
+      rgxp = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
+    }
+
+    element.innerHTML = element.innerHTML.replace(rgxp, function (x, offset) {
+      if (
+        element.innerHTML.slice(offset + x.length, offset + x.length + 6) ===
+          "</mark" ||
+        element.innerHTML.slice(offset - 2, offset) == '">'
+      )
+        return x;
+      obj[tropeClass] += x.split(" ").length;
+      return `<mark class=${tropeClass}>${x}</mark>`;
+    });
+    return obj;
+  }
+
+  // This function will return the total number of words in the inputted text
+  function getTotWordCount(element) {
+    return element.trim().split(/\s+/).length;
+  }
 
   $("aside").hide();
   $("#resultSummary").hide();
-  // $("#outputText").hide();
-  // $("#tropeMessage").hide();
-  // $("#voicesFig").hide();
   $("#chartScript").hide();
 
   $("#scanArticle").click(function () {
@@ -1198,6 +1180,7 @@ jQuery(document).ready(function ($) {
       "barbs",
     ];
 
+    console.time("nat hilit time");
     for (let natWord of natureArray) {
       graphObj = hiliter(
         natWord,
@@ -1207,6 +1190,9 @@ jQuery(document).ready(function ($) {
         probWords
       );
     }
+    console.timeEnd("nat hilit time");
+
+    console.time("wl hilit time");
     for (let whitelistWord of whitelistArray) {
       graphObj = hiliter(
         whitelistWord,
@@ -1216,6 +1202,9 @@ jQuery(document).ready(function ($) {
         probWords
       );
     }
+    console.timeEnd("wl hilit time");
+
+    console.time("trib hilit time");
     for (let tribWord of tribalismArray) {
       graphObj = hiliter(
         tribWord,
@@ -1225,6 +1214,9 @@ jQuery(document).ready(function ($) {
         probWords
       );
     }
+    console.timeEnd("trib hilit time");
+
+    console.time("con hilit time");
     for (let conWord of conflictAndViolenceArray) {
       graphObj = hiliter(
         conWord,
@@ -1234,6 +1226,9 @@ jQuery(document).ready(function ($) {
         probWords
       );
     }
+    console.timeEnd("con hilit time");
+
+    console.time("gen hilit time");
     for (let genWord of generalizationArray) {
       graphObj = hiliter(
         genWord,
@@ -1243,26 +1238,36 @@ jQuery(document).ready(function ($) {
         probWords
       );
     }
+    console.timeEnd("gen hilit time");
 
+    console.time("wl unhilit time");
     // Making the wl words not be highlighted
     let whitelistedWords = document.getElementsByClassName("wl"); // Find the elements
+    console.log(whitelistedWords);
     let rgxpTropeTag = /gen|con|trib|nat/i;
     for (let whitelistWord of whitelistedWords) {
       whitelistWord.innerHTML = whitelistWord.innerHTML.replace(
         rgxpTropeTag,
         "wl"
-      ); // Change the content
+      ); // Change the class name
     }
+    console.timeEnd("wl unhilit time");
 
     // add up all highlighted words
+    console.time("setting info for pie chart");
     console.log(document.querySelectorAll(".nat").length);
     let totHighlightedWords = getTotHighlightedWords(graphObj);
     console.log(totWords);
     let perTropeWrds = ((totHighlightedWords / totWords) * 100).toFixed(0);
-    window.genWrdsHLCount = graphObj["gen"]; // declare these as global variables using window obj to be able to use them for color-blind friendly button
+    // declare these as global variables using window obj to be able to use them for color-blind friendly button
+    console.log(document.querySelectorAll("mark .con").length);
+    let wlSubtract = graphObj["wl"] ? 1 : 0;
+    console.log(wlSubtract);
+    window.genWrdsHLCount = graphObj["gen"] - wlSubtract;
     window.conWrdsHLCount = graphObj["con"];
     window.tribWrdsHLCount = graphObj["trib"];
     window.natWrdsHLCount = graphObj["nat"];
+    console.timeEnd("setting info for pie chart");
 
     // if CBF colors button is checked, set colors array to be CBF; else, set to original colors
     let colors;
@@ -1311,7 +1316,9 @@ jQuery(document).ready(function ($) {
     // add ternary statement to avoid reproducing h2 tags
     !document.querySelector("#tropeBreakdownHeader") &&
       $("#tropeMessage").after(h2BreakdownTag);
-    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> words (~ ${perTropeWrds}% of this article) associated with tropes about Africa.</p>`;
+    let tropeBreakdownMessage = `<p id="tropeBreakdownMessage">We found <b>${totHighlightedWords}</b> ${
+      totHighlightedWords === 1 ? "word" : "words"
+    } (~ ${perTropeWrds}% of this article) associated with tropes about Africa.</p>`;
     $("#tropeBreakdownMessage").remove(); // remove previous text
     $("#tropeBreakdownHeader").after(tropeBreakdownMessage); // update with new text
     // add text describing chart feature with legend
