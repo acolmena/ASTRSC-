@@ -78,29 +78,16 @@ jQuery(document).ready(function ($) {
     "gbv",
     "gender-based violence",
     "gender based violence",
-    "violenc",
     "conflict",
     "coup d'etat",
     "civil war",
     "smuggled weapons",
-    "war",
-    "wars",
-    "warring",
-    "warfare",
-    "warship",
-    "wartime",
-    "warzone",
-    "warzones",
     "atroc",
     "crime",
-    "violent",
-    "weapon",
     "insurg",
     "chao",
-    "arm",
     "terror",
     "flee",
-    "militia",
     "outbreak",
     "crisis",
     "crises",
@@ -126,8 +113,6 @@ jQuery(document).ready(function ($) {
     "bomb",
     "blood",
     "cease-fir",
-    "coup",
-    "coups",
     "assault",
     "kidnap",
     "battl",
@@ -176,7 +161,6 @@ jQuery(document).ready(function ($) {
     "imprison",
     "instab",
     "jail",
-    "kill",
     "loot",
     "lynch",
     "massacr",
@@ -195,11 +179,8 @@ jQuery(document).ready(function ($) {
     "riot",
     "shoot",
     "slaughter",
-    "smuggl",
     "child soldier",
-    "soldier",
     "suffer",
-    "terrorist",
     "traffick",
     "tortur",
     "troop",
@@ -219,7 +200,6 @@ jQuery(document).ready(function ($) {
     "bribe",
     "extort",
     "cartel",
-    "battlefield",
     "repress",
     "suppress",
     "dying",
@@ -230,9 +210,28 @@ jQuery(document).ready(function ($) {
     "harm",
     "artillery",
     "mass execut",
-    "execut",
     "guerilla",
     "detention camp",
+  ];
+
+  const conAndVioDupesArray = [
+    "arm",
+    "kill",
+    "violen",
+    "coup",
+    "coups",
+    "war",
+    "wars",
+    "warring",
+    "warfare",
+    "warship",
+    "wartime",
+    "warzone",
+    "warzones",
+    "smuggl",
+    "weapon",
+    "soldier",
+    "execut",
   ];
 
   const natureArray = [
@@ -245,8 +244,6 @@ jQuery(document).ready(function ($) {
     "animal",
     "livestock",
     "safari park",
-    "park",
-    "parks",
     "biota",
     "egyptian gees",
     "egyptian goos",
@@ -269,13 +266,12 @@ jQuery(document).ready(function ($) {
     "eurasian ott",
     "fisheri",
     "waterbird",
-    "poacher",
     "bird sanctuar",
     "ecosystem",
     "reptil",
     "naturalist",
     "waterway",
-    "wildflow",
+    // "wildflow",
     "ecotour",
     "seabird",
     "african spurred tortois",
@@ -285,11 +281,9 @@ jQuery(document).ready(function ($) {
     "african sacred ibi",
     "sacred ibi",
     "african monarch butterfl",
-    "monarch butterfl",
     "plain tig",
     "african monarch",
     "african goshawk",
-    "goshawk",
     "cirl bunt",
     "seafowl",
     "bird of passag",
@@ -307,18 +301,16 @@ jQuery(document).ready(function ($) {
     "sea eleph",
     "elephant seal",
     "sea leopard",
-    "african wild dog",
+    // "african wild dog",
     "marine anim",
     "african eleph",
     "miombo woodland",
-    "woodland",
     "elephant bird",
     "rangership",
     "wildgrav",
     "exotic",
     "aquat",
     "vertebr",
-    "mammalian",
     "scenic",
     "endemic",
     "ocean",
@@ -341,7 +333,6 @@ jQuery(document).ready(function ($) {
     "game warden",
     "gamekeep",
     "preservationist",
-    "safari",
     "biospher",
     "environment",
     "herbivor",
@@ -356,7 +347,6 @@ jQuery(document).ready(function ($) {
     "comet moth",
     "bongo",
     "northern white rhino",
-    "white rhino",
     "madagascar cockroach",
     "dolphin",
     "eastern green mamba",
@@ -367,7 +357,7 @@ jQuery(document).ready(function ($) {
     "vervet monkey",
     "angelshark",
     "olive baboon",
-    "green bee eat",
+    // "green bee eat",
     "flamingo",
     "shrimp",
     "fiddler crab",
@@ -392,8 +382,7 @@ jQuery(document).ready(function ($) {
     "cuckoo",
     "nile crocodil",
     "horned add",
-    "butterfl",
-    "cape elephant shrew",
+    // "cape elephant shrew",
     "guinea fowl",
     "brown hyena",
     "yellow cobra",
@@ -401,7 +390,6 @@ jQuery(document).ready(function ($) {
     "warbler",
     "woodpeck",
     "wild boar",
-    "chimpanze",
     "snake",
     "hammerhead",
     "liger",
@@ -421,16 +409,16 @@ jQuery(document).ready(function ($) {
     "hoopo",
     "water buffalo",
     "common furniture beetl",
-    "black rhino",
     "zebu",
     "scimitar-horned oryx",
     "kingfish",
-    "african tree toad",
+    // "african
+    "tree toad",
     "impala",
     "gerbil",
     "vinegaroon",
     "biscuit beetl",
-    "devil's coach horse beetl",
+    // "devil's coach horse beetl",
     "lesser kudu",
     "gnat",
     "bird snak",
@@ -467,7 +455,7 @@ jQuery(document).ready(function ($) {
     "european polecat",
     "african bush eleph",
     "red kit",
-    "grey mouse lemur",
+    // "grey mouse lemur",
     "false widow spid",
     "lechwe antelop",
     "crested cran",
@@ -502,7 +490,6 @@ jQuery(document).ready(function ($) {
     "stiletto snak",
     "carac",
     "honey badg",
-    "rhino",
     "nigerian goat",
     "rock hyrax",
     "peregrine falcon",
@@ -545,10 +532,9 @@ jQuery(document).ready(function ($) {
     "oribi",
     "hamster",
     "bearded vultur",
-    "green bee-eat",
+    // "green bee-eat",
     "fennec fox",
     "gembsok oryx",
-    "woodlous",
     "waterbuck",
     "dumeril's boa",
     "indri",
@@ -566,11 +552,11 @@ jQuery(document).ready(function ($) {
     "strawberry hermit crab",
     "redstart",
     "black widow spid",
-    "wildebeest",
     "gnu",
     "lichtenstein's hartebeest",
     "fruit bat",
-    "orange baboon tarantula",
+    // "orange
+    "baboon tarantula",
     "patas monkey",
     "weasel",
     "uromastyx",
@@ -593,8 +579,6 @@ jQuery(document).ready(function ($) {
     "cichlid",
     "whinchat",
     "banana cinnamon ball python",
-    "bush eleph",
-    "mouse",
     "mice",
     "western lowland gorilla",
     "eland",
@@ -607,12 +591,12 @@ jQuery(document).ready(function ($) {
     "african bullfrog",
     "dugong",
     "sand cat",
-    "hawk moth caterpillar",
+    // "hawk moth caterpillar",
     "yellowfin tuna",
     "roan",
     "ibex",
-    "madagascar tree boa",
-    "african forest eleph",
+    // "madagascar tree boa",
+    // "african forest eleph",
     "orange dream ball python",
     "viper",
     "ethiopian wolf",
@@ -634,7 +618,7 @@ jQuery(document).ready(function ($) {
     "white ferret",
     "albino ferret",
     "greater kudu",
-    "africanized bee",
+    // "africanized bee",
     "killer bee",
     "mallard",
     "gerenuk",
@@ -645,19 +629,17 @@ jQuery(document).ready(function ($) {
     "pufferfish",
     "dormous",
     "spiny bush vip",
-    "bush vip",
     "tsetse fl",
     "glow worm",
-    "bale mountain vervet",
+    // "bale mountain vervet",
     "vanga",
     "european robin",
-    "chameleon",
     "rock python",
     "anteat",
     "red fox",
     "peringuey's add",
-    "bloodhound",
-    "european bee-eat",
+    // "bloodhound",
+    // "european bee-eat",
     "steinbok",
     "goliath frog",
     "fulvous whistling duck",
@@ -670,10 +652,9 @@ jQuery(document).ready(function ($) {
     "avocet",
     "flea",
     "myna bird",
-    "african savannah eleph",
+    // "african savannah eleph",
     "hare",
     "reedbuck",
-    "the blue monkey",
     "shoebill stork",
     "caecilian",
     "pike",
@@ -688,20 +669,19 @@ jQuery(document).ready(function ($) {
     "ants",
     "kudus",
     "mealybug",
-    "deathwatch beetl",
+    // "deathwatch beetl",
     "yellow belly ball python",
     "sitatunga",
     "bale monkey",
     "aye-ay",
     "zebra spitting cobra",
     "sable ferret",
-    "african fish eagl",
+    // "african fish eagl",
     "maggot",
     "no see um",
     "no-see-um",
     "leech",
     "eastern gorilla",
-    "thrush",
     "klipspring",
     "german cockroach",
     "colobus monkey",
@@ -718,11 +698,9 @@ jQuery(document).ready(function ($) {
     "quelea quelea",
     "nguni cattl",
     "banana ball python",
-    "falcon",
     "stingray",
     "earwig",
     "red-billed quelea bird",
-    "lemur",
     "barn swallow",
     "african clawed frog",
     "zebra snak",
@@ -735,9 +713,7 @@ jQuery(document).ready(function ($) {
     "freeway ball python",
     "gaboon vip",
     "stallion",
-    "robin",
     "puss moth",
-    "wasp",
     "lesser jacana",
     "mule",
     "mandril",
@@ -746,13 +722,11 @@ jQuery(document).ready(function ($) {
     "false cobra",
     "barn owl",
     "smokybrown cockroach",
-    "shoebil",
     "killer whale",
-    "whalehead",
+    // "whalehead",
     "whale-headed stork",
-    "whalebil",
+    // "whalebil",
     "salmon",
-    "crab",
     "bushpig",
     "mole cricket",
     "wolf spid",
@@ -770,7 +744,6 @@ jQuery(document).ready(function ($) {
     "killer clown ball python",
     "blue monkey",
     "pelican",
-    "spitting cobra",
     "leopard tortois",
     "brazilian treehopp",
     "grey-crowned cran",
@@ -782,25 +755,20 @@ jQuery(document).ready(function ($) {
     "madora moth",
     "firefl",
     "common house spid",
-    "dog tick",
     "beecroft's flying squirrel",
     "black mamba",
     "armyworm",
     "grevy's zebra",
     "common raven",
-    "ibi",
     "tree frog",
     "aardwolf",
     "lobster",
     "cape hyrax",
     "serval",
-    "pigeon",
     "needlefish",
     "ground squirrel",
     "common buzzard",
-    "cow",
-    "cows",
-    "reptilian",
+    // "reptilian",
     "earthworm",
     "jerboa",
     "addax",
@@ -808,17 +776,49 @@ jQuery(document).ready(function ($) {
     "brookesia micra",
     "spotted hyaena",
     "aye ay",
-    "naked mole rat",
+    // "naked mole rat",
     "milliped",
     "caterpillar",
     "senepol cattl",
-    "devils coach horse beetl",
+    // "devils coach
+    // "horse beetl",
     "puff add",
     "glass lizard",
     "western green mamba",
     "grysbok",
     "swan",
     "desert ghost ball python",
+  ];
+
+  const natDuplicatesArray = [
+    "shoebil",
+    "wasp",
+    "robin",
+    "bush vip",
+    "dog tick",
+    "spitting cobra",
+    "woodlous",
+    "thrush",
+    "falcon",
+    "mouse",
+    "bush eleph",
+    "wildebeest",
+    "lemur",
+    "black rhino",
+    "chameleon",
+    "crab",
+    "white rhino",
+    "rhino",
+    "safari",
+    "woodland",
+    "cow",
+    "cows",
+    "goshawk",
+    "butterfl",
+    "monarch butterfl",
+    "ibi",
+    "park",
+    "parks",
     "forest eleph",
     "wild dog",
     "wild",
@@ -1096,9 +1096,8 @@ jQuery(document).ready(function ($) {
   }
 
   // This function highlights the words that match the rgx expression below
-  function hiliter(word, element, tropeClass, obj, probWords) {
+  function hiliter(word, element, tropeClass, obj, probWords, isDupe) {
     let rgxp;
-    // let replHighlight = `<mark class=${tropeClass}>${match}</mark>`; // highlight words
     // for words that have too many words that start with it
     if (probWords.includes(word)) {
       rgxp = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
@@ -1106,16 +1105,23 @@ jQuery(document).ready(function ($) {
       rgxp = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
     }
 
-    element.innerHTML = element.innerHTML.replace(rgxp, function (x, offset) {
-      if (
-        element.innerHTML.slice(offset + x.length, offset + x.length + 6) ===
-          "</mark" ||
-        element.innerHTML.slice(offset - 2, offset) == '">'
-      )
-        return x;
-      obj[tropeClass] += x.split(" ").length;
-      return `<mark class=${tropeClass}>${x}</mark>`;
-    });
+    if (isDupe) {
+      element.innerHTML = element.innerHTML.replace(rgxp, function (x, offset) {
+        if (
+          element.innerHTML.slice(offset + x.length, offset + x.length + 6) ===
+            "</mark" ||
+          element.innerHTML.slice(offset - 2, offset) == '">'
+        )
+          return x;
+        obj[tropeClass] += x.split(" ").length;
+        return `<mark class=${tropeClass}>${x}</mark>`;
+      });
+    } else {
+      element.innerHTML = element.innerHTML.replace(rgxp, function (x) {
+        obj[tropeClass] += x.split(" ").length;
+        return `<mark class=${tropeClass}>${x}</mark>`;
+      });
+    }
     return obj;
   }
 
@@ -1187,10 +1193,24 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "nat",
         graphObj,
-        probWords
+        probWords,
+        false
       );
     }
     console.timeEnd("nat hilit time");
+
+    console.time("nat dupes hilit time");
+    for (let natDupeWord of natDuplicatesArray) {
+      graphObj = hiliter(
+        natDupeWord,
+        document.getElementById("outputText"),
+        "nat",
+        graphObj,
+        probWords,
+        true
+      );
+    }
+    console.timeEnd("nat dupes hilit time");
 
     console.time("wl hilit time");
     for (let whitelistWord of whitelistArray) {
@@ -1199,7 +1219,8 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "wl",
         graphObj,
-        probWords
+        probWords,
+        false
       );
     }
     console.timeEnd("wl hilit time");
@@ -1211,7 +1232,8 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "trib",
         graphObj,
-        probWords
+        probWords,
+        false
       );
     }
     console.timeEnd("trib hilit time");
@@ -1223,10 +1245,24 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "con",
         graphObj,
-        probWords
+        probWords,
+        false
       );
     }
     console.timeEnd("con hilit time");
+
+    console.time("conDupes hilit time");
+    for (let conDupeWord of conAndVioDupesArray) {
+      graphObj = hiliter(
+        conDupeWord,
+        document.getElementById("outputText"),
+        "con",
+        graphObj,
+        probWords,
+        true
+      );
+    }
+    console.timeEnd("conDupes hilit time");
 
     console.time("gen hilit time");
     for (let genWord of generalizationArray) {
@@ -1235,7 +1271,8 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "gen",
         graphObj,
-        probWords
+        probWords,
+        false
       );
     }
     console.timeEnd("gen hilit time");
@@ -1383,6 +1420,8 @@ jQuery(document).ready(function ($) {
       $("#tropeMessage").css("background-color", colors[3]);
       $("#conflictAndViolence").show();
     });
+
+    $("#voiceButton").css("display", "inline-block");
 
     location.href = "#scannedResults";
     $("#resultSummary").html(
