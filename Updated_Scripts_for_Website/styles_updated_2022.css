@@ -1,5 +1,6 @@
-body{
-	font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+body, #clrBlnd{
+	font-family: sans-serif;
+/* 	Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", */
 }
 
 hgroup {
@@ -198,6 +199,9 @@ mark {
     margin-bottom: 100px;
 } */
 
+#voiceButton {
+	display: none;
+}
 
 #resultSummary{
 	font-size: 1.2em;
@@ -252,6 +256,10 @@ a {
   	flex: 1; */
 /* 	width: 100%;
 } */
+
+#voicesHeader {
+	display: none;
+}
 
 #voicesFig {
 	display: none;
@@ -320,5 +328,3 @@ a {
 .wl{
   background-color: transparent;
 }
-
-
