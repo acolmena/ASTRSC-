@@ -19,12 +19,7 @@ jQuery(document).ready(function ($) {
 
   // New Trope Structure
 
-  const generalizationArray = [
-    "africa",
-    "subsaharan",
-    "continent",
-    "sub-saharan",
-  ];
+  const generalizationArray = ["subsaharan", "continent", "sub-saharan"];
 
   const tribalismArray = [
     "ethnic",
@@ -106,10 +101,6 @@ jQuery(document).ready(function ($) {
     "sanction",
     "corrupt",
     "radic",
-    "ban",
-    "bans",
-    "banned",
-    "banning",
     "bomb",
     "blood",
     "cease-fir",
@@ -218,8 +209,15 @@ jQuery(document).ready(function ($) {
     "arm",
     "kill",
     "violen",
-    "coup",
-    "coups",
+    "smuggl",
+    "weapon",
+    "soldier",
+    "execut",
+  ];
+
+  const conAndVioProbArray = ["ban", "bans", "banned", "banning"];
+
+  const conAndVioDupeAndProbArray = [
     "war",
     "wars",
     "warring",
@@ -228,10 +226,8 @@ jQuery(document).ready(function ($) {
     "wartime",
     "warzone",
     "warzones",
-    "smuggl",
-    "weapon",
-    "soldier",
-    "execut",
+    "coup",
+    "coups",
   ];
 
   const natureArray = [
@@ -247,7 +243,7 @@ jQuery(document).ready(function ($) {
     "biota",
     "egyptian gees",
     "egyptian goos",
-    "nature",
+    "natur",
     "camping",
     "wildcat",
     "savag",
@@ -264,12 +260,11 @@ jQuery(document).ready(function ($) {
     "african clawless ott",
     "congo clawless ott",
     "eurasian ott",
-    "fisheri",
     "waterbird",
     "bird sanctuar",
     "ecosystem",
     "reptil",
-    "naturalist",
+    // "naturalist",
     "waterway",
     // "wildflow",
     "ecotour",
@@ -279,10 +274,9 @@ jQuery(document).ready(function ($) {
     "wolves",
     "stone curlew",
     "african sacred ibi",
-    "sacred ibi",
     "african monarch butterfl",
     "plain tig",
-    "african monarch",
+    // "african monarch",
     "african goshawk",
     "cirl bunt",
     "seafowl",
@@ -316,8 +310,6 @@ jQuery(document).ready(function ($) {
     "ocean",
     "underwat",
     "predator",
-    "plant",
-    "plants",
     "soil",
     "wildland",
     "extinct",
@@ -336,7 +328,7 @@ jQuery(document).ready(function ($) {
     "biospher",
     "environment",
     "herbivor",
-    "pygmy hippo",
+    // "pygmy hippo",
     "ladybug",
     "golden eagl",
     "oranda goldfish",
@@ -373,7 +365,7 @@ jQuery(document).ready(function ($) {
     "short-eared owl",
     "dragonfl",
     "chimp",
-    "suni",
+    // "suni",
     "cape buffalo",
     "striped hyena",
     "mountain gorilla",
@@ -437,8 +429,6 @@ jQuery(document).ready(function ($) {
     "forest hog",
     "african penguin",
     "dusky shark",
-    "barb",
-    "barbs",
     "mole snak",
     "madagascar jacana",
     "termit",
@@ -453,7 +443,7 @@ jQuery(document).ready(function ($) {
     "stick insect",
     "aardvark",
     "european polecat",
-    "african bush eleph",
+    // "african bush eleph",
     "red kit",
     // "grey mouse lemur",
     "false widow spid",
@@ -494,19 +484,16 @@ jQuery(document).ready(function ($) {
     "rock hyrax",
     "peregrine falcon",
     "crane",
-    "crow",
-    "crows",
     "song thrush",
     "fire ball python",
-    "dinopithecus",
     "electric catfish",
     "lappet-face vultur",
     "banana spid",
-    "bush babi",
+    "bush bab",
     "marlin",
     "hamadryas baboon",
     "nyala",
-    "bushbabi",
+    "bushbab",
     "galago",
     "woodlouse spid",
     "spotted hyena",
@@ -628,7 +615,7 @@ jQuery(document).ready(function ($) {
     "fin whal",
     "pufferfish",
     "dormous",
-    "spiny bush vip",
+    // "spiny bush vip",
     "tsetse fl",
     "glow worm",
     // "bale mountain vervet",
@@ -665,8 +652,6 @@ jQuery(document).ready(function ($) {
     "western gorilla",
     "cape bushbuck",
     "basenji dog",
-    "ant",
-    "ants",
     "kudus",
     "mealybug",
     // "deathwatch beetl",
@@ -738,8 +723,6 @@ jQuery(document).ready(function ($) {
     "seahors",
     "ortolan bunt",
     "gypsy moth",
-    "topi",
-    "topis",
     "desert locust",
     "killer clown ball python",
     "blue monkey",
@@ -791,6 +774,7 @@ jQuery(document).ready(function ($) {
   ];
 
   const natDuplicatesArray = [
+    "sacred ibi",
     "shoebil",
     "wasp",
     "robin",
@@ -811,14 +795,10 @@ jQuery(document).ready(function ($) {
     "rhino",
     "safari",
     "woodland",
-    "cow",
-    "cows",
     "goshawk",
     "butterfl",
     "monarch butterfl",
     "ibi",
-    "park",
-    "parks",
     "forest eleph",
     "wild dog",
     "wild",
@@ -850,8 +830,6 @@ jQuery(document).ready(function ($) {
     "gecko",
     "hunt",
     "bee-eat",
-    "bee",
-    "bees",
     "shark",
     "parrot",
     "goos",
@@ -859,8 +837,6 @@ jQuery(document).ready(function ($) {
     "deer",
     "insect",
     "lizard",
-    "bat",
-    "bats",
     "fox",
     "stork",
     "frog",
@@ -875,19 +851,13 @@ jQuery(document).ready(function ($) {
     "lion",
     "heron",
     "cattl",
-    "cat",
-    "cats",
     "black widow",
     "snail",
-    "moth",
-    "moths",
     "python",
     "pangolin",
     "cockroach",
     "jacana",
     "tuna",
-    "boa",
-    "boas",
     "eleph",
     "shrew",
     "wolf",
@@ -907,8 +877,6 @@ jQuery(document).ready(function ($) {
     "tick",
     "squirrel",
     "mole",
-    "cod",
-    "cods",
     "antelop",
     "tiger",
     "warthog",
@@ -916,6 +884,38 @@ jQuery(document).ready(function ($) {
     "cricket",
     "freshwat",
     "locust",
+  ];
+
+  const natProbArray = [
+    "ant",
+    "ants",
+    "barb",
+    "barbs",
+    "crow",
+    "crows",
+    "topi",
+    "topis",
+    "plant",
+    "plants",
+  ];
+
+  const natDupeAndProbArray = [
+    "bee",
+    "bees",
+    "boa",
+    "boas",
+    "cod",
+    "cods",
+    "cow",
+    "cows",
+    "moth",
+    "moths",
+    "bat",
+    "bats",
+    "cat",
+    "cats",
+    "park",
+    "parks",
   ];
 
   // // helper function that generates 3 random numbers
@@ -1096,10 +1096,10 @@ jQuery(document).ready(function ($) {
   }
 
   // This function highlights the words that match the rgx expression below
-  function hiliter(word, element, tropeClass, obj, probWords, isDupe) {
+  function hiliter(word, element, tropeClass, obj, isProbWord, isDupe) {
     let rgxp;
     // for words that have too many words that start with it
-    if (probWords.includes(word)) {
+    if (isProbWord) {
       rgxp = new RegExp(`\\b${word}\\b`, "gi"); // match word exactly
     } else {
       rgxp = new RegExp(`\\b${word}[a-z]*\\b`, "gi"); // match words in dict + their inflections
@@ -1143,48 +1143,10 @@ jQuery(document).ready(function ($) {
     // initialize graph object (graphObj)
     let graphObj = { wl: 0, gen: 0, con: 0, trib: 0, nat: 0 };
     // this is for the dict words that have too many irrelevant words that start with it
-    let probWords = [
-      "ban",
-      "bans",
-      "banned",
-      "banning",
-      "ant",
-      "ants",
-      "crow",
-      "crows",
-      "cat",
-      "cats",
-      "bat",
-      "bats",
-      "moth",
-      "moths",
-      "topi",
-      "topis",
-      "boa",
-      "boas",
-      "cod",
-      "cods",
-      "war",
-      "wars",
-      "warring",
-      "warfare",
-      "warship",
-      "wartime",
-      "warzone",
-      "warzones",
-      "coup",
-      "coups",
-      "bee",
-      "bees",
-      "park",
-      "parks",
-      "plant",
-      "plants",
-      "cow",
-      "cows",
-      "barb",
-      "barbs",
-    ];
+    // let probWords = [
+    //   // dupe and prob
+
+    // ];
 
     console.time("nat hilit time");
     for (let natWord of natureArray) {
@@ -1193,7 +1155,7 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "nat",
         graphObj,
-        probWords,
+        false,
         false
       );
     }
@@ -1206,11 +1168,37 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "nat",
         graphObj,
-        probWords,
+        false,
         true
       );
     }
     console.timeEnd("nat dupes hilit time");
+
+    console.time("nat prob hilit time");
+    for (let natProbWord of natProbArray) {
+      graphObj = hiliter(
+        natProbWord,
+        document.getElementById("outputText"),
+        "nat",
+        graphObj,
+        true, // includes problem words
+        false // doesn't includes duplicate words
+      );
+    }
+    console.timeEnd("nat prob hilit time");
+
+    console.time("nat probAndDupe hilit time");
+    for (let natDupeProbWrd of natDupeAndProbArray) {
+      graphObj = hiliter(
+        natDupeProbWrd,
+        document.getElementById("outputText"),
+        "nat",
+        graphObj,
+        true, // includes problem words
+        true // includes duplicate words
+      );
+    }
+    console.timeEnd("nat probAndDupe hilit time");
 
     console.time("wl hilit time");
     for (let whitelistWord of whitelistArray) {
@@ -1219,7 +1207,7 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "wl",
         graphObj,
-        probWords,
+        false,
         false
       );
     }
@@ -1232,7 +1220,7 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "trib",
         graphObj,
-        probWords,
+        false,
         false
       );
     }
@@ -1245,7 +1233,7 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "con",
         graphObj,
-        probWords,
+        false,
         false
       );
     }
@@ -1258,11 +1246,37 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "con",
         graphObj,
-        probWords,
+        false,
         true
       );
     }
     console.timeEnd("conDupes hilit time");
+
+    console.time("con prob hilit time");
+    for (let conProbWord of conAndVioProbArray) {
+      graphObj = hiliter(
+        conProbWord,
+        document.getElementById("outputText"),
+        "con",
+        graphObj,
+        true, // includes problem words
+        false // doesn't include duplicate words
+      );
+    }
+    console.timeEnd("con prob hilit time");
+
+    console.time("conDupesAndProb hilit time");
+    for (let conDupesProbWrd of conAndVioDupeAndProbArray) {
+      graphObj = hiliter(
+        conDupesProbWrd,
+        document.getElementById("outputText"),
+        "con",
+        graphObj,
+        true, // includes problem words
+        true // includes duplicate words
+      );
+    }
+    console.timeEnd("conDupesAndProb hilit time");
 
     console.time("gen hilit time");
     for (let genWord of generalizationArray) {
@@ -1271,17 +1285,26 @@ jQuery(document).ready(function ($) {
         document.getElementById("outputText"),
         "gen",
         graphObj,
-        probWords,
+        false,
         false
       );
     }
     console.timeEnd("gen hilit time");
 
+    graphObj = hiliter(
+      "africa",
+      document.getElementById("outputText"),
+      "gen",
+      graphObj,
+      false,
+      true
+    );
+
     console.time("wl unhilit time");
     // Making the wl words not be highlighted
     let whitelistedWords = document.getElementsByClassName("wl"); // Find the elements
     console.log(whitelistedWords);
-    let rgxpTropeTag = /gen|con|trib|nat/i;
+    let rgxpTropeTag = /gen|trib/i;
     for (let whitelistWord of whitelistedWords) {
       whitelistWord.innerHTML = whitelistWord.innerHTML.replace(
         rgxpTropeTag,
@@ -1300,7 +1323,7 @@ jQuery(document).ready(function ($) {
     console.log(document.querySelectorAll("mark .con").length);
     let wlSubtract = graphObj["wl"] ? 1 : 0;
     console.log(wlSubtract);
-    window.genWrdsHLCount = graphObj["gen"] - wlSubtract;
+    window.genWrdsHLCount = graphObj["gen"];
     window.conWrdsHLCount = graphObj["con"];
     window.tribWrdsHLCount = graphObj["trib"];
     window.natWrdsHLCount = graphObj["nat"];
@@ -1424,39 +1447,39 @@ jQuery(document).ready(function ($) {
     $("#voiceButton").css("display", "inline-block");
 
     location.href = "#scannedResults";
-    $("#resultSummary").html(
-      "We've found language in your text that might be reinforcing these harmful tropes about Africa:<br>"
-    );
-    if (hasTrope("gen")) {
-      $("#resultSummary").append(
-        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[0]}">Generalization<br></span>`
-      );
-      $("#resultSummary").show();
-    }
-    if (hasTrope("con")) {
-      $("#resultSummary").append(
-        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[3]}">Conflict<br></span>`
-      );
-      $("#resultSummary").show();
-    }
+    // $("#resultSummary").html(
+    //   "We've found language in your text that might be reinforcing these harmful tropes about Africa:<br>"
+    // );
+    // if (hasTrope("gen")) {
+    //   $("#resultSummary").append(
+    //     `<span style="font-weight:bold; border-bottom: 3px solid ${colors[0]}">Generalization<br></span>`
+    //   );
+    //   $("#resultSummary").show();
+    // }
+    // if (hasTrope("con")) {
+    //   $("#resultSummary").append(
+    //     `<span style="font-weight:bold; border-bottom: 3px solid ${colors[3]}">Conflict<br></span>`
+    //   );
+    //   $("#resultSummary").show();
+    // }
 
-    if (hasTrope("nat")) {
-      $("#resultSummary").append(
-        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[2]}">Nature<br></span>`
-      );
-      $("#resultSummary").show();
-    }
+    // if (hasTrope("nat")) {
+    //   $("#resultSummary").append(
+    //     `<span style="font-weight:bold; border-bottom: 3px solid ${colors[2]}">Nature<br></span>`
+    //   );
+    //   $("#resultSummary").show();
+    // }
 
-    if (hasTrope("trib")) {
-      $("#resultSummary").append(
-        `<span style="font-weight:bold; border-bottom: 3px solid ${colors[1]}">Tribalism<br></span>`
-      );
-      $("#resultSummary").show();
-    }
+    // if (hasTrope("trib")) {
+    //   $("#resultSummary").append(
+    //     `<span style="font-weight:bold; border-bottom: 3px solid ${colors[1]}">Tribalism<br></span>`
+    //   );
+    //   $("#resultSummary").show();
+    // }
 
-    $("#resultSummary").append(
-      "<br>Hover your mouse on the highlighted words below to learn more about each stereotype!<br>"
-    );
+    // $("#resultSummary").append(
+    //   "<br>Hover your mouse on the highlighted words below to learn more about each stereotype!<br>"
+    // );
   });
 
   $("#clrBlndCheckbox").change(function () {
@@ -1516,15 +1539,8 @@ jQuery(document).ready(function ($) {
       // Change headers' color to black
       $("h2").css("color", "black");
 
-      // Change table background color to blue
-      document.querySelector("#thead").style.backgroundColor = "#3DB7E9";
-      console.log($("#thead").css("background-color"));
-
-      // // Change h4 color to black
-      // $("h4").css("color", "black");
-
       // Change chart colors
-      pieChartColorBlindFriendly = `<script id="chartScript">
+      let pieChartColorBlindFriendly = `<script id="chartScript">
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -1550,6 +1566,21 @@ jQuery(document).ready(function ($) {
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartColorBlindFriendly);
+
+      // change 'show voice' button color
+      $("#voiceButton").css("border-color", "#d55e00");
+      $("#voiceButton").hover(
+        function () {
+          $(this).css("background-color", "#d55e00");
+        },
+        function () {
+          $(this).css("background-color", "white");
+        }
+      );
+      // Change table background color to yellow
+      // $("#thead").css("background-color", "#f0e442");
+      document.querySelectorAll("th").style.backgroundColor = "#f0e442";
+      console.log(document.querySelector("thead").style.backgroundColor);
     } else {
       // Change back scan article button color
       $("#scanArticle").css("border-color", "#34D293");
@@ -1607,7 +1638,7 @@ jQuery(document).ready(function ($) {
       $("h2").css("color", "#34D293");
 
       // Change chart colors
-      pieChartOg = `<script id="chartScript">
+      let pieChartOg = `<script id="chartScript">
           var ctx = document.getElementById('myChart').getContext('2d');
           var chart = new Chart(ctx, {
               // The type of chart we want to create
@@ -1634,14 +1665,26 @@ jQuery(document).ready(function ($) {
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
       $("#chartCDNScript").after(pieChartOg);
+
+      // change 'show voice' button color back
+      $("#voiceButton").css("border-color", "#A29BDA");
+      $("#voiceButton").hover(
+        function () {
+          $(this).css("background-color", "#A29BDA");
+        },
+        function () {
+          $(this).css("background-color", "white");
+        }
+      );
     }
 
     // Change table background color back to teal-ish
-    document.querySelector("#thead").style.backgroundColor =
+    document.querySelectorAll("th").style.backgroundColor =
       "rgba(0, 233, 117, 0.58)";
+    // $("thead").css("background-color", "rgba(0, 233, 117, 0.58)");
 
     // Change h4 color back to teal-ish
-    $("h4").css("color", "#34D293");
+    // $("h4").css("color", "#34D293");
   });
 
   $("#scanArticle").click(function () {
