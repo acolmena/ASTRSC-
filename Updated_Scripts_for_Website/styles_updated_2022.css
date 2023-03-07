@@ -28,9 +28,9 @@ h2 strong{
 	color: #50edc3;
 }
 
-h4 {
+/* h4 {
 	color: #34D293;
-}
+} */
 
 form{
 	margin-right:auto;
@@ -199,7 +199,15 @@ mark {
     margin-bottom: 100px;
 } */
 
+#voiceButton:hover {
+	background-color: #A29BDA;
+}
+
 #voiceButton {
+	background-color: white;
+	border: solid 3.5px;
+	border-color: #A29BDA;
+	border-radius: 40px;
 	display: none;
 }
 
