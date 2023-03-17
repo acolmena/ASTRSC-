@@ -1354,7 +1354,7 @@ jQuery(document).ready(function ($) {
         "#a8edea",
         "#eaa8d2",
         "#a7ffa3",
-        "#ff9980",
+        "#ffcc80",
         "#ff7451",
         "rgb(59, 84, 205)",
         "#ff7451",
@@ -1447,6 +1447,14 @@ jQuery(document).ready(function ($) {
     $("#voiceButton").css("display", "inline-block");
 
     location.href = "#scannedResults";
+
+    $("html,body").animate(
+      {
+        scrollTop: $("#clrBlnd").offset().top,
+      },
+      320
+    );
+
     // $("#resultSummary").html(
     //   "We've found language in your text that might be reinforcing these harmful tropes about Africa:<br>"
     // );
@@ -1595,8 +1603,8 @@ jQuery(document).ready(function ($) {
       // Change back CBF background color
       $("#clrBlnd").css({
         color: "#333333",
-        "background-color": "#ffdfa4",
-        border: "3px solid #ffcc6d",
+        "background-color": "#ffca99",
+        border: "3px solid rgb(255, 173, 105)",
       });
       // Change hover to original colors
       $(".gen").hover(function () {
@@ -1617,7 +1625,7 @@ jQuery(document).ready(function ($) {
       });
 
       $(".con").hover(function () {
-        $("#tropeMessage").css("background-color", "#ff9980");
+        $("#tropeMessage").css("background-color", "#ffcc80");
         $("#conflictAndViolence").css("color", "black");
         $("#conLink").css("color", "rgb(59, 84, 205)");
       });
@@ -1626,7 +1634,7 @@ jQuery(document).ready(function ($) {
       $(".gen").css("background-color", "#a8edea");
       $(".trib").css("background-color", "#eaa8d2");
       $(".nat").css("background-color", "#a7ffa3");
-      $(".con").css({ "background-color": "#ff9980", color: "black" });
+      $(".con").css({ "background-color": "#ffcc80", color: "black" });
 
       // Change outputText color back
       $("#outputText").css("background-color", "#f5f5f5");
@@ -1649,7 +1657,7 @@ jQuery(document).ready(function ($) {
                   labels: ['Generalization', 'Tribalism', 'Nature and Wildlife', 'Conflict and Violence'],
                   datasets: [{
                       label: ' # Words',
-                      backgroundColor: ['rgb(168, 237, 234)', 'rgb(234, 168, 210)', 'rgb(167, 255, 163)', '#ff9980'],
+                      backgroundColor: ['rgb(168, 237, 234)', 'rgb(234, 168, 210)', 'rgb(167, 255, 163)', '#ffcc80'],
                       borderColor: 'rgb(255, 255, 255)',
                       borderWidth: '6',
                       data: [${window.genWrdsHLCount}, ${window.tribWrdsHLCount}, ${window.natWrdsHLCount}, ${window.conWrdsHLCount}],
@@ -1660,7 +1668,6 @@ jQuery(document).ready(function ($) {
               options: {}
           });
           </script>`;
-      // $("#chartScript").remove();
       $("#chartScript").remove();
       $("#myChart").remove(); // IMPORTANT: canvas needs to be removed and added again (next line of code) to avoid pie chart glitch
       $("#chartCDNScript").before('<canvas id="myChart"></canvas>');
@@ -1685,14 +1692,5 @@ jQuery(document).ready(function ($) {
 
     // Change h4 color back to teal-ish
     // $("h4").css("color", "#34D293");
-  });
-
-  $("#scanArticle").click(function () {
-    $("html,body").animate(
-      {
-        scrollTop: $(".scrollTo").offset().top,
-      },
-      "slow"
-    );
   });
 });
