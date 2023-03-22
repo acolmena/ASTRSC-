@@ -49,8 +49,8 @@ p{
 	margin-right:auto;
 	margin-left:auto;
 	display: block;
+	border: 1.5px solid rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
-    border-width: 1.5px;
 }
 
 
@@ -224,7 +224,7 @@ mark {
 	border-radius: 10px;
 } */
 
-#outputText, #toolDescrip{
+.rounded-text-box {
 	height: auto;
 	border-radius: 10px;
 	background-color: #f5f5f5;
@@ -252,9 +252,8 @@ mark {
 
 #tropeMessage{
 	display: none;
-	background-color: white;
 	color: black;
-	position: absolute;
+	position: sticky;
 	width: 30%;
 	float: right;
 	margin-top: -150px;
@@ -302,7 +301,7 @@ a {
     }
 }
 
-.gen:hover, .trib:hover, .nat:hover, .con:hover, #genLink:hover, #tribLink:hover, #conLink:hover, #natLink:hover {
+.about-links:hover, .gen:hover, .trib:hover, .nat:hover, .con:hover, #genLink:hover, #tribLink:hover, #conLink:hover, #natLink:hover {
 	font-weight: bold;
 }
 
