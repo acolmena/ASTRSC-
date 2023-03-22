@@ -1452,7 +1452,7 @@ jQuery(document).ready(function ($) {
       {
         scrollTop: $("#clrBlnd").offset().top,
       },
-      320
+      750
     );
 
     // $("#resultSummary").html(
@@ -1492,6 +1492,14 @@ jQuery(document).ready(function ($) {
 
   $("#clrBlndCheckbox").change(function () {
     if (this.checked) {
+      $(".about-links").css("color", "#d55e00");
+      $(".about-links").hover(function () {
+        $(".about-links").css("color", "#d55e00");
+      });
+
+      // Make inputText border thicker and black
+      $("#inputText").css("border", "3px solid black")
+
       // Change scan article button color
       $("#scanArticle").css("border-color", "#3DB7E9");
       $("#scanArticle").hover(
@@ -1538,11 +1546,11 @@ jQuery(document).ready(function ($) {
         color: "white",
       });
 
-      // Change outputText background color
-      $("#outputText").css("background-color", "#ffffff");
+      // Change outputText and toolDescrip areas' background color
+      $(".rounded-text-box").css("background-color", "#ffffff");
 
       // Show border
-      $("#outputText").css("border", "solid black");
+      $(".rounded-text-box").css("border", "solid black");
 
       // Change headers' color to black
       $("h2").css("color", "black");
@@ -1586,10 +1594,16 @@ jQuery(document).ready(function ($) {
         }
       );
       // Change table background color to yellow
-      // $("#thead").css("background-color", "#f0e442");
-      document.querySelectorAll("th").style.backgroundColor = "#f0e442";
-      console.log(document.querySelector("thead").style.backgroundColor);
+      $("#thead").css("background-color", "#f0e442");
     } else {
+      $(".about-links").css("color", "#e96656");
+      $(".about-links").hover(function () {
+        $(".about-links").css("color", "#e96656");
+      }); 
+
+      // Change inputText border back
+      $("#inputText").css("border", "1.5px solid rgba(0, 0, 0, 0.1)")
+
       // Change back scan article button color
       $("#scanArticle").css("border-color", "#34D293");
       $("#scanArticle").hover(
@@ -1629,6 +1643,7 @@ jQuery(document).ready(function ($) {
         $("#conflictAndViolence").css("color", "black");
         $("#conLink").css("color", "rgb(59, 84, 205)");
       });
+      
 
       // Change highlight to original colors
       $(".gen").css("background-color", "#a8edea");
@@ -1636,11 +1651,11 @@ jQuery(document).ready(function ($) {
       $(".nat").css("background-color", "#a7ffa3");
       $(".con").css({ "background-color": "#ffcc80", color: "black" });
 
-      // Change outputText color back
-      $("#outputText").css("background-color", "#f5f5f5");
+      // Change outputText and toolDescrip areas' color back
+      $(".rounded-text-box").css("background-color", "#f5f5f5");
 
       // Hide border again
-      $("#outputText").css("border-style", "hidden");
+      $(".rounded-text-box").css("border-style", "hidden");
 
       // Change headers' color back to teal-ish
       $("h2").css("color", "#34D293");
@@ -1683,14 +1698,11 @@ jQuery(document).ready(function ($) {
           $(this).css("background-color", "white");
         }
       );
+      // Change table background color back to teal-ish
+      $("#thead").css("background-color", "rgba(0, 233, 117, 0.58)");
+
+      // Change h4 color back to teal-ish
+      // $("h4").css("color", "#34D293");
     }
-
-    // Change table background color back to teal-ish
-    document.querySelectorAll("th").style.backgroundColor =
-      "rgba(0, 233, 117, 0.58)";
-    // $("thead").css("background-color", "rgba(0, 233, 117, 0.58)");
-
-    // Change h4 color back to teal-ish
-    // $("h4").css("color", "#34D293");
   });
 });
